@@ -1,0 +1,64 @@
+<mat-toolbar class="topbar mat-toolbar-single-row" style="display: flex; align-items: center; gap: 16px;">
+  <!-- Menu Button (For mobile view toggle) -->
+  <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex d-md-none justify-content-center">
+    <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
+  </button>
+  
+  <!-- Search Button -->
+  <button mat-icon-button class="d-flex justify-content-center">
+    <mat-icon>search</mat-icon>
+  </button>
+
+  <!-- Spacer -->
+  <span class="flex-1-auto"></span>
+
+  <!-- Notifications -->
+  <button mat-icon-button aria-label="Notifications" (click)="openNotificationsWithOverlay($event)">
+    <i-tabler class="d-flex" name="bell"></i-tabler>
+  </button>
+  
+   <!-- Profile Dropdown -->
+   <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+    <img [src]="user?.avatar" class="rounded-circle object-cover icon-35" />
+  </button>
+
+  <mat-menu #profileMenu="matMenu" panelClass="custom-menu-panel">
+    <div id="cdk-overlay-1" class="cdk-overlay-pane" style="position: static;">
+      <div tabindex="-1" role="menu"
+        class="mat-mdc-menu-panel mat-mdc-elevation-specific ng-trigger ng-trigger-transformMenu cardWithShadow mat-elevation-z8 mat-menu-before mat-menu-below topbar-dd ng-star-inserted"
+        id="mat-menu-panel-3" style="transform-origin: right top;">
+        <div class="mat-mdc-menu-content">
+          <div class="p-x-32 p-y-16">
+            <h6 class="f-s-16 f-w-600 m-0 mat-subtitle-1">User Profile</h6>
+            <div class="d-flex align-items-center p-b-24 b-b-1 m-t-16">
+              <img [src]="user?.avatar" width="95" class="rounded-circle">
+              <div class="m-l-16">
+                <h6 class="f-s-14 f-w-600 m-0 mat-subtitle-1">{{ user?.name }}</h6>
+                <span class="f-s-14 d-block m-b-4">{{user?.role |uppercase}}</span>
+                <span class="f-s-14 d-block m-b-4">{{user?.email }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-x-32">
+            <a class="p-y-16 text-decoration-none d-block text-hover-primary" href="javascript:void(0);" (click)="navigateTo()">
+              <div class="d-flex align-items-center">
+                <button mat-mini-fab="" class="text-primary bg-light-primary shadow-none rounded">
+                  <img width="20" src="/assets/images/svgs/icon-account.svg">
+                </button>
+                <div class="m-l-16">
+                  <h5 class="f-s-14 f-w-600 m-0">My Profile</h5>
+                  <span>Account Settings</span>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="p-y-12 p-x-32">
+            <a mat-stroked-button="" color="primary" class="w-100" (click)="logout()">
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-menu>
+</mat-toolbar>

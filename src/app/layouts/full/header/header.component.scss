@@ -1,0 +1,16 @@
+.mat-mdc-menu-panel {
+    min-width: 350px !important;
+    max-width: 500px !important;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    outline: 0;
+    border-radius: var(--mat-menu-container-shape, var(--mat-app-corner-extra-small));
+    background-color: var(--mat-menu-container-color, var(--mat-app-surface-container));
+    will-change: transform, opacity;
+}
+.mat-mdc-menu-content {
+    margin: 0;
+    padding: 0px 0 !important;
+    outline: 0;
+}

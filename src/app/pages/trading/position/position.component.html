@@ -1,0 +1,134 @@
+<div class="table-wrapper">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Symbol </th>
+            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+
+        <!-- Product Column -->
+        <ng-container matColumnDef="product">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Product </th>
+            <td mat-cell *matCellDef="let element"> {{element.product}} </td>
+        </ng-container>
+
+        <!-- Buy Quantity Column -->
+        <ng-container matColumnDef="buyQty">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Buy Qty </th>
+            <td mat-cell *matCellDef="let element"> {{element.buyQty}} </td>
+        </ng-container>
+
+        <!-- Buy Average Price Column -->
+        <ng-container matColumnDef="buyAvgPrice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Buy Avg Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.buyAvgPrice}} </td>
+        </ng-container>
+
+        <!-- Buy Value Column -->
+        <ng-container matColumnDef="buyValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Buy Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.buyValue}} </td>
+        </ng-container>
+
+        <!-- LTP Column -->
+        <ng-container matColumnDef="ltp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> LTP </th>
+            <td mat-cell *matCellDef="let element"> {{element.ltp}} </td>
+        </ng-container>
+
+        <!-- Day PnL Column -->
+        <ng-container matColumnDef="dayPnL">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Day PnL </th>
+            <td mat-cell *matCellDef="let element"> {{element.dayPnL}} </td>
+        </ng-container>
+
+        <!-- Net PnL Column -->
+        <ng-container matColumnDef="netPnL">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Net PnL </th>
+            <td mat-cell *matCellDef="let element"> {{element.netPnL}} </td>
+        </ng-container>
+
+        <!-- Net Avg Column -->
+        <ng-container matColumnDef="netAvg">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Net Avg </th>
+            <td mat-cell *matCellDef="let element"> {{element.netAvg}} </td>
+        </ng-container>
+
+        <!-- Net Quantity Column -->
+        <ng-container matColumnDef="netQty">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Net Qty </th>
+            <td mat-cell *matCellDef="let element"> {{element.netQty}} </td>
+        </ng-container>
+
+        <!-- Net Value Column -->
+        <ng-container matColumnDef="netValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Net Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.netValue}} </td>
+        </ng-container>
+
+        <!-- Total Turnover Column -->
+        <ng-container matColumnDef="totalTurnover">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Total Turnover </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalTurnover}} </td>
+        </ng-container>
+
+        <!-- Sell Quantity Column -->
+        <ng-container matColumnDef="sellQty">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Sell Qty </th>
+            <td mat-cell *matCellDef="let element"> {{element.sellQty}} </td>
+        </ng-container>
+
+        <!-- Sell Average Price Column -->
+        <ng-container matColumnDef="sellAvgPrice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Sell Avg Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.sellAvgPrice}} </td>
+        </ng-container>
+
+        <!-- Sell Value Column -->
+        <ng-container matColumnDef="sellValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Sell Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.sellValue}} </td>
+        </ng-container>
+
+        <!-- Realized MTM Column -->
+        <ng-container matColumnDef="realizedMtm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Realized MTM </th>
+            <td mat-cell *matCellDef="let element"> {{element.realizedMtm}} </td>
+        </ng-container>
+
+        <!-- Unrealized MTM Column -->
+        <ng-container matColumnDef="unrealizedMtm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Unrealized MTM </th>
+            <td mat-cell *matCellDef="let element"> {{element.unrealizedMtm}} </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Action </th>
+            <td mat-cell *matCellDef="let element"> {{element.action}} </td>
+        </ng-container>
+
+        <!-- Exit Column -->
+        <ng-container matColumnDef="exit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Exit </th>
+            <td mat-cell *matCellDef="let element"> {{element.exit}} </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+</div>
+
+<!-- Pagination Below the Table -->
+<div class="pagination-wrapper">
+    <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+</div>
