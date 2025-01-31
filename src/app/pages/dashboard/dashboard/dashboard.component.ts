@@ -1,15 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../material.module';
-
-import { AppSalesOverviewComponent } from 'src/app/components/sales-overview/sales-overview.component';
-import { AppYearlyBreakupComponent } from 'src/app/components/yearly-breakup/yearly-breakup.component';
-import { AppMonthlyEarningsComponent } from 'src/app/components/monthly-earnings/monthly-earnings.component';
-import { AppRecentTransactionsComponent } from 'src/app/components/recent-transactions/recent-transactions.component';
-import { AppProductPerformanceComponent } from 'src/app/components/product-performance/product-performance.component';
-import { AppBlogCardsComponent } from 'src/app/components/blog-card/blog-card.component';
 import { TablerIconsModule } from 'angular-tabler-icons';
-
 import { HttpService } from 'src/app/services/http.service';
 import { ToastifyService } from '../../../services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';

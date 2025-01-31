@@ -3,19 +3,8 @@
   <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex d-md-none justify-content-center">
     <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
   </button>
-  
-  <!-- Search Button -->
-  <button mat-icon-button class="d-flex justify-content-center">
-    <mat-icon>search</mat-icon>
-  </button>
-
   <!-- Spacer -->
   <span class="flex-1-auto"></span>
-
-  <!-- Notifications -->
-  <button mat-icon-button aria-label="Notifications" (click)="openNotificationsWithOverlay($event)">
-    <i-tabler class="d-flex" name="bell"></i-tabler>
-  </button>
   
    <!-- Profile Dropdown -->
    <button mat-icon-button [matMenuTriggerFor]="profileMenu">

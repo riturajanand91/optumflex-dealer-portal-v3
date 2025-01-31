@@ -24,28 +24,11 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('accessToken');
-    const csrftoken = localStorage.getItem('csrftoken');
     const domain = window.location.hostname; // Get the domain
-    const csrfToken = this.cookieService.get("csrftoken"); // Read CSRF token from cookie
-    console.log(csrfToken)
-    // let headers = req.headers;
-    // if (csrfToken) {
-    //   headers = headers.set("X-CSRFToken", csrfToken); // Add CSRF token to headers
-    // }
-    // Retrieve CSRF token from the cookie
-    // const csrfToken = this.cookieService.get('csrftoken'); // Replace 'X-CSRFToken' with your actual cookie name
-
-    // Add headers, including CSRF token if it exists
     let headers = req.headers.set('X-Domain', domain);  // Always add the domain header
-
     if (token) {
       headers = headers.set('sessionid', token);  // Add sessionId if token exists
     }
-    console.log(csrftoken)
-    if (csrftoken) {
-      headers = headers.set('X-CSRFToken', csrftoken);  // Add CSRF token if it exists
-    }
-
     // Clone the request with the updated headers
     const requestWithHeaders = req.clone({ headers });
 
