@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": ["apexcharts", "bezier-easing", "moment"],
-            "outputPath": "dist/lwp-admin-portal",
+            "outputPath": "dist/optumflex-dealer-portal",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
