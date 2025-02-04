@@ -58,24 +58,22 @@ export class AppSideLoginComponent {
 
       const { username, password } = this.form.value;
       this.logger.debug('Login form submission', { username });
-
       this.authService.login(username, password).then(
         (response) => {
-          //  let sc= {
-          //     "msg": "Login Successfull....!",
-          //     "status_code": 202,
-          //     "accessToken": "mtdpbo7bzqv7nb7ve0pt70hcznb5jfw4",
-          //     "user": {
-          //         "id": 53,
-          //         "username": "Aayush",
-          //         "first_name": "Aayush",
-          //         "last_name": "Tanwar",
-          //         "email": "ashishkummar4@hotmail.com",
-          //         "role": "moderator"
-          //     }
-          // }
+           let sc= {
+              "msg": "Login Successfull....!",
+              "status_code": 202,
+              "accessToken": "mtdpbo7bzqv7nb7ve0pt70hcznb5jfw4",
+              "user": {
+                  "id": 53,
+                  "username": "Aayush",
+                  "first_name": "Aayush",
+                  "last_name": "Tanwar",
+                  "email": "ashishkummar4@hotmail.com",
+                  "role": "moderator"
+              }
+          }
           this.logger.info('Login successful', { username });
-          console.log(response)
           // Store token and user details in local storage
           this.authService.setToken(response.accessToken);
           this.authService.setUser(JSON.stringify(response.user));

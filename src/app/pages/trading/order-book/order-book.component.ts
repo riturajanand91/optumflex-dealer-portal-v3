@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,Input } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';  // Import paginator module
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -11,6 +11,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   styleUrls: ['./order-book.component.scss']
 })
 export class OrderBookComponent implements OnInit {
+  @Input() searchData: any;
   public orderBook: any = [];
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]); // Initialize MatTableDataSource with empty array
   displayedColumns: string[] = [
@@ -44,6 +45,12 @@ export class OrderBookComponent implements OnInit {
   ngAfterViewInit() {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator; // Assign paginator to MatTableDataSource
+    }
+  }
+  ngOnChanges() {
+    if (this.searchData) {
+      console.log('Order Book Search Data:', this.searchData);
+      // Handle the search data
     }
   }
 }

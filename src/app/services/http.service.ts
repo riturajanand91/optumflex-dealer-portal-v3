@@ -26,87 +26,24 @@ export class HttpService {
     this.logger.debug('HttpService initialized', { postUrl: this.postUrl, configUrl: this.configUrl });
   }
 
-  // Get all posts with pagination
-  getPosts(page: number = 1, limit: number = 10): Observable<any> {
-    this.logger.info('Fetching posts with pagination', { page, limit });
-    return this.http.get<any>(`${this.postUrl}?page=${page}&limit=${limit}`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
-  // Get a single post by uid
-  getPost(uid: string): Observable<any> {
-    this.logger.info('Fetching post by UID', { uid });
-    return this.http.get<any>(`${this.postUrl}/${uid}`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
-  // Create a new post
-  createPost(postData: any): Observable<any> {
-    this.logger.info('Creating new post', { postData });
-    return this.http.post<any>(`${this.postUrl}/create`, postData)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
-  // Update an existing post
-  updatePost(id: string, postData: any): Observable<any> {
-    this.logger.info('Updating post', { id, postData });
-    return this.http.put<any>(`${this.postUrl}/${id}`, postData)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
-  // Delete a post
-  deletePost(id: string): Observable<any> {
-    this.logger.info('Deleting post', { id });
-    return this.http.delete<any>(`${this.postUrl}/${id}`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
-  // Update configuration data
-  updateConfig(configData: any): Observable<any> {
-    this.logger.info('Updating configuration', { configData });
-    return this.http.put<any>(`${this.configUrl}/modify`, configData)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
-  // Get configuration data
-  getConfig(): Observable<any> {
-    this.logger.info('Fetching configuration data');
-    return this.http.get<any>(`${this.configUrl}/masterData`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
   getStats(): Observable<any> {
     this.logger.info('Fetching getStats');
     return this.http.get<any>(`${this.dashUrl}`)
       .pipe(catchError(this.handleError.bind(this)));
   }
+  
+  public getTradeStats(payload: any): Observable<any> {
+    this.logger.info('Fetching trade stats with pagination via POST', payload);
 
-  getComments(page: number = 1, limit: number = 10): Observable<any> {
-    this.logger.info('Fetching comments with pagination', { page, limit });
-    return this.http.get<any>(`${this.commentsUrl}?page=${page}&limit=${limit}`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-  // Update an existing post
-  updateCommentStatus(id: string, status: any): Observable<any> {
-    console.log(status)
-    this.logger.info('Updating Comment Status', { id, status });
-    return this.http.post<any>(`${this.commentsUrl}/${id}`, { status: status })
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-  // Delete a post
-  deleteComment(id: string): Observable<any> {
-    this.logger.info('Deleting Comment', { id });
-    return this.http.delete<any>(`${this.commentsUrl}/${id}`)
-      .pipe(catchError(this.handleError.bind(this)));
+    return this.http.post<any>(`${this.usersUrl}/trade-stats`, payload).pipe(
+      catchError((error) => {
+        this.logger.error('Error fetching trade stats', error);
+        return this.handleError(error);
+      })
+    );
   }
 
-  // Users Call
 
-  getUsers(page: number = 1, limit: number = 10): Observable<any> {
-    this.logger.info('Fetching comments with pagination', { page, limit });
-    return this.http.get<any>(`${this.usersUrl}?page=${page}&limit=${limit}`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
   // Update an existing post
   updateUser(id: string, status: any): Observable<any> {
     console.log(status)
@@ -122,7 +59,7 @@ export class HttpService {
   }
   // Routes related to dealer portal
   // Create a new post
- 
+
 
 
   // Error handling

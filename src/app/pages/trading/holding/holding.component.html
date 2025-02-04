@@ -1,3 +1,19 @@
+<div>
+    <br>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+            <mat-expansion-panel-header>
+                <mat-panel-title> Self aware panel </mat-panel-title>
+                <mat-panel-description>
+                    Currently I am {{panelOpenState() ? 'open' : 'closed'}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+</div>
 <div class="table-wrapper">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
@@ -21,7 +37,8 @@
 
         <!-- T1 Quantity Column -->
         <ng-container matColumnDef="t1Quantity">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> T1 Quantity </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> T1 Quantity
+            </th>
             <td mat-cell *matCellDef="let element"> {{element.t1Quantity}} </td>
         </ng-container>
 
@@ -33,13 +50,15 @@
 
         <!-- Buy Avg Price Column -->
         <ng-container matColumnDef="buyAvgPrice">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Buy Avg Price </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Buy Avg Price
+            </th>
             <td mat-cell *matCellDef="let element"> {{element.buyAvgPrice}} </td>
         </ng-container>
 
         <!-- Sell Avg Price Column -->
         <ng-container matColumnDef="sellAvgPrice">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Sell Avg Price </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Sell Avg Price
+            </th>
             <td mat-cell *matCellDef="let element"> {{element.sellAvgPrice}} </td>
         </ng-container>
 
@@ -63,19 +82,22 @@
 
         <!-- Total Holding Q Column -->
         <ng-container matColumnDef="totalHoldingQ">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Total Holding Qty </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Total Holding
+                Qty </th>
             <td mat-cell *matCellDef="let element"> {{element.totalHoldingQ}} </td>
         </ng-container>
 
         <!-- Invested Value Column -->
         <ng-container matColumnDef="investedValue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Invested Value </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Invested Value
+            </th>
             <td mat-cell *matCellDef="let element"> {{element.investedValue}} </td>
         </ng-container>
 
         <!-- Market Value Column -->
         <ng-container matColumnDef="marketValue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Market Value </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Market Value
+            </th>
             <td mat-cell *matCellDef="let element"> {{element.marketValue}} </td>
         </ng-container>
 
@@ -87,19 +109,22 @@
 
         <!-- Collateral Quantity Column -->
         <ng-container matColumnDef="collateralQuantity">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Collateral Qty </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Collateral Qty
+            </th>
             <td mat-cell *matCellDef="let element"> {{element.collateralQuantity}} </td>
         </ng-container>
 
         <!-- Pledge Quantity Column -->
         <ng-container matColumnDef="pledgeQuantity">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Pledge Qty </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Pledge Qty
+            </th>
             <td mat-cell *matCellDef="let element"> {{element.pledgeQuantity}} </td>
         </ng-container>
 
         <!-- Collateral Value Column -->
         <ng-container matColumnDef="collateralValue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Collateral Value </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="f-w-600 f-s-14 mat-subtitle-1"> Collateral
+                Value </th>
             <td mat-cell *matCellDef="let element"> {{element.collateralValue}} </td>
         </ng-container>
 
@@ -124,5 +149,7 @@
 
 <!-- Pagination Below the Table -->
 <div class="pagination-wrapper">
-    <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+    <mat-paginator [length]="totalData" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)">
+    </mat-paginator>
 </div>

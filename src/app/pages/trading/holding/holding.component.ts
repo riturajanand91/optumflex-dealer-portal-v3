@@ -1,19 +1,33 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, OnInit, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';  // Import paginator module
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';  // Import paginator module
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { Observable } from 'rxjs';
+import { HttpService } from './../../../services/http.service';
+import { ToastifyService } from 'src/app/services/toastify.service';
+import { Router } from '@angular/router';
+import { LoggerService } from 'src/app/services/logger.service';
 
 @Component({
   selector: 'app-holding',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, ReactiveFormsModule, MatExpansionModule],
   templateUrl: './holding.component.html',
-  styleUrl: './holding.component.scss'
+  styleUrl: './holding.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HoldingComponent {
+  @Input() searchData: any;
+
   public holdings: any = [];
-  public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]); // Initialize MatTableDataSource with empty array
-  displayedColumns: string[] = [
+  public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
+  searchForm: FormGroup;
+  readonly panelOpenState = signal(false);
+
+  public displayedColumns: string[] = [
     "symbol",
     "type",
     "quantity",
@@ -33,12 +47,18 @@ export class HoldingComponent {
     "collateralValue",
     "action",
     "exit"
-];
-
+  ];
+  public totalData: number = 0; // To hold the total number of posts
+  public pageSize: number = 10; // Default page size
+  public currentPage: number = 1; // Current page
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort) sort: MatSort;
-  constructor() {
+  constructor(private httpService: HttpService,
+    private toastify: ToastifyService,
+    private router: Router,
+    private logger: LoggerService,
+    private fb: FormBuilder
+  ) {
     this.holdings = [
       {
         symbol: "AAPL",
@@ -251,17 +271,56 @@ export class HoldingComponent {
         exit: ""
       }
     ];
-    
   }
 
   ngOnInit(): void {
-    // Assign the data to MatTableDataSource
-    this.dataSource.data = this.holdings;
+    this.loadTable();
   }
 
-  ngAfterViewInit() {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator; // Assign paginator to MatTableDataSource
+  loadTable(searchData: any = {}) {
+    this.logger.debug('Loading trade stats with pagination:', { page: this.currentPage, pageSize: this.pageSize });
+
+    const skip = (this.currentPage - 1) * this.pageSize;
+    const limit = this.pageSize;
+
+    const payload: any = {
+      pagination: { skip, limit },
+      searchData: searchData,
+      isOrderBook: true,
+      isTradeBook: false,
+      isPositionBook: false,
+      isHoldings: false
+    };
+
+    this.httpService.getTradeStats(payload).subscribe(
+      (data) => {
+        this.logger.info('Trade stats fetched successfully:', data);
+        this.dataSource.data = data.posts; // Assuming API returns `posts` array
+        this.totalData = data.totalPosts; // Total items count for pagination
+        if (this.paginator) {
+          this.dataSource.paginator = this.paginator;
+        }
+        this.holdings = data.posts; // Update holdings with the response data
+      },
+      (error) => {
+        this.logger.error('Error fetching trade stats:', error);
+        this.toastify.showError('Failed to load trade stats');
+      }
+    );
+  }
+
+  // Handle page changes
+  onPageChange(event: PageEvent) {
+    this.logger.info('Page change triggered:', event);
+    this.currentPage = event.pageIndex + 1; // Page index starts from 0, so add 1
+    this.pageSize = event.pageSize; // Update page size
+    this.loadTable(this.searchData); // Reload data with new pagination values
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['searchData'] && this.searchData) {
+      this.logger.info('Holdings Search Data:', this.searchData);
+      this.loadTable(this.searchData); // Call loadTable with the new search data
     }
   }
 }

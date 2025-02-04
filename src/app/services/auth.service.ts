@@ -51,7 +51,7 @@ export class AuthService {
       //   'X-Admin-Portal': 'true', // Adding a custom header for admin portal
       // });
       this.logger.info('Attempting to Login user', { username, password });
-      this.http.put(`${this.authurl}/login`, { username, password }).subscribe(
+      this.http.post(`${this.authurl}/login`, { username, password }).subscribe(
         (res: any) => {
           resolve(res);
         },
