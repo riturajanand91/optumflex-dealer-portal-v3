@@ -61,28 +61,28 @@ body {
   background: linear-gradient(0deg, $lighter-grey 0px, $lighter-grey 10px, transparent 10px);
   border-bottom: 2px solid $dark-grey;
 }
-.ghost--column {
-  flex: 1 0 30%;
-  border-width: 0px;
-  border-style: solid;
-  border-color: $lighter-grey;
-  border-left-width: 10px;
-  background-color: darken($lighter-grey, 6%);
-  @for $i from 1 through 3 {
-    &:nth-child(#{$i}) {      
-      .code {
-        @for $j from 1 through 4 {
-          &:nth-child(#{$j}) {
-            // $rotation: (5 - random(10)) + deg;
-            // transform: translateY(0px) rotate($rotation);      
-            $spacing: (random(9) / 2) + 1em;
-            margin-left: $spacing;
-          }
-        }
-      }
-    }
-  }
-}
+// .ghost--column {
+//   flex: 1 0 30%;
+//   border-width: 0px;
+//   border-style: solid;
+//   border-color: $lighter-grey;
+//   border-left-width: 10px;
+//   background-color: darken($lighter-grey, 6%);
+//   @for $i from 1 through 3 {
+//     &:nth-child(#{$i}) {      
+//       .code {
+//         @for $j from 1 through 4 {
+//           &:nth-child(#{$j}) {
+//             // $rotation: (5 - random(10)) + deg;
+//             // transform: translateY(0px) rotate($rotation);      
+//             $spacing: (random(9) / 2) + 1em;
+//             margin-left: $spacing;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 .ghost--main {
   background-color: $dark-grey;
   border-top: 15px solid lighten($lighter-grey, 4%);
