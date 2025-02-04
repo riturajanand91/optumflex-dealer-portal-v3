@@ -1,0 +1,110 @@
+<div>
+    <mat-card class="mat-mdc-card mdc-card cardWithShadow">
+        <mat-card-content class="mat-mdc-card-content p-y-24">
+            <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()" class="m-t-24">
+
+                <!-- <mat-card-title>Change Password</mat-card-title>
+                        <mat-card-subtitle>To change your password, please confirm here</mat-card-subtitle> -->
+                <mat-form-field appearance="outline" color="primary" class="w-100">
+                    <mat-label>Subscription Package</mat-label>
+                    <input matInput formControlName="subscriptionPackage" type="text">
+                </mat-form-field>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <mat-label>Current Investment</mat-label>
+                            <input matInput formControlName="currentInvestment" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <mat-label>Add Investment</mat-label>
+                            <input matInput formControlName="addInvestment" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <mat-label>Max Orders</mat-label>
+                            <input matInput formControlName="maxOrders" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <mat-label>Per Order Cost</mat-label>
+                            <input matInput formControlName="perOrderCost" type="text">
+                        </mat-form-field>
+                    </div>
+
+                    <mat-checkbox formControlName="stocks">Stocks</mat-checkbox>
+                    <mat-checkbox formControlName="index">Index</mat-checkbox>
+                    <mat-checkbox formControlName="activeManualOrder">Active Manual Order</mat-checkbox>
+                    <mat-checkbox formControlName="startVirtualAlgo">Start Virtual Algo</mat-checkbox>
+                    <mat-checkbox formControlName="startLiveAlgo">Start Live Algo</mat-checkbox>
+
+
+
+                </div>
+            </form>
+            <div class="m-t-24">
+                <form [formGroup]="form">
+                    <div formArrayName="accounts">
+                        <div *ngFor="let account of accounts.controls; let i = index" [formGroupName]="i"
+                            class="form-row">
+
+                            <!-- Demat Account (Dropdown) -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Demat Account</mat-label>
+                                <mat-select formControlName="dematAccount">
+                                    <mat-option *ngFor="let option of dematAccountOptions" [value]="option.value">
+                                        {{ option.viewValue }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Username</mat-label>
+                                <input matInput formControlName="username">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Login Pin</mat-label>
+                                <input matInput type="password" formControlName="loginPin">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>API Key</mat-label>
+                                <input matInput formControlName="apiKey">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>TOTP</mat-label>
+                                <input matInput formControlName="totp">
+                            </mat-form-field>
+
+                            <div class="button-group">
+                                <button mat-icon-button color="primary" (click)="addAccount()">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+
+                                <button mat-icon-button color="warn" (click)="removeAccount(i)"
+                                    *ngIf="accounts.length > 1">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="text-right p-24 p-t-0">
+                <button mat-flat-button color="primary" class="m-r-8" type="submit" (click)="onSubmit()">Submit</button>
+                <button mat-stroked-button color="warn" class="m-r-8" type="button">Cancel</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+
+
+
+
+</div>

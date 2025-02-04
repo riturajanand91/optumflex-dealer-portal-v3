@@ -14,5 +14,10 @@ export const navItems:any = [
     displayName: 'My Account',
     iconName: 'user-circle',
     route: '/account',
+  },
+  {
+    displayName: 'My Subscriptions',
+    iconName: 'user-circle',
+    route: '/account/subscription',
   }
 ];
