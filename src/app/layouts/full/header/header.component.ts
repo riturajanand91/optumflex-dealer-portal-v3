@@ -43,9 +43,7 @@ export class HeaderComponent {
   constructor(
     private authService: AuthService,
     private logger: LoggerService,
-    private dialog: MatDialog,
-    private overlay: Overlay,
-    private utilityService: UtilityService,
+     private utilityService: UtilityService,
   ) {
     const userData:any = this.authService.getUser();
     if (userData) {

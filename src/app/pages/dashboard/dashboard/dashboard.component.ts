@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../material.module';
-import { TablerIconsModule } from 'angular-tabler-icons';
 import { HttpService } from 'src/app/services/http.service';
 import { ToastifyService } from '../../../services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MaterialModule,TablerIconsModule],
+  imports: [CommonModule, MaterialModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -59,11 +59,26 @@ export class DashboardComponent implements OnInit {
       value: 0
     }
   ];
+  user: { name: string; avatar: string; role: string; email: string } | null = null;
   constructor(
     private httpService: HttpService,
+    private authService: AuthService,
     private toastify: ToastifyService,
     private logger: LoggerService
-  ) { }
+  ) {
+    const userData:any = this.authService.getUser();
+    if (userData) {
+      this.user = {
+        name: userData.first_name + ' ' + userData.last_name,
+        avatar: `https://ui-avatars.com/api/?name=${userData?.first_name + ' ' + userData?.last_name}&background=random`,
+        role: userData.role,
+        email: userData.email,
+      };
+      this.logger.info(`User ${this.user?.name} is logged in.`);
+    } else {
+      this.logger.warn('No user is currently logged in.');
+    }
+   }
 
   ngOnInit() {
     this.logger.info('dashboard initialized');

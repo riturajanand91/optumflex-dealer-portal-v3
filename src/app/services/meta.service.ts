@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class MetaService {
   public portalInfo: any = {
-    companyLogo: './assets/images/logos/Avanij-Logo.png',
+    // companyLogo: './assets/images/logos/optumflex-logo.png',
+    companyLogo: './assets/images/logos/optumflex-logo-2.png',
     companyName: 'Optumflex Solutions Pvt. Ltd.',
     tagLine: 'Business & Finance',
     address: 'Ghaziabad, Uttar Pradesh, India',
