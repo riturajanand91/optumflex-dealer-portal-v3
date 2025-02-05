@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild,Input } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';  // Import paginator module
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';  // Import paginator module
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-order-book',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [MaterialModule],
   templateUrl: './order-book.component.html',
   styleUrls: ['./order-book.component.scss']
 })
@@ -20,7 +20,6 @@ export class OrderBookComponent implements OnInit {
   ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor() {
     this.orderBook = [

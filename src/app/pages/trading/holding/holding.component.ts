@@ -1,20 +1,22 @@
 import { ChangeDetectionStrategy, Component, signal, OnInit, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';  // Import paginator module
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Import paginator module
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { Observable } from 'rxjs';
 import { HttpService } from './../../../services/http.service';
 import { ToastifyService } from 'src/app/services/toastify.service';
 import { Router } from '@angular/router';
 import { LoggerService } from 'src/app/services/logger.service';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-holding',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, ReactiveFormsModule, MatExpansionModule],
+  imports: [
+    MaterialModule,
+    MatTableModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './holding.component.html',
   styleUrl: './holding.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

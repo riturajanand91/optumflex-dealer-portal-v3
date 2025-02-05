@@ -7,17 +7,17 @@ export const navItems:any = [
   },
   {
     displayName: 'Trade View',
-    iconName: 'plus',
+    iconName: 'border-all',
     route: '/trading',
   },
   {
-    displayName: 'My Account',
+    displayName: 'Subscriptions',
+    iconName: 'brand-stripe',
+    route: '/account/subscription',
+  },
+  {
+    displayName: 'Account',
     iconName: 'user-circle',
     route: '/account',
   },
-  {
-    displayName: 'My Subscriptions',
-    iconName: 'user-circle',
-    route: '/account/subscription',
-  }
 ];

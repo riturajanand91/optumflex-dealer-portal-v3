@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';  // Import paginator module
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';  // Import paginator module
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-position',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [MaterialModule],
   templateUrl: './position.component.html',
   styleUrl: './position.component.scss'
 })
@@ -37,9 +37,8 @@ export class PositionComponent {
     "action",
     "exit"
   ];
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor() {
     this.position = [
@@ -264,7 +263,7 @@ export class PositionComponent {
         exit: ""
       }
     ];
-    
+
   }
 
   ngOnInit(): void {

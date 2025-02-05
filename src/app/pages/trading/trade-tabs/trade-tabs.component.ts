@@ -2,39 +2,24 @@ import { ChangeDetectionStrategy, Component, OnInit, signal, ViewChild } from '@
 import { MaterialModule } from 'src/app/material.module';
 import { CommonModule } from '@angular/common';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
-import { TablerIconsModule } from 'angular-tabler-icons';
 import { OrderBookComponent } from "../order-book/order-book.component";
 import { TradeBookComponent } from "../trade-book/trade-book.component";
 import { PositionComponent } from "../position/position.component";
 import { HoldingComponent } from '../holding/holding.component';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-trade-tabs',
   standalone: true,
   imports: [
-    MatTabsModule,
     CommonModule,
     MaterialModule,
-    TablerIconsModule,
     OrderBookComponent,
     TradeBookComponent,
     PositionComponent,
     HoldingComponent,
-    MatExpansionModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatSelectModule
   ],
   templateUrl: './trade-tabs.component.html',
   styleUrls: ['./trade-tabs.component.scss'],

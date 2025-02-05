@@ -1,18 +1,18 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';  // Import paginator module
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';  // Import paginator module
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-trade-book',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [MaterialModule],
   templateUrl: './trade-book.component.html',
   styleUrls: ['./trade-book.component.scss']
 })
 export class TradeBookComponent implements OnInit {
   @Input() searchData: any;
-  public tradeBook: any[] = []; 
+  public tradeBook: any[] = [];
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]); // Initialize MatTableDataSource with empty array
   displayedColumns: string[] = [
     "symbol",
@@ -29,8 +29,6 @@ export class TradeBookComponent implements OnInit {
     "action"
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort) sort: MatSort;
-
   constructor() {
     // Directly assigning objects into the array instead of using a nested array.
     this.tradeBook = [
@@ -75,7 +73,7 @@ export class TradeBookComponent implements OnInit {
       this.dataSource.paginator = this.paginator; // Assign paginator to MatTableDataSource
     }
   }
-  
+
   ngOnChanges() {
     if (this.searchData) {
       console.log('Order Book Search Data:', this.searchData);

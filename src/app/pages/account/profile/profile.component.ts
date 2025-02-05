@@ -1,9 +1,7 @@
 import { LoggerService } from 'src/app/services/logger.service';
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../material.module';
-
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
 import { AuthService } from 'src/app/services/auth.service';
 import { passwordMatchValidator } from '../../../validators/password-match.validator';
 import { ToastifyService } from 'src/app/services/toastify.service';
@@ -14,8 +12,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   standalone: true,
   imports: [
     MaterialModule,
-    ReactiveFormsModule,
-    MatInputModule
+    ReactiveFormsModule
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
@@ -79,7 +76,7 @@ export class ProfileComponent {
           password1: this.passwordForm.value.newPassword,
           password2: this.passwordForm.value.confirmPassword
         };
-  
+
         this.authService.updatePassword(changePassword.password1, changePassword.password2).subscribe(
           (resData) => {
             // Handle success response
@@ -98,19 +95,19 @@ export class ProfileComponent {
         // If the form is invalid, show a toast or alert to inform the user.
         this.toastify.showError('Please fill in all fields correctly.');
       }
-  
+
       // Check if the profile form is valid (Optional code block)
       if (this.profileForm.valid) {
         // You can handle form submission or logging here if necessary
         console.log(this.profileForm.value);
       }
-  
+
     } catch (error) {
       // Catch any unexpected errors (e.g., programming errors)
       this.logger.error('Unexpected error occurred during form submission:', error);
       this.toastify.showError('An unexpected error occurred. Please try again later.');
     }
   }
-  
+
 
 }
