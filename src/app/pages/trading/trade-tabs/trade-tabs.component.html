@@ -2,67 +2,66 @@
     <!-- Top Section -->
     <div class="bg-light-primary rounded p-y-30 p-x-24 m-b-30 overflow-hidden">
         <div class="row">
-          <div class="col-sm-8">
-            <h4 class="page-title m-0 f-s-20 f-w-600 m-b-16">Trading</h4>
-            <div class="d-flex align-items-center overflow-hidden">
-              <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a>Dashboard</a></li>
-                <li class="breadcrumb-item">
-                  <i-tabler name="circle-filled" class="icon-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z"
-                        stroke-width="0" fill="currentColor"></path>
-                    </svg>
-                  </i-tabler>
-                </li>
-                <li class="breadcrumb-item active">Trade View</li>
-              </ul>
+            <div class="col-sm-8">
+                <h4 class="page-title m-0 f-s-20 f-w-600 m-b-16">Trading</h4>
+                <div class="d-flex align-items-center overflow-hidden">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a>Dashboard</a></li>
+                        <li class="breadcrumb-item">
+                            <i-tabler name="circle-filled" class="icon-8">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path
+                                        d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z"
+                                        stroke-width="0" fill="currentColor"></path>
+                                </svg>
+                            </i-tabler>
+                        </li>
+                        <li class="breadcrumb-item active">Trade View</li>
+                    </ul>
+                </div>
             </div>
-          </div>
-          <div class="col-sm-4 text-right position-relative">
-            <div class="breadcrumb-icon"><img src="/assets/images/breadcrumb/ChatBc.png" alt="breadcrumb" width="165">
+            <div class="col-sm-4 text-right position-relative">
+                <div class="breadcrumb-icon"><img src="/assets/images/breadcrumb/ChatBc.png" alt="breadcrumb"
+                        width="165">
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <!-- Top Section -->
+    </div>
+    <!-- Top Section -->
     <mat-accordion>
         <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
             <mat-expansion-panel-header>
-                <mat-panel-title> Search & Filters </mat-panel-title>
-                <!-- <mat-panel-description>
-                    Currently I am {{panelOpenState() ? 'open' : 'closed'}}
-                </mat-panel-description> -->
+                <mat-panel-title class="mat-subtitle-2 f-s-14 f-w-600"> Search & Filters </mat-panel-title>
             </mat-expansion-panel-header>
-            <!-- <mat-card class="mat-mdc-card mdc-card cardWithShadow">
-                <mat-card-content class="mat-mdc-card-content p-y-24"> -->
             <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
                 <h3>Search Filters</h3>
                 <div class="row">
-                    <div class="col-md-3" *ngFor="let field of searchForm.controls | keyvalue">
+                    <div class="col-md-6">
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Symbol</mat-label>
                         <mat-form-field appearance="outline" color="primary" class="w-100">
-                            <mat-label [for]="field.key">{{ field.key | titlecase }}</mat-label>
-                            <input matInput [id]="field.key" [formControlName]="field.key" type="text" />
+                            <input matInput formControlName="F_column1" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Status</mat-label>
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <input matInput formControlName="F_column2" type="text">
                         </mat-form-field>
                     </div>
                 </div>
                 <h3>Column Filters</h3>
-                <div class="row">
-                    <div class="col-6"></div>
-                    <div class="col-6"></div>
-                </div>
+              
                 <mat-radio-group formControlName="sortingOrder" aria-label="Select an option">
-                    <mat-radio-button value="1">Option 1</mat-radio-button>
-                    <mat-radio-button value="2">Option 2</mat-radio-button>
-                    <mat-radio-button value="3">Option 3</mat-radio-button>
+                    <mat-radio-button value="asc">Ascending</mat-radio-button>
+                    <mat-radio-button value="desc">Descending</mat-radio-button>
                 </mat-radio-group>
 
                 <mat-form-field appearance="outline" class="p-10">
                     <mat-label>Column Order</mat-label>
                     <mat-select name="orderColumn" formControlName="sortingColumn">
                         @for (col of orderDropdown; track col) {
-                        <mat-option [value]="col">{{col}}</mat-option>
+                        <mat-option [value]="col">{{col|titlecase}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
@@ -76,23 +75,26 @@
         </mat-expansion-panel>
     </mat-accordion>
 </div>
-<br>
-<br>
-
+<div class="p-t-15">
 <mat-card class="mat-mdc-card mdc-card chat-app cardWithShadow p-14 w-100 h-100">
     <mat-tab-group animationDuration="0ms" class="mat-mdc-tab-group mat-primary"
         (selectedTabChange)="onTabChange($event)">
         <mat-tab label="Order Book">
-            <app-order-book [searchData]="tabWiseData.orderBook"></app-order-book>
+            <app-order-book [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
+                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-order-book>
         </mat-tab>
         <mat-tab label="Trade Book">
-            <app-trade-book [searchData]="tabWiseData.tradeBook"></app-trade-book>
+            <app-trade-book [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
+                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-trade-book>
         </mat-tab>
         <mat-tab label="Position">
-            <app-position [searchData]="tabWiseData.position"></app-position>
+            <app-position [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
+                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-position>
         </mat-tab>
         <mat-tab label="Holdings">
-            <app-holding [searchData]="tabWiseData.holdings"></app-holding>
+            <app-holding [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
+                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-holding>
         </mat-tab>
     </mat-tab-group>
 </mat-card>
+</div>

@@ -1,13 +1,19 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal, ViewChild } from '@angular/core';
-import { MaterialModule } from 'src/app/material.module';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { PageEvent } from '@angular/material/paginator';
+
+import { MaterialModule } from 'src/app/material.module';
 import { OrderBookComponent } from "../order-book/order-book.component";
 import { TradeBookComponent } from "../trade-book/trade-book.component";
 import { PositionComponent } from "../position/position.component";
 import { HoldingComponent } from '../holding/holding.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+
+import { HttpService } from './../../../services/http.service';
+import { ToastifyService } from 'src/app/services/toastify.service';
+import { LoggerService } from 'src/app/services/logger.service';
+import { TradeTabsService } from 'src/app/services/trade-tabs.service';
 
 @Component({
   selector: 'app-trade-tabs',
@@ -26,152 +32,156 @@ import { ReactiveFormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeTabsComponent implements OnInit {
-  public searchForm: FormGroup;
   public orderDropdown: any = [];
   readonly panelOpenState = signal(false);
-
-  public formFields = {
-    tradeBook: [
-      "symbol",
-      "type",
-      "qtyFilled",
-      "avgPrice",
-      "ltp",
-      "status",
-      "tradedAt",
-      "product",
-      "orderType",
-      "orderNo",
-      "exchangeOrderNo",
-      "action"
-    ],
-    holdings: [
-      "symbol",
-      "type",
-      "quantity",
-      "t1Quantity",
-      "usedQty",
-      "daysPnL",
-      "netPnL",
-      "buyAvgPrice",
-      "ltp",
-      "totalHoldingQ",
-      "sellAvgPrice",
-      "investedValue",
-      "marketValue",
-      "haircut",
-      "collateralQuantity",
-      "pledgeQuantity",
-      "collateralValue",
-      "action",
-      "exit"
-    ],
-    position: [
-      "symbol",
-      "type",
-      "product",
-      "buyQty",
-      "buyAvgPrice",
-      "buyValue",
-      "ltp",
-      "dayPnL",
-      "netPnL",
-      "netAvg",
-      "netQty",
-      "netValue",
-      "totalTurnover",
-      "sellQty",
-      "sellAvgPrice",
-      "sellValue",
-      "realizedMtm",
-      "unrealizedMtm",
-      "action",
-      "exit"
-    ],
-    orderBook: [
-      "symbol", "type", "qtyFilled", "orderPrice", "executedAt", "avgPrice", "ltp", "status",
-      "date", "validity", "product", "orderType", "xtsOrderId", "exchangeOrderNo", "action"
-    ],
-  };
   public activeTabIndex: number = 0;
   public tabWiseData: any = {
     orderBook: {},
     tradeBook: {},
     position: {},
     holdings: {},
-  }
-  constructor(private fb: FormBuilder) {
-    this.searchForm = this.fb.group({});
+  };
+  public totalCount: number = 0; // To hold the total number of posts
+  public pageSize: number = 10; // Default page size
+  public currentPage: number = 1; // Current page
+  public tableData: any = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private httpService: HttpService,
+    private toastify: ToastifyService,
+    private logger: LoggerService,
+    private tradeTabsService: TradeTabsService
+  ) {
+    // this.searchForm = this.fb.group({});
   }
 
   ngOnInit() {
-    this.initializeForm(this.formFields.orderBook);
-  }
-
-  initializeForm(fields: string[]) {
-    const formGroupConfig = fields.reduce((config: any, field) => {
-      config[field] = [];
-      return config;
-    }, {});
-    formGroupConfig['sortingOrder'] = []; // Add form control for radio buttons
-    formGroupConfig['sortingColumn'] = []; // Add form control for radio buttons
-    this.orderDropdown = fields;
-    this.searchForm = this.fb.group(formGroupConfig);
-    console.log('Form Initialized', fields);
-  }
-
-  months: any[] = [
-    { value: 'mar', viewValue: 'March 2023' },
-    { value: 'apr', viewValue: 'April 2023' },
-    { value: 'june', viewValue: 'June 2023' },
-  ];
-  onTabChange(event: MatTabChangeEvent) {
-    this.activeTabIndex = event.index;
-    let fields: string[] = [];
-    switch (event.index) {
-      case 0: // Order Book
-        fields = this.formFields.orderBook;
-        console.log('Active Tab Index', fields);
-
-        break;
-      case 1: // Trade Book
-        fields = this.formFields.tradeBook;
-        break;
-      case 2: // Position
-        fields = this.formFields.position;
-        break;
-      case 3: // Holdings
-        fields = this.formFields.holdings;
-        break;
-      // Add more cases for other tabs if needed
+    try {
+      this.orderDropdown = this.tradeTabsService.formFields.orderBook;
+      this.loadTable();
+    } catch (error) {
+      this.logger.error('Error during initialization:', error);
+      this.toastify.showError('Failed to initialize component');
     }
-    this.initializeForm(fields);
   }
-  onSubmit() {
-    if (this.searchForm.valid) {
-      let searchData = this.searchForm.value;
 
-      // Remove fields with null values
-      searchData = Object.fromEntries(Object.entries(searchData).filter(([_, v]) => v !== null));
+  public searchForm = new FormGroup({
+    F_column1: new FormControl(""),
+    F_column2: new FormControl(""),
+    sortingOrder: new FormControl("desc"),
+    sortingColumn: new FormControl("")
+  });
 
-      console.log('Form Submitted', searchData);
+  public loadTable() {
+    try {
+      const skip = (this.currentPage - 1) * this.pageSize;
+      const limit = this.pageSize;
+      const payload: any = {
+        pagination: { skip, limit },
+        searchData: this.searchForm.value,
+        isOrderBook: this.activeTabIndex === 0,
+        isTradeBook: this.activeTabIndex === 1,
+        isPositionBook: this.activeTabIndex === 2,
+        isHoldings: this.activeTabIndex === 3
+      };
+      this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
+      this.httpService.getTradeStats(payload).subscribe(
+        (data) => {
+          this.logger.info('Trade stats fetched successfully:', data);
+          this.totalCount = data.totalPosts; // Total items count for pagination
+          this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
+        },
+        (error) => {
+          this.logger.error('Error fetching trade stats:', error);
+          this.toastify.showError('Failed to load trade stats');
+        }
+      );
+    } catch (error) {
+      this.logger.error('Error loading table:', error);
+      this.toastify.showError('Failed to load table data');
+    }
+  }
 
-      switch (this.activeTabIndex) {
-        case 0:// Order Book
-          this.tabWiseData.orderBook = searchData;
+  onTabChange(event: MatTabChangeEvent) {
+    try {
+      this.activeTabIndex = event.index;
+      let fields: string[] = [];
+      switch (event.index) {
+        case 0: // Order Book
+          this.orderDropdown = this.tradeTabsService.formFields.orderBook;
           break;
-        case 1:// Trade Book
-          this.tabWiseData.tradeBook = searchData;
+        case 1: // Trade Book
+          this.orderDropdown = this.tradeTabsService.formFields.tradeBook;
           break;
-        case 2:// Position
-          this.tabWiseData.position = searchData;
+        case 2: // Position
+          this.orderDropdown = this.tradeTabsService.formFields.position;
           break;
-        case 3:// Holdings
-          this.tabWiseData.holdings = searchData;
+        case 3: // Holdings
+          this.orderDropdown = this.tradeTabsService.formFields.holdings;
+          fields = this.tradeTabsService.formFields.holdings;
           break;
       }
-    } else {
-      console.log('Form is invalid');
+      this.searchForm.reset({
+        F_column1: "",
+        F_column2: "",
+        sortingOrder: "desc",
+        sortingColumn: ""
+      });
+      this.loadTable();
+    } catch (error) {
+      this.logger.error('Error changing tab:', error);
+      this.toastify.showError('Failed to change tab');
+    }
+  }
+
+  public onPageChange(event: PageEvent) {
+    try {
+      this.currentPage = event.pageIndex + 1; // Page index starts from 0, so add 1
+      this.pageSize = event.pageSize; // Update page size
+      this.loadTable(); // Reload data with new pagination values
+    } catch (error) {
+      this.logger.error('Error changing page:', error);
+      this.toastify.showError('Failed to change page');
+    }
+  }
+
+  public onSubmit() {
+    try {
+      if (this.searchForm.valid) {
+        let searchData = this.searchForm.value;
+        this.logger.debug('Form Submitted', searchData);
+        this.assignTabWiseData(searchData);
+        this.loadTable();
+      } else {
+        this.logger.warn('Form is invalid');
+      }
+    } catch (error) {
+      this.logger.error('Error submitting form:', error);
+      this.toastify.showError('Failed to submit form');
+    }
+  }
+
+  public assignTabWiseData(data: any) {
+    try {
+      this.logger.debug('Assigning tab wise data', data);
+      switch (this.activeTabIndex) {
+        case 0:
+          this.tableData = data.orderBook;
+          break;
+        case 1:
+          this.tableData = data?.tradeBook;
+          break;
+        case 2:
+          this.tableData = data.position;
+          break;
+        case 3:
+          this.tableData = data.holdings;
+          break;
+      }
+    } catch (error) {
+      this.logger.error('Error assigning tab wise data:', error);
+      this.toastify.showError('Failed to assign tab wise data');
     }
   }
 }

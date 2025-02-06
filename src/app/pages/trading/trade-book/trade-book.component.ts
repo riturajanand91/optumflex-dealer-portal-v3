@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';  // Import paginator module
+import { ChangeDetectionStrategy, Component, signal, OnInit, ViewChild, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Import paginator module
+import { ToastifyService } from 'src/app/services/toastify.service';
+import { LoggerService } from 'src/app/services/logger.service';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
@@ -10,11 +12,17 @@ import { MaterialModule } from 'src/app/material.module';
   templateUrl: './trade-book.component.html',
   styleUrls: ['./trade-book.component.scss']
 })
-export class TradeBookComponent implements OnInit {
+export class TradeBookComponent {
   @Input() searchData: any;
-  public tradeBook: any[] = [];
-  public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]); // Initialize MatTableDataSource with empty array
-  displayedColumns: string[] = [
+  @Input() tableData: any = [];
+  @Input() totalCount: number = 0;
+  @Input() pageSize: number = 10;
+  @Input() currentPage: number = 1;
+  @Output() pageChange: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
+
+  public displayedColumns: string[] = [
     "symbol",
     "type",
     "qtyFilled",
@@ -28,56 +36,37 @@ export class TradeBookComponent implements OnInit {
     "exchangeOrderNo",
     "action"
   ];
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  constructor() {
-    // Directly assigning objects into the array instead of using a nested array.
-    this.tradeBook = [
-      {
-        symbol: "AMZN",
-        type: "SELL",
-        qtyFilled: "759/833",
-        avgPrice: "3528.26",
-        product: "NRM",
-        orderType: "LIMIT",
-        status: "EXECUTED",
-        orderNo: "ORD98464",
-        exchangeOrderNo: "EXCH916970",
-        ltp: "4190.42",
-        tradedAt: "15/02/2025 04:31:36",
-        action: ["Buy"]
-      },
-      {
-        symbol: "MSFT",
-        type: "BUY",
-        qtyFilled: "683/514",
-        avgPrice: "4701.39",
-        product: "MIS",
-        orderType: "MARKET",
-        status: "EXECUTED",
-        orderNo: "ORD709132",
-        exchangeOrderNo: "EXCH734882",
-        ltp: "3438.11",
-        tradedAt: "20/02/2025 18:21:48",
-        action: ["Buy"]
-      }
-      // Add more trade records here as needed...
-    ];
-  }
 
-  ngOnInit(): void {
-    this.dataSource.data = this.tradeBook; // Directly use the array
-    console.log(this.dataSource); // This will show the data in the console.
-  }
-  ngAfterViewInit() {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator; // Assign paginator to MatTableDataSource
+  constructor(
+    private toastify: ToastifyService,
+    private logger: LoggerService
+  ) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    try {
+      if (changes['tableData'] && this.tableData) {
+        console.log(this.tableData)
+        this.logger.debug('Binding Table data');
+        this.dataSource.data = this.tableData;
+        console.log(this.dataSource.data)
+        if (this.paginator) {
+          this.dataSource.paginator = this.paginator;
+        }
+      }
+    } catch (error) {
+      this.logger.error('Error updating table data:', error);
+      this.toastify.showError('Failed to update table data');
     }
   }
 
-  ngOnChanges() {
-    if (this.searchData) {
-      console.log('Order Book Search Data:', this.searchData);
-      // Handle the search data
+  // Handle page changes
+  onPageChange(event: PageEvent) {
+    try {
+      this.pageChange.emit(event);
+      this.logger.debug('Page Changed');
+    } catch (error) {
+      this.logger.error('Error handling page change:', error);
+      this.toastify.showError('Failed to change page');
     }
   }
 }
