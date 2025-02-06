@@ -5,50 +5,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { ToastifyService } from '../../../services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { AuthService } from 'src/app/services/auth.service';
-import {
-  ApexChart,
-  ChartComponent,
-  ApexDataLabels,
-  ApexLegend,
-  ApexStroke,
-  ApexTooltip,
-  ApexAxisChartSeries,
-  ApexPlotOptions,
-  ApexResponsive,
-  NgApexchartsModule,
-  ApexXAxis,
-} from 'ng-apexcharts';
-
-export interface monthlyChart {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  tooltip: ApexTooltip;
-  stroke: ApexStroke;
-  legend: ApexLegend;
-  responsive: ApexResponsive;
-}
-
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  xaxis: ApexXAxis;
-  legend: ApexLegend;
-};
-
-export interface yearlyChart {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  tooltip: ApexTooltip;
-  stroke: ApexStroke;
-  legend: ApexLegend;
-  responsive: ApexResponsive;
-}
+import { ApexChart, ChartComponent, ApexDataLabels, ApexLegend, ApexStroke, ApexTooltip, ApexAxisChartSeries, ApexPlotOptions, ApexResponsive, NgApexchartsModule, ApexXAxis, } from 'ng-apexcharts';
 
 const ELEMENT_DATA: any[] = [
   {
@@ -99,13 +56,13 @@ const ELEMENT_DATA: any[] = [
 export class DashboardComponent implements OnInit {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public monthlyChart!: Partial<any> | any;
-  public salesOverviewChart!: Partial<ChartOptions> | any;
-  public yearlyChart!: Partial<yearlyChart> | any;
+  public salesOverviewChart!: Partial<any> | any;
+  public yearlyChart!: Partial<any> | any;
   public dataSet: any;
 
   displayedColumns: string[] = ['assigned', 'name', 'priority', 'budget'];
   dataSource = ELEMENT_DATA;
- 
+
   user: { name: string; avatar: string; role: string; email: string } | null = null;
 
   constructor(
