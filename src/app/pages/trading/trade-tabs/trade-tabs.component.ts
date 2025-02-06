@@ -15,6 +15,8 @@ import { ToastifyService } from 'src/app/services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { TradeTabsService } from 'src/app/services/trade-tabs.service';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-trade-tabs',
   standalone: true,
@@ -32,6 +34,7 @@ import { TradeTabsService } from 'src/app/services/trade-tabs.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeTabsComponent implements OnInit {
+  private loadTableSubscription: Subscription;
   public orderDropdown: any = [];
   readonly panelOpenState = signal(false);
   public activeTabIndex: number = 0;
@@ -60,6 +63,11 @@ export class TradeTabsComponent implements OnInit {
     try {
       this.orderDropdown = this.tradeTabsService.formFields.orderBook;
       this.loadTable();
+  
+      // Set up automatic refresh every 5 minutes (300000 milliseconds)
+      setInterval(() => {
+        this.loadTable();
+      }, 300000); // 300000 milliseconds = 5 minutes
     } catch (error) {
       this.logger.error('Error during initialization:', error);
       this.toastify.showError('Failed to initialize component');
@@ -73,34 +81,40 @@ export class TradeTabsComponent implements OnInit {
     sortingColumn: new FormControl("")
   });
 
-  public loadTable() {
-    try {
-      const skip = (this.currentPage - 1) * this.pageSize;
-      const limit = this.pageSize;
-      const payload: any = {
-        pagination: { skip, limit },
-        searchData: this.searchForm.value,
-        isOrderBook: this.activeTabIndex === 0,
-        isTradeBook: this.activeTabIndex === 1,
-        isPositionBook: this.activeTabIndex === 2,
-        isHoldings: this.activeTabIndex === 3
-      };
-      this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
-      this.httpService.getTradeStats(payload).subscribe(
-        (data) => {
-          this.logger.info('Trade stats fetched successfully:', data);
-          this.totalCount = data.totalPosts; // Total items count for pagination
-          this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
-        },
-        (error) => {
-          this.logger.error('Error fetching trade stats:', error);
-          this.toastify.showError('Failed to load trade stats');
-        }
-      );
-    } catch (error) {
-      this.logger.error('Error loading table:', error);
-      this.toastify.showError('Failed to load table data');
+  ngOnDestroy() {
+    if (this.loadTableSubscription) {
+      this.loadTableSubscription.unsubscribe();
     }
+  }
+
+  public loadTable() {
+    if (this.loadTableSubscription) {
+      this.loadTableSubscription.unsubscribe();
+    }
+
+    const skip = (this.currentPage - 1) * this.pageSize;
+    const limit = this.pageSize;
+    const payload: any = {
+      pagination: { skip, limit },
+      searchData: this.searchForm.value,
+      isOrderBook: this.activeTabIndex === 0,
+      isTradeBook: this.activeTabIndex === 1,
+      isPositionBook: this.activeTabIndex === 2,
+      isHoldings: this.activeTabIndex === 3
+    };
+
+    this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
+    this.loadTableSubscription = this.httpService.getTradeStats(payload).subscribe(
+      (data) => {
+        this.logger.info('Trade stats fetched successfully:', data);
+        this.totalCount = data.totalPosts; // Total items count for pagination
+        this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
+      },
+      (error) => {
+        this.logger.error('Error fetching trade stats:', error);
+        this.toastify.showError('Failed to load trade stats');
+      }
+    );
   }
 
   onTabChange(event: MatTabChangeEvent) {
