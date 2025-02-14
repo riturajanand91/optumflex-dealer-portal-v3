@@ -1,13 +1,28 @@
 <mat-toolbar class="topbar mat-toolbar-single-row" style="display: flex; align-items: center; gap: 16px;">
   <!-- Menu Button (For mobile view toggle) -->
-  <button mat-icon-button (click)="toggleMobileNav.emit()" class="d-flex d-md-none justify-content-center">
+  <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" class="d-flex d-md-none justify-content-center">
     <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
   </button>
+  
+  <!-- Branding -->
+  <div class="branding">
+    <a [routerLink]="['/']">
+      <img [src]="this.metaService?.portalInfo?.companyLogo" class="align-middle m-2" style="height: 70px;" alt="logo" />
+    </a>
+  </div>
+
+  <!-- Navigation Items for larger screens -->
+  <ng-container *ngIf="!isMobileScreen">
+    <ng-container *ngFor="let item of navItems;">
+      <a mat-button [routerLink]="item.route" routerLinkActive="active-link">{{ item.displayName }}</a>
+    </ng-container>
+  </ng-container>
+
   <!-- Spacer -->
   <span class="flex-1-auto"></span>
   
-   <!-- Profile Dropdown -->
-   <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+  <!-- Profile Dropdown -->
+  <button mat-icon-button [matMenuTriggerFor]="profileMenu">
     <img [src]="user?.avatar" class="rounded-circle object-cover icon-35" />
   </button>
 
@@ -23,7 +38,7 @@
               <img [src]="user?.avatar" width="95" class="rounded-circle">
               <div class="m-l-16">
                 <h6 class="f-s-14 f-w-600 m-0 mat-subtitle-1">{{ user?.name }}</h6>
-                <span class="f-s-14 d-block m-b-4">{{user?.role |uppercase}}</span>
+                <span class="f-s-14 d-block m-b-4">{{user?.role | uppercase}}</span>
                 <span class="f-s-14 d-block m-b-4">{{user?.email }}</span>
               </div>
             </div>
@@ -50,4 +65,15 @@
       </div>
     </div>
   </mat-menu>
+
+  <!-- Hamburger Menu for smaller screens -->
+  <mat-menu #menu="matMenu">
+    <ng-container *ngFor="let item of navItems;">
+      <button mat-menu-item [routerLink]="item.route" routerLinkActive="active-link">{{ item.displayName }}</button>
+    </ng-container>
+  </mat-menu>
 </mat-toolbar>
+
+<main class="pageWrapper">
+  <router-outlet></router-outlet>
+</main>

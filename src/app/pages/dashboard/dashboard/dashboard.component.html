@@ -329,41 +329,43 @@
       </div>
       <mat-card class="mat-mdc-card mdc-card cardWithShadow">
          <mat-card-header class="mat-mdc-card-header">
-            <div class="mat-mdc-card-header-text">
-               <mat-card-title class="mat-mdc-card-title">Call Put Performance Ratio</mat-card-title>
-            </div>
+           <div class="mat-mdc-card-header-text">
+             <mat-card-title class="mat-mdc-card-title">Call Put Performance Ratio</mat-card-title>
+           </div>
          </mat-card-header>
          <mat-card-content class="mat-mdc-card-content p-t-48">
-            <apx-chart [series]="yearlyChart.series" [dataLabels]="yearlyChart.dataLabels" [chart]="yearlyChart.chart"
+           <div class="chart-container">
+             <apx-chart [series]="yearlyChart.series" [dataLabels]="yearlyChart.dataLabels" [chart]="yearlyChart.chart"
                [legend]="yearlyChart.legend" [colors]="yearlyChart.colors" [stroke]="yearlyChart.stroke"
                [tooltip]="yearlyChart.tooltip" [plotOptions]="yearlyChart.plotOptions"
                [responsive]="yearlyChart.responsive"></apx-chart>
-            <div class="d-flex align-items-center justify-content-between m-t-16">
-               <div class="transaction-item">
-                  <div class="transaction-content">
-                     <div class="icon-container">
-                        <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
-                     </div>
-                     <div class="transaction-details">
-                        <h6 class="transaction-title">Paypal</h6>
-                        <span class="transaction-subtitle">Big Brands</span>
-                     </div>
-                  </div>
+           </div>
+           <div class="d-flex align-items-center justify-content-between m-t-16">
+             <div class="transaction-item">
+               <div class="transaction-content">
+                 <div class="icon-container">
+                   <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
+                 </div>
+                 <div class="transaction-details">
+                   <h6 class="transaction-title">Paypal</h6>
+                   <span class="transaction-subtitle">Big Brands</span>
+                 </div>
                </div>
-               <div class="transaction-item">
-                  <div class="transaction-content">
-                     <div class="icon-container">
-                        <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
-                     </div>
-                     <div class="transaction-details">
-                        <h6 class="transaction-title">Paypal</h6>
-                        <span class="transaction-subtitle">Big Brands</span>
-                     </div>
-                  </div>
+             </div>
+             <div class="transaction-item">
+               <div class="transaction-content">
+                 <div class="icon-container">
+                   <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
+                 </div>
+                 <div class="transaction-details">
+                   <h6 class="transaction-title">Paypal</h6>
+                   <span class="transaction-subtitle">Big Brands</span>
+                 </div>
                </div>
-            </div>
+             </div>
+           </div>
          </mat-card-content>
-      </mat-card>
+       </mat-card>
      
    </div>
    <div class="col-lg-4">
