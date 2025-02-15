@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
-import { TopNavigationComponent } from '../top-navigation/top-navigation.component';
+import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
   selector: 'app-combined',
@@ -11,7 +11,7 @@ import { TopNavigationComponent } from '../top-navigation/top-navigation.compone
     CommonModule,
     RouterOutlet,
     MaterialModule,
-    TopNavigationComponent
+    NavigationComponent
   ],
   templateUrl: './combined.component.html',
   styleUrls: [],

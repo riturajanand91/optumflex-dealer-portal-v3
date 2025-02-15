@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  box-shadow: rgba(145, 158, 171, .12) 0px 1px 16px;
 }
 
 @media (max-width: 768px) {
@@ -23,6 +24,7 @@
   background-color: var(--mat-menu-container-color, var(--mat-app-surface-container));
   will-change: transform, opacity;
 }
+
 .mat-mdc-menu-content {
   margin: 0;
   padding: 0px 0 !important;
@@ -32,7 +34,10 @@
 .active-link {
   // color: #ff4081 !important; /* Highlight color */
   font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Background shadow */
-  background-color: #f0f0f0; /* Light grey background */
-  border-radius: 4px; /* Optional: to make the shadow look better */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Background shadow */
+  background-color: #f0f0f0;
+  /* Light grey background */
+  border-radius: 4px;
+  /* Optional: to make the shadow look better */
 }

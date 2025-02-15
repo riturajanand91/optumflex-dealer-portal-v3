@@ -14,10 +14,9 @@ import { Subscription } from 'rxjs';
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
 const MONITOR_VIEW = 'screen and (min-width: 1024px)';
-const BELOWMONITOR = 'screen and (max-width: 1023px)';
 
 @Component({
-  selector: 'app-top-navigation',
+  selector: 'app-navigation',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,11 +24,11 @@ const BELOWMONITOR = 'screen and (max-width: 1023px)';
     MaterialModule,
     TablerIconsModule,
   ],
-  templateUrl: './top-navigation.component.html',
-  styleUrls: ['./top-navigation.component.scss'],
+  templateUrl: './navigation.component.html',
+  styleUrls: ['./navigation.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TopNavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
   @Input() showToggle = true;
   @Output() toggleMobileNav = new EventEmitter<void>();
