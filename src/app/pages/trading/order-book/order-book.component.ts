@@ -4,6 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Impor
 import { ToastifyService } from 'src/app/services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { MaterialModule } from 'src/app/material.module';
+import { TradeService } from 'src/app/services/trade.service';
 
 @Component({
   selector: 'app-order-book',
@@ -22,14 +23,15 @@ export class OrderBookComponent {
    @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
  
    public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-   displayedColumns: string[] = [
-    "symbol", "type", "qtyFilled", "orderPrice", "executedAt", "avgPrice", "ltp", "status",
-    "date", "validity", "product", "orderType", "xtsOrderId", "exchangeOrderNo", "action"
-  ];
+   public displayedColumns: string[];
+
    constructor(
     private toastify: ToastifyService,
-    private logger: LoggerService
-  ) { }
+    private logger: LoggerService,
+    private tradeService: TradeService
+  ) {
+    this.displayedColumns = this.tradeService.tableHeaders.orderBook;
+   }
 
   ngOnChanges(changes: SimpleChanges) {
     try {

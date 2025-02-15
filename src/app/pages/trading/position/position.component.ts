@@ -4,6 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Impor
 import { ToastifyService } from 'src/app/services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { MaterialModule } from 'src/app/material.module';
+import { TradeService } from 'src/app/services/trade.service';
 
 @Component({
   selector: 'app-position',
@@ -21,34 +22,16 @@ export class PositionComponent {
   @Output() pageChange: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);  displayedColumns: string[] = [
-    "symbol",
-    "type",
-    "product",
-    "buyQty",
-    "buyAvgPrice",
-    "buyValue",
-    "ltp",
-    "dayPnL",
-    "netPnL",
-    "netAvg",
-    "netQty",
-    "netValue",
-    "totalTurnover",
-    "sellQty",
-    "sellAvgPrice",
-    "sellValue",
-    "realizedMtm",
-    "unrealizedMtm",
-    // "closePrice",
-    "action",
-    "exit"
-  ];
+  public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);  
+  public displayedColumns: string[];
 
   constructor(
       private toastify: ToastifyService,
-      private logger: LoggerService
-    ) { }
+      private logger: LoggerService,
+      private tradeService: TradeService
+    ) {
+      this.displayedColumns = this.tradeService.tableHeaders.position;
+     }
  
    ngOnChanges(changes: SimpleChanges) {
      try {

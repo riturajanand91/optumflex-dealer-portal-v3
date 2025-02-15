@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class TradeTabsService {
+export class TradeService {
 
   public formFields = {
     "holdings": [
@@ -559,5 +559,68 @@ export class TradeTabsService {
       // Add more trade records here as needed...
     ]
   }
+  public tableHeaders = {
+    holdings: [
+      "symbol",
+      "type",
+      "quantity",
+      "t1Quantity",
+      "usedQty",
+      "daysPnL",
+      "netPnL",
+      "buyAvgPrice",
+      "ltp",
+      "totalHoldingQ",
+      "sellAvgPrice",
+      "investedValue",
+      "marketValue",
+      "haircut",
+      "collateralQuantity",
+      "pledgeQuantity",
+      "collateralValue",
+      "action",
+      "exit"
+    ],
+    orderBook: [
+      "symbol", "type", "qtyFilled", "orderPrice", "executedAt", "avgPrice", "ltp", "status",
+      "date", "validity", "product", "orderType", "xtsOrderId", "exchangeOrderNo", "action"
+    ],
+    position: [
+      "symbol",
+      "type",
+      "product",
+      "buyQty",
+      "buyAvgPrice",
+      "buyValue",
+      "ltp",
+      "dayPnL",
+      "netPnL",
+      "netAvg",
+      "netQty",
+      "netValue",
+      "totalTurnover",
+      "sellQty",
+      "sellAvgPrice",
+      "sellValue",
+      "realizedMtm",
+      "unrealizedMtm",
+      "action",
+      "exit"
+    ],
+    tradeBook: [
+      "symbol",
+      "type",
+      "qtyFilled",
+      "avgPrice",
+      "ltp",
+      "status",
+      "tradedAt",
+      "product",
+      "orderType",
+      "orderNo",
+      "exchangeOrderNo",
+      "action"
+    ]
+  };
   constructor() { }
 }

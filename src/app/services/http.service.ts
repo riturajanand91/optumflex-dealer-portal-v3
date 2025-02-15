@@ -10,12 +10,8 @@ import { LoggerService } from './logger.service'; // Import LoggerService
   providedIn: 'root'
 })
 export class HttpService {
-  private postUrl = environment.baseUrl + environment.endpoints.posts;
-  private configUrl = environment.baseUrl + environment.endpoints.utility;
   private dashUrl = environment.baseUrl + environment.endpoints.dashboard;
-  private commentsUrl = environment.baseUrl + environment.endpoints.comments;
   private usersUrl = environment.baseUrl + environment.endpoints.users;
-
   private verifyUrl = environment.baseUrl;
 
   constructor(
@@ -23,7 +19,7 @@ export class HttpService {
     private toastify: ToastifyService,
     private logger: LoggerService // Inject LoggerService
   ) {
-    this.logger.debug('HttpService initialized', { postUrl: this.postUrl, configUrl: this.configUrl });
+    this.logger.debug('HttpService initialized', { configUrl: 'this.configUrl' });
   }
 
   getStats(): Observable<any> {

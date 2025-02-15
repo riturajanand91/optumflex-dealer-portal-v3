@@ -1,3 +1,4 @@
+import { TradeService } from 'src/app/services/trade.service';
 import { ChangeDetectionStrategy, Component, signal, OnInit, ViewChild, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Import paginator module
@@ -26,32 +27,15 @@ export class HoldingComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-  public displayedColumns: string[] = [
-    "symbol",
-    "type",
-    "quantity",
-    "t1Quantity",
-    "usedQty",
-    "daysPnL",
-    "netPnL",
-    "buyAvgPrice",
-    "ltp",
-    "totalHoldingQ",
-    "sellAvgPrice",
-    "investedValue",
-    "marketValue",
-    "haircut",
-    "collateralQuantity",
-    "pledgeQuantity",
-    "collateralValue",
-    "action",
-    "exit"
-];
+  public displayedColumns: string[];
 
   constructor(
     private toastify: ToastifyService,
-    private logger: LoggerService
-  ) { }
+    private logger: LoggerService,
+    private tradeService: TradeService
+  ) {
+    this.displayedColumns = this.tradeService.tableHeaders.holdings;
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     try {

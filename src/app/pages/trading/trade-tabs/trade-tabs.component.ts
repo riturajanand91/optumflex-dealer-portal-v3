@@ -13,7 +13,7 @@ import { HoldingComponent } from '../holding/holding.component';
 import { HttpService } from './../../../services/http.service';
 import { ToastifyService } from 'src/app/services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
-import { TradeTabsService } from 'src/app/services/trade-tabs.service';
+import { TradeService } from 'src/app/services/trade.service';
 
 import { Subscription } from 'rxjs';
 
@@ -54,14 +54,15 @@ export class TradeTabsComponent implements OnInit {
     private httpService: HttpService,
     private toastify: ToastifyService,
     private logger: LoggerService,
-    private tradeTabsService: TradeTabsService
+    private tradeService: TradeService
   ) {
     // this.searchForm = this.fb.group({});
+    
   }
 
   ngOnInit() {
     try {
-      this.orderDropdown = this.tradeTabsService.formFields.orderBook;
+      this.orderDropdown = this.tradeService.formFields.orderBook;
       this.loadTable();
   
       // Set up automatic refresh every 5 minutes (300000 milliseconds)
@@ -103,12 +104,12 @@ export class TradeTabsComponent implements OnInit {
       isHoldings: this.activeTabIndex === 3
     };
 
-    this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
+    this.assignTabWiseData(this.tradeService.sampleDataSet);
     this.loadTableSubscription = this.httpService.getTradeStats(payload).subscribe(
       (data) => {
         this.logger.info('Trade stats fetched successfully:', data);
         this.totalCount = data.totalPosts; // Total items count for pagination
-        this.assignTabWiseData(this.tradeTabsService.sampleDataSet);
+        this.assignTabWiseData(this.tradeService.sampleDataSet);
       },
       (error) => {
         this.logger.error('Error fetching trade stats:', error);
@@ -123,17 +124,17 @@ export class TradeTabsComponent implements OnInit {
       let fields: string[] = [];
       switch (event.index) {
         case 0: // Order Book
-          this.orderDropdown = this.tradeTabsService.formFields.orderBook;
+          this.orderDropdown = this.tradeService.formFields.orderBook;
           break;
         case 1: // Trade Book
-          this.orderDropdown = this.tradeTabsService.formFields.tradeBook;
+          this.orderDropdown = this.tradeService.formFields.tradeBook;
           break;
         case 2: // Position
-          this.orderDropdown = this.tradeTabsService.formFields.position;
+          this.orderDropdown = this.tradeService.formFields.position;
           break;
         case 3: // Holdings
-          this.orderDropdown = this.tradeTabsService.formFields.holdings;
-          fields = this.tradeTabsService.formFields.holdings;
+          this.orderDropdown = this.tradeService.formFields.holdings;
+          fields = this.tradeService.formFields.holdings;
           break;
       }
       this.searchForm.reset({
