@@ -35,7 +35,7 @@ export class TradeTabsComponent implements OnInit {
   private loadTableSubscription: Subscription;
   public orderDropdown: any = [];
   readonly panelOpenState = signal(false);
-  public activeTabIndex: number = 0;
+  public activeTabIndex: number = 0; // Ensure this is set to 0
   public tabWiseData: any = {
     orderBook: {},
     tradeBook: {},
@@ -43,7 +43,7 @@ export class TradeTabsComponent implements OnInit {
     holdings: {},
   };
   public searchData: any = {};
- 
+
   constructor(
     private toastify: ToastifyService,
     private logger: LoggerService,
@@ -54,6 +54,7 @@ export class TradeTabsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('activeTabIndex',this.activeTabIndex);
     this.orderDropdown = this.tradeService.formFields.orderBook;
     this.searchData = this.searchForm.value;
   }
@@ -82,5 +83,18 @@ export class TradeTabsComponent implements OnInit {
       this.logger.error('Error submitting form:', error);
       this.toastify.showError('Failed to submit form');
     }
+  }
+
+  public onReset() {
+    this.searchForm.reset({
+      F_column1: "",
+      F_column2: "",
+      F_column3: "",
+      F_column4: "",
+      F_column5: "",
+      F_column6: "",
+      sortingOrder: "desc",
+      sortingColumn: ""
+    });
   }
 }

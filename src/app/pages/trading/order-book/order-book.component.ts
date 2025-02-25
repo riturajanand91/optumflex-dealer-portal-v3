@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, OnInit, OnChanges } from '@angular/core';
+import { Component, ViewChild, Input, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, OnInit, OnChanges, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Import paginator module
 import { ToastifyService } from 'src/app/services/toastify.service';
@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { TradeService } from 'src/app/services/trade.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpService } from 'src/app/services/http.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-order-book',
@@ -22,12 +23,15 @@ import { HttpService } from 'src/app/services/http.service';
     ]),
   ],
 })
-export class OrderBookComponent implements OnInit, OnChanges {
+export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() searchData: any;
   @Input() tableData: any = [];
   public totalCount: number = 0; // To hold the total number of posts
   public pageSize: number = 10; // Default page size
   public currentPage: number = 1; // Current page
+  public isLoading: boolean = false; // Current page
+  private isRefreshing: boolean = false; // Flag to check if loadResults is in progress
+  private refreshInterval: any; // Variable to hold the interval reference
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   public displayedColumns: any[] = [
@@ -44,17 +48,17 @@ export class OrderBookComponent implements OnInit, OnChanges {
     "product",
     "orderType",
     "xtsOrderId",
-    "exchangeOrderNo",
+    // "exchangeOrderNo",
     "action"
   ];
   public innerDisplayedColumns = [
-    'master_position_id',
+    // 'master_position_id',
     'sector_name',
     'square_off_quantity',
     'square_off_position',
+    'square_off_time',
     'sell_response_update_time',
     'progress_status',
-    'square_off_time',
     'square_off_order_id'
   ];
   orderBookData: any[] = [];
@@ -63,18 +67,46 @@ export class OrderBookComponent implements OnInit, OnChanges {
     private toastify: ToastifyService,
     private logger: LoggerService,
     private httpService: HttpService,
+    private utilityService: UtilityService,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {
+    this.logger.debug("Order Book Component constructor");
+  }
 
   ngOnInit() {
-    this.logger.info('OrderBookComponent initialized');
+    this.logger.info("Order Book Component initialized");
     this.loadResults();
+    // this.startAutoRefresh();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['searchData'] && !changes['searchData'].firstChange) {
       this.logger.info('Search data changed:', this.searchData);
       this.loadResults();
+    }
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.stopAutoRefresh();
+  }
+
+  // Start auto-refreshing data every 10 seconds
+  startAutoRefresh() {
+    this.refreshInterval = setInterval(() => {
+      if (!this.isRefreshing) {
+        this.loadResults();
+      }
+    }, 10000); // 10 seconds
+  }
+
+  // Stop auto-refreshing data
+  stopAutoRefresh() {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
     }
   }
 
@@ -88,6 +120,8 @@ export class OrderBookComponent implements OnInit, OnChanges {
 
   // Load posts with logging and error handling
   loadResults() {
+    this.isLoading = true;
+    this.isRefreshing = true; // Set the flag to indicate that loadResults is in progress
     this.logger.debug('Loading Order Book Results for page:', this.currentPage, 'Page size:', this.pageSize);
     const skip = (this.currentPage - 1) * this.pageSize;
     const limit = this.pageSize;
@@ -95,74 +129,40 @@ export class OrderBookComponent implements OnInit, OnChanges {
       skip,
       limit,
       username: "Aayush",
-      isOrderBook: 'true',
-      isTradeBook: 'false',
-      isPositionBook: 'false',
-      isHoldings: 'false',
-      ...this.searchData
+      isOrderBook: true,
+      isTradeBook: false,
+      isPositionBook: false,
+      isHoldings: false,
+      ...this.searchData,
+      "F_column3": "",
+      "F_column4": "",
+      "F_column5": "",
+      "F_column6": ""
     };
     this.httpService.getTradeData(payload).subscribe(
       (data) => {
-        console.log("New api", data.transaction_data)
-        let sampleData = {
-          "msg": "Transaction Data Download Successfully....!",
-          "status_code": 202,
-          "transaction_data": [
-            {
-              "id": 45,
-              "symbol": "SENSEX2510379200PE",
-              "transaction_action": 1.0,
-              "transaction_quantity": 10.0,
-              "transaction_price": 0.0,
-              "buy_response_update_time": "2025-01-03 08:38:29.213512+00:00",
-              "last_traded_price": 0.0,
-              "progress_status": "Manual Square Off",
-              "transaction_date": "2025-01-03 08:38:25.761995+00:00",
-              "order_id": 250103000785187.0,
-              "details": [
-                {
-                  "master_position_id": 45,
-                  "sector_name": "SENSEX2510379200PE",
-                  "square_off_quantity": 10.0,
-                  "square_off_position": 0.0,
-                  "sell_response_update_time": '12345',
-                  "progress_status": "Manual Square Off",
-                  "square_off_time": "2025-01-03T09:39:40.074248+00:00",
-                  "square_off_order_id": 250103000925978.0
-                },
-                {
-                  "master_position_id": 45,
-                  "sector_name": "SENSEX2510379200PE",
-                  "square_off_quantity": 10.0,
-                  "square_off_position": 0.0,
-                  "sell_response_update_time": 12345678,
-                  "progress_status": "Manual Square Off",
-                  "square_off_time": "2025-01-03T09:39:40.074248+00:00",
-                  "square_off_order_id": 250103000925978.0
-                }
-              ]
-            }
-          ]
-        }
-
+        this.logger.info("Data fetched from API:", data.transaction_data);
         // Clear existing data
         this.orderBookData = [];
 
         this.logger.info('Posts fetched successfully:', data);
-        data.transaction_data.forEach((user: any) => {
-          if (user.details && Array.isArray(user.details) && user.details.length) {
-            this.orderBookData = [...this.orderBookData, { ...user, details: new MatTableDataSource(user.details) }];
+        data?.transaction_data?.forEach((user: any) => {
+          if (user?.details && Array.isArray(user?.details) && user?.details?.length) {
+            this.orderBookData = [...this.orderBookData, { ...user, details: new MatTableDataSource(user?.details) }];
           } else {
             this.orderBookData = [...this.orderBookData, user];
           }
         });
         this.dataSource = new MatTableDataSource(this.orderBookData);
-        console.log(this.dataSource)
-        // this.dataSource.data = sampleData.transaction_data; // Assuming the API returns posts in a 'posts' array
+        this.logger.debug("DataSource updated:", this.dataSource);
         this.totalCount = this.dataSource.data.length; // Set the total number of posts for pagination
-        // this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
+        this.isRefreshing = false; // Reset the flag after loadResults is completed
+        this.cd.detectChanges(); // Detect changes after data is assigned
       },
       (error) => {
+        this.isLoading = false;
+        this.isRefreshing = false; // Reset the flag in case of error
         this.logger.error('Error fetching posts:', error);
         this.toastify.showError('Failed to load posts');
       }
@@ -170,11 +170,11 @@ export class OrderBookComponent implements OnInit, OnChanges {
   }
 
   toggleRow(element: any) {
-    console.log(element)
-    element.details && (element.details as MatTableDataSource<any>).data.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+    element?.details && (element?.details as MatTableDataSource<any>).data?.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
     this.cd.detectChanges();
   }
+
   public buySell() {
-    console.log("buy sell")
+    this.logger.info("Buy/Sell action triggered");
   }
 }

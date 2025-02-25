@@ -1,7 +1,6 @@
 symbol = F_column1  status = F_column2 asc desc
 
 dash
-
  Revenue Updates == monthly
  Sales Overview == Call Put Performance ratio
  Yearly Sales = Investment Growth (Line chart)
@@ -9,7 +8,6 @@ dash
 
 
 cards 
-
     Payments = Payments Sum (Payment Integration)
     Projects = My investment Growth
     Total Earning = Daily  Return 
@@ -20,20 +18,26 @@ Top Projects = Latest Open Positions (trade book)
 Recent Transactions = Latest Closed Positions
 
 
+25-02-25
+============
 
-"transaction_data": "
-`   {
-    id:1,
-    symbol:NIFTY02JAN2524600CE,
-    transaction_action:1.0,
-    transaction_quantity:750.0,
-    transaction_price:10.0,
-    buy_response_update_time:None,
-    transaction_price:10.0,
-    last_traded_price:0.0,
-    progress_status:Manual Order Placed,
-    transaction_date:2024-12-28 19:15:14.724440+00:00,
-    order_id:2.0241228191513596e+19,
-    []
-    },
-    {id:1,symbol:ADANIPORTS30JAN251220CE,transaction_action:1.0,transaction_quantity:4000.0,transaction_price:10.0,buy_response_update_time:None,transaction_price:10.0,last_traded_price:0.0,progress_status:Manual Order Placed,transaction_date:2024-12-28 19:15:48.023317+00:00,order_id:2.0241228191547716e+19}",
+Save - Form empty - done
+Loader for data - done
+search loading binding delay
+table no data row and no search results row - done
+
+if type = 1 then Buy and 2 then sell - done
+
+Manual Square Off Yellow
+order rejected red
+Manual Order Placed Blue
+Profit Booked Green
+Loss Booked Red
+Order Placed Blue
+
+<button mat-raised-button color="warn" (click)="buySell(); $event.stopPropagation()" class="m-b-10">
+                    Square Off
+</button> to red instead
+
+text =  "Manual Order Placed"  /  Order Placed then enable Square Off else disable
+Nested table right alignment               

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -22,4 +23,11 @@ export class UtilityService {
     const domain = window.location.hostname;  // Extracts the domain name (e.g., www.example.com)
     return domain;
   }
+
+  public convertDateTime(dateString: string): string {
+      return moment.utc(dateString)  // Parse as UTC
+        .add(5, 'hours')           // Add 5 hours
+        .add(30, 'minutes')        // Add 30 minutes
+        .format('DD-MM-YYYY hh:mm:ss A');  // Format with date and time (AM/PM)
+    }
 }

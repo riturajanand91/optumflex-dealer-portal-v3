@@ -31,7 +31,7 @@ export class HttpService {
   public getTradeData(payload: any): Observable<any> {
     this.logger.info('Fetching trade stats with pagination via POST', payload);
 
-    return this.http.put<any>(`${this.tradeDataUrl}`, payload).pipe(
+    return this.http.post<any>(`${this.tradeDataUrl}`, payload).pipe(
       catchError((error) => {
         this.logger.error('Error fetching trade stats', error);
         return this.handleError(error);
