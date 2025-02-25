@@ -5,6 +5,7 @@ export const environment = {
     verifyMail: '/verifyMail',
     dashboard: '/dashboard',
     users: '/auth',
+    tradeData: '/Transactions',
     logger: '/utility/adminLogger',
     notification: '/notification'
   }

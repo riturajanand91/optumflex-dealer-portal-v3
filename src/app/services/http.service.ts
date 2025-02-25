@@ -13,7 +13,7 @@ export class HttpService {
   private dashUrl = environment.baseUrl + environment.endpoints.dashboard;
   private usersUrl = environment.baseUrl + environment.endpoints.users;
   private verifyUrl = environment.baseUrl;
-
+  private tradeDataUrl = environment.baseUrl + environment.endpoints.tradeData
   constructor(
     private http: HttpClient,
     private toastify: ToastifyService,
@@ -27,11 +27,11 @@ export class HttpService {
     return this.http.get<any>(`${this.dashUrl}`)
       .pipe(catchError(this.handleError.bind(this)));
   }
-  
-  public getTradeStats(payload: any): Observable<any> {
+
+  public getTradeData(payload: any): Observable<any> {
     this.logger.info('Fetching trade stats with pagination via POST', payload);
 
-    return this.http.post<any>(`${this.usersUrl}/trade-stats`, payload).pipe(
+    return this.http.put<any>(`${this.tradeDataUrl}`, payload).pipe(
       catchError((error) => {
         this.logger.error('Error fetching trade stats', error);
         return this.handleError(error);

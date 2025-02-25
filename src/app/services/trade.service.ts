@@ -79,7 +79,7 @@ export class TradeService {
       "type"
     ]
   }
-  ;
+    ;
   public sampleDataSet = {
     holdings: [
       {
@@ -294,8 +294,36 @@ export class TradeService {
       }
     ],
     orderBook: [
-      { symbol: "Sunil Joshi", type: "SELL", qtyFilled: "751/0", orderPrice: "4094.63", executedAt: "0.00", avgPrice: "0.00", ltp: "0.00", status: "REJECTED", date: "02/02/2025 17:08:14", validity: "DAY", product: "MIS", orderType: "LIMIT", xtsOrderId: "554794014", exchangeOrderNo: "", action: "" },
-      { symbol: "AMZN", type: "SELL", qtyFilled: "385/0", orderPrice: "1494.04", executedAt: "0.00", avgPrice: "0.00", ltp: "0.00", status: "PARTIALLY EXECUTED", date: "07/02/2025 07:05:22", validity: "DAY", product: "BRR", orderType: "LIMIT", xtsOrderId: "436310558", exchangeOrderNo: "", action: "" },
+      {
+        symbol: "Sunil Joshi", type: "SELL", qtyFilled: "751/0", orderPrice: "4094.63", executedAt: "0.00", avgPrice: "0.00", ltp: "0.00",
+        status: "REJECTED", date: "02/02/2025 17:08:14", validity: "DAY", product: "MIS", orderType: "LIMIT", xtsOrderId: "554794014",
+        exchangeOrderNo: "", action: "", "details": [
+          {
+            "master_position_id": 45,
+            "sector_name": "SENSEX2510379200PE",
+            "square_off_quantity": 10,
+            "square_off_position": 0,
+            "sell_response_update_time": "null",
+            "progress_status": "Manual Square Off",
+            "square_off_time": "2025-01-03T09:39:40.074248+00:00",
+            "square_off_order_id": 250103000925978
+          }
+        ]
+      },
+      {
+        symbol: "AMZN", type: "SELL", qtyFilled: "385/0", orderPrice: "1494.04", executedAt: "0.00", "details": [
+          {
+            "master_position_id": 1458,
+            "sector_name": "SENSEX2510379200PE",
+            "square_off_quantity": 10,
+            "square_off_position": 0,
+            "sell_response_update_time": "null",
+            "progress_status": "Manual Square Off",
+            "square_off_time": "2025-01-03T09:39:40.074248+00:00",
+            "square_off_order_id": 250103000925978
+          }
+        ], avgPrice: "0.00", ltp: "0.00", status: "PARTIALLY EXECUTED", date: "07/02/2025 07:05:22", validity: "DAY", product: "BRR", orderType: "LIMIT", xtsOrderId: "436310558", exchangeOrderNo: "", action: ""
+      },
       { symbol: "TSLA", type: "SELL", qtyFilled: "134/0", orderPrice: "2978.91", executedAt: "0.00", avgPrice: "0.00", ltp: "0.00", status: "CANCELLED", date: "06/02/2025 13:31:59", validity: "DAY", product: "NRM", orderType: "STOP", xtsOrderId: "700340716", exchangeOrderNo: "", action: "" },
       { symbol: "TSLA", type: "BUY", qtyFilled: "651/0", orderPrice: "4803.50", executedAt: "0.00", avgPrice: "0.00", ltp: "0.00", status: "CANCELLED", date: "01/02/2025 05:09:15", validity: "DAY", product: "NRM", orderType: "MARKET", xtsOrderId: "460387226", exchangeOrderNo: "", action: "" },
       { symbol: "AAPL", type: "SELL", qtyFilled: "44/0", orderPrice: "3079.43", executedAt: "0.00", avgPrice: "0.00", ltp: "0.00", status: "CANCELLED", date: "09/02/2025 17:56:53", validity: "DAY", product: "NRM", orderType: "MARKET", xtsOrderId: "637209172", exchangeOrderNo: "", action: "" },
@@ -582,8 +610,21 @@ export class TradeService {
       "exit"
     ],
     orderBook: [
-      "symbol", "type", "qtyFilled", "orderPrice", "executedAt", "avgPrice", "ltp", "status",
-      "date", "validity", "product", "orderType", "xtsOrderId", "exchangeOrderNo", "action"
+      "symbol",
+      "type",
+      "qtyFilled",
+      "orderPrice",
+      "executedAt",
+      "avgPrice",
+      "ltp",
+      "status",
+      "date",
+      "validity",
+      "product",
+      "orderType",
+      "xtsOrderId",
+      "exchangeOrderNo",
+      "action"
     ],
     position: [
       "symbol",

@@ -94,7 +94,7 @@ export class NavigationComponent implements OnInit {
       .subscribe((state) => {
         this.isMobileScreen = state.breakpoints[MOBILE_VIEW];
         this.isContentWidthFixed = state.breakpoints[MONITOR_VIEW];
-        if (!this.isMobileScreen && this.menuTrigger.menuOpen) {
+        if (!this.isMobileScreen && this.menuTrigger?.menuOpen) {
           this.menuTrigger.closeMenu();
         }
       });

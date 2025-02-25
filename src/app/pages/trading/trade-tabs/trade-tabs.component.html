@@ -37,16 +37,42 @@
             <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
                 <h3>Search Filters</h3>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Symbol</mat-label>
                         <mat-form-field appearance="outline" color="primary" class="w-100">
                             <input matInput formControlName="F_column1" type="text">
                         </mat-form-field>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Status</mat-label>
                         <mat-form-field appearance="outline" color="primary" class="w-100">
                             <input matInput formControlName="F_column2" type="text">
+                        </mat-form-field>
+                    </div>
+ 
+                    <div class="col-md-4">
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Column 3</mat-label>
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <input matInput formControlName="F_column3" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Column 4</mat-label>
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <input matInput formControlName="F_column4" type="text">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Column 5</mat-label>
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <input matInput formControlName="F_column5" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Column 6</mat-label>
+                        <mat-form-field appearance="outline" color="primary" class="w-100">
+                            <input matInput formControlName="F_column6" type="text">
                         </mat-form-field>
                     </div>
                 </div>
@@ -68,6 +94,7 @@
                 <!-- </mat-card-content> -->
                 <div class="text-right p-24 p-t-0">
                     <button mat-flat-button color="primary" class="m-r-8" type="submit">Save</button>
+                    <button mat-flat-button color="primary" class="m-r-8" type="submit">Reset</button>
                     <button mat-stroked-button color="warn" class="m-r-8" type="button">Cancel</button>
                 </div>
                 <!-- </mat-card> -->
@@ -77,23 +104,18 @@
 </div>
 <div class="p-t-15">
 <mat-card class="mat-mdc-card mdc-card chat-app cardWithShadow p-14 w-100 h-100">
-    <mat-tab-group animationDuration="0ms" class="mat-mdc-tab-group mat-primary"
-        (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group animationDuration="0ms" class="mat-mdc-tab-group mat-primary" selectedIndex="0">
         <mat-tab label="Order Book">
-            <app-order-book [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
-                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-order-book>
+            <app-order-book [searchData]="this.searchData"></app-order-book>
         </mat-tab>
         <mat-tab label="Trade Book">
-            <app-trade-book [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
-                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-trade-book>
+            <app-trade-book [searchData]="this.searchData"></app-trade-book>
         </mat-tab>
         <mat-tab label="Position">
-            <app-position [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
-                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-position>
+            <app-position [searchData]="this.searchData"></app-position>
         </mat-tab>
         <mat-tab label="Holdings">
-            <app-holding [searchData]="tabWiseData.holdings" [tableData]="tableData" [totalCount]="totalCount"
-                [pageSize]="pageSize" [currentPage]="currentPage" (pageChange)="onPageChange($event)"></app-holding>
+            <app-holding [searchData]="this.searchData"></app-holding>
         </mat-tab>
     </mat-tab-group>
 </mat-card>
