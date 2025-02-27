@@ -114,7 +114,7 @@
             <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Manual Square Off </th>
             <td mat-cell *matCellDef="let element" class="mat-body-1">
                 <button mat-raised-button color="warn"
-                    [disabled]="(element.progress_status == 'Manual Square Off'||element.progress_status == 'Order Placed')"
+                    [disabled]="!(element.progress_status == 'Manual Order Placed' || element.progress_status == 'Order Placed')"
                     (click)="buySell(); $event.stopPropagation()" class="m-b-10">
                     Square Off
                 </button>
