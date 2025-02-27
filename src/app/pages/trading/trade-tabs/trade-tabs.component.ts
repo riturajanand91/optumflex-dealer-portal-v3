@@ -32,26 +32,16 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeTabsComponent implements OnInit {
-  private loadTableSubscription: Subscription;
   public orderDropdown: any = [];
   readonly panelOpenState = signal(false);
   public activeTabIndex: number = 0; // Ensure this is set to 0
-  public tabWiseData: any = {
-    orderBook: {},
-    tradeBook: {},
-    position: {},
-    holdings: {},
-  };
   public searchData: any = {};
 
   constructor(
     private toastify: ToastifyService,
     private logger: LoggerService,
     private tradeService: TradeService
-  ) {
-    // this.searchForm = this.fb.group({});
-
-  }
+  ) {  }
 
   ngOnInit() {
     console.log('activeTabIndex',this.activeTabIndex);
@@ -97,6 +87,7 @@ export class TradeTabsComponent implements OnInit {
       sortingColumn: ""
     });
   }
+  
   public onTabChange(index: number) {
     this.activeTabIndex = index;
     this.logger.debug('Tab changed to index', index);

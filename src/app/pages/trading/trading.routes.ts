@@ -10,10 +10,6 @@ export const TradingRoutes: Routes = [
           component: TradeTabsComponent,
           data: { title: 'Trade tabs Component' } 
         },
-        // {
-        //   path: 'register',
-        //   component: AppSideRegisterComponent,
-        // },
       ],
     },
   ];
