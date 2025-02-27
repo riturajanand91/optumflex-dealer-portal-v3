@@ -4,7 +4,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Impor
 import { ToastifyService } from 'src/app/services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { MaterialModule } from 'src/app/material.module';
-import { TradeService } from 'src/app/services/trade.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpService } from 'src/app/services/http.service';
 import { UtilityService } from 'src/app/services/utility.service';

@@ -1,16 +1,47 @@
 .table-wrapper {
-    max-width: 100%; /* Ensure the table width is responsive */
-    overflow-x: auto; /* Enable horizontal scrolling */
-    margin-bottom: 10px; /* Adds some space below the table */
+  max-width: 100%;
+  /* Ensure the table width is responsive */
+  overflow-x: auto;
+  /* Enable horizontal scrolling */
+  margin-bottom: 10px;
+  /* Adds some space below the table */
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  /* Center the paginator */
+  margin-top: 10px;
+  /* Adds space between table and paginator */
+}
+
+mat-paginator {
+  width: 100%;
+  /* Ensure the paginator width is aligned with the table */
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.inner-table {
+  width: 100%;
+}
+tr.example-detail-row {
+  height: 0px;
+}
+
+.responsive-table {
+  overflow-x: auto;
+
+  td,
+  mat-cell {
+    white-space: nowrap;
+    // padding: 16px;
   }
-  
-  .pagination-wrapper {
-    display: flex;
-    justify-content: center; /* Center the paginator */
-    margin-top: 10px; /* Adds space between table and paginator */
-  }
-  
-  mat-paginator {
-    width: 100%; /* Ensure the paginator width is aligned with the table */
-  }
-  
+}

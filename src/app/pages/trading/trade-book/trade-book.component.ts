@@ -1,62 +1,181 @@
-import { ChangeDetectionStrategy, Component, signal, OnInit, ViewChild, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Component, ViewChild, Input, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, OnInit, OnChanges, AfterViewInit, OnDestroy } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';  // Import paginator module
 import { ToastifyService } from 'src/app/services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { MaterialModule } from 'src/app/material.module';
-import { TradeService } from 'src/app/services/trade.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { HttpService } from 'src/app/services/http.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-trade-book',
   standalone: true,
   imports: [MaterialModule],
   templateUrl: './trade-book.component.html',
-  styleUrls: ['./trade-book.component.scss']
+  styleUrls: ['./trade-book.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class TradeBookComponent {
   @Input() searchData: any;
   @Input() tableData: any = [];
-  @Input() totalCount: number = 0;
-  @Input() pageSize: number = 10;
-  @Input() currentPage: number = 1;
-  @Output() pageChange: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  public totalCount: number = 0; // To hold the total number of posts
+  public pageSize: number = 10; // Default page size
+  public currentPage: number = 1; // Current page
+  public isLoading: boolean = false; // Current page
+  private isRefreshing: boolean = false; // Flag to check if loadResults is in progress
+  private refreshInterval: any; // Variable to hold the interval reference
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-  public displayedColumns: string[];
-
+  public displayedColumns: any[] = [
+    "symbol",
+    "type",
+    "qtyFilled",
+    "orderPrice",
+    "executedAt",
+    "avgPrice",
+    "ltp",
+    "status",
+    "date",
+    "validity",
+    "product",
+    "orderType",
+    "xtsOrderId",
+    // "exchangeOrderNo",
+    "action"
+  ];
+  public innerDisplayedColumns = [
+    // 'master_position_id',
+    'sector_name',
+    'square_off_quantity',
+    'square_off_position',
+    'square_off_time',
+    'sell_response_update_time',
+    'progress_status',
+    'square_off_order_id'
+  ];
+  orderBookData: any[] = [];
+  expandedElement: any = null; // Initialize as null
   constructor(
     private toastify: ToastifyService,
     private logger: LoggerService,
-    private tradeService: TradeService
+    private httpService: HttpService,
+    private utilityService: UtilityService,
+    private cd: ChangeDetectorRef
   ) {
-    this.displayedColumns = this.tradeService.tableHeaders.tradeBook;
-   }
+    this.logger.debug("Trade Book Component constructor");
+  }
+
+  ngOnInit() {
+    this.logger.info("Trade Book Component initialized");
+    this.expandedElement = null; // Reset expandedElement
+    this.loadResults();
+    // this.startAutoRefresh();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    try {
-      if (changes['tableData'] && this.tableData) {
-        console.log(this.tableData)
-        this.logger.debug('Binding Table data');
-        this.dataSource.data = this.tableData;
-        console.log(this.dataSource.data)
-        if (this.paginator) {
-          this.dataSource.paginator = this.paginator;
-        }
+    if (changes['searchData'] && !changes['searchData'].firstChange) {
+      this.logger.info('Search data changed:', this.searchData);
+      this.expandedElement = null; // Reset expandedElement
+      this.loadResults();
+    }
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.stopAutoRefresh();
+  }
+
+  // Start auto-refreshing data every 10 seconds
+  startAutoRefresh() {
+    this.refreshInterval = setInterval(() => {
+      if (!this.isRefreshing) {
+        this.loadResults();
       }
-    } catch (error) {
-      this.logger.error('Error updating table data:', error);
-      this.toastify.showError('Failed to update table data');
+    }, 10000); // 10 seconds
+  }
+
+  // Stop auto-refreshing data
+  stopAutoRefresh() {
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
     }
   }
 
   // Handle page changes
-  onPageChange(event: PageEvent) {
-    try {
-      this.pageChange.emit(event);
-      this.logger.debug('Page Changed');
-    } catch (error) {
-      this.logger.error('Error handling page change:', error);
-      this.toastify.showError('Failed to change page');
-    }
+  onPageChange(event: any) {
+    this.logger.info('Page change triggered:', event);
+    this.currentPage = event.pageIndex + 1; // Update current page (pageIndex is zero-based)
+    this.pageSize = event.pageSize; // Update page size
+    this.loadResults(); // Reload posts with new pagination settings
+  }
+
+  // Load posts with logging and error handling
+  loadResults() {
+    this.isLoading = true;
+    this.isRefreshing = true; // Set the flag to indicate that loadResults is in progress
+    this.logger.debug('Loading Trade Book Results for page:', this.currentPage, 'Page size:', this.pageSize);
+    const skip = (this.currentPage - 1) * this.pageSize;
+    const limit = this.pageSize;
+    const payload: any = {
+      skip,
+      limit,
+      username: "Aayush",
+      isOrderBook: false,
+      isTradeBook: true,
+      isPositionBook: false,
+      isHoldings: false,
+      ...this.searchData,
+      "F_column3": "",
+      "F_column4": "",
+      "F_column5": "",
+      "F_column6": ""
+    };
+    this.httpService.getTradeData(payload).subscribe(
+      (data) => {
+        this.logger.info("Data fetched from API:", data.transaction_data);
+        // Clear existing data
+        this.orderBookData = [];
+
+        this.logger.info('Posts fetched successfully:', data);
+        data?.transaction_data?.forEach((user: any) => {
+          if (user?.details && Array.isArray(user?.details) && user?.details?.length) {
+            this.orderBookData = [...this.orderBookData, { ...user, details: new MatTableDataSource(user?.details) }];
+          } else {
+            this.orderBookData = [...this.orderBookData, user];
+          }
+        });
+        this.dataSource = new MatTableDataSource(this.orderBookData);
+        this.logger.debug("DataSource updated:", this.dataSource);
+        this.totalCount = this.dataSource.data.length; // Set the total number of posts for pagination
+        this.isLoading = false;
+        this.isRefreshing = false; // Reset the flag after loadResults is completed
+        this.cd.detectChanges(); // Detect changes after data is assigned
+      },
+      (error) => {
+        this.isLoading = false;
+        this.isRefreshing = false; // Reset the flag in case of error
+        this.logger.error('Error fetching posts:', error);
+        this.toastify.showError('Failed to load posts');
+      }
+    );
+  }
+
+  toggleRow(element: any) {
+    element?.details && (element?.details as MatTableDataSource<any>).data?.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+    this.cd.detectChanges();
+  }
+
+  public buySell() {
+    this.logger.info("Buy/Sell action triggered");
   }
 }
