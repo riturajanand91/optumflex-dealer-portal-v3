@@ -5,17 +5,25 @@
         <ng-container matColumnDef="symbol">
             <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Symbol </th>
             <td mat-cell *matCellDef="let element" class="mat-body-1">
-            <ng-container *ngIf="element.details?.data?.length > 0">
-                <mat-icon>arrow_right</mat-icon>
-            </ng-container>
-            {{element.symbol}}
+                <div class="d-flex align-items-center">
+                    <ng-container *ngIf="element.details?.data?.length > 0">
+                        <mat-icon>{{ expandedElement === element ? 'arrow_drop_down' : 'arrow_right' }}</mat-icon>
+                    </ng-container>
+                    <span>{{element.symbol}}</span>
+                </div>
             </td>
         </ng-container>
 
         <!-- Type Column -->
         <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Type </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1"> {{element.transaction_action==1?'Buy':'Sell'}}
+            <!-- <td mat-cell *matCellDef="let element" class="mat-body-1"> {{element.transaction_action==1?'Buy':'Sell'}}
+            </td> -->
+            <td mat-cell *matCellDef="let element">
+                <span [ngClass]="this.utilityService.getBadgeClass(element.transaction_action == 1 ? 'Buy' : 'Sell')"
+                    class="rounded f-w-600 p-6 p-y-4 f-s-12">
+                    {{ element.transaction_action == 1 ? 'Buy' : 'Sell' | titlecase }}
+                </span>
             </td>
         </ng-container>
 
@@ -55,40 +63,17 @@
             <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Order Status </th>
             <!-- <td mat-cell *matCellDef="let element" class="mat-body-1"> {{element.progress_status}} </td> -->
             <td mat-cell *matCellDef="let element">
-                <ng-template [ngIf]="element.progress_status == ''">
-                    <span class="bg-light-accent text-accent rounded f-w-600 p-6 p-y-4 f-s-12">
-                        {{ element.progress_status | titlecase }}
-                    </span>
-                </ng-template>
-                <ng-template
-                    [ngIf]="(element.progress_status == 'Manual Order Placed') || (element.progress_status == 'Order Placed')">
-                    <span class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12">
-                        {{ element.progress_status | titlecase }}
-                    </span>
-                </ng-template>
-                <ng-template [ngIf]="element.progress_status == 'Manual Square Off'">
-                    <span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12">
-                        {{ element.progress_status | titlecase }}
-                    </span>
-                </ng-template>
-                <ng-template
-                    [ngIf]="(element.progress_status == 'Order Rejected') || (element.progress_status == 'Loss Booked')">
-                    <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
-                        {{ element.progress_status | titlecase }}
-                    </span>
-                </ng-template>
-                <ng-template [ngIf]="element.progress_status == 'Profit Booked'">
-                    <span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12">
-                        {{ element.progress_status | titlecase }}
-                    </span>
-                </ng-template>
+                <span [ngClass]="this.utilityService.getBadgeClass(element.progress_status)" class="rounded f-w-600 p-6 p-y-4 f-s-12">
+                    {{ element.progress_status | titlecase }}
+                </span>
             </td>
         </ng-container>
 
         <!-- Date Column -->
         <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Date </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1"> {{ this.utilityService.convertDateTime(element.transaction_date)}} </td>
+            <td mat-cell *matCellDef="let element" class="mat-body-1"> {{
+                this.utilityService.convertDateTime(element.transaction_date)}} </td>
         </ng-container>
 
         <!-- Validity Column -->
@@ -181,7 +166,11 @@
                             <ng-container matColumnDef="progress_status">
                                 <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Order
                                     Status </th>
-                                <td mat-cell *matCellDef="let element" class="mat-body-1"> {{element.progress_status}}
+                                <td mat-cell *matCellDef="let element">
+                                    <span [ngClass]="this.utilityService.getBadgeClass(element.progress_status)"
+                                        class="rounded f-w-600 p-6 p-y-4 f-s-12">
+                                        {{ element.progress_status | titlecase }}
+                                    </span>
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="square_off_time">

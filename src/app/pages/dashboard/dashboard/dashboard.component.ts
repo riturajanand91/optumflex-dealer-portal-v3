@@ -141,7 +141,7 @@ export class DashboardComponent implements OnInit {
         }
       ],
       chart: {
-        type: "bar",
+        type: "area",
         height: 350
       },
       plotOptions: {
