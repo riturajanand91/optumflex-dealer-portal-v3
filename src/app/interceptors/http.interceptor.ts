@@ -35,7 +35,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     return next.handle(requestWithHeaders).pipe(
       tap(event => {
         if (event instanceof HttpResponse) {
-          console.log('HTTP Response:', event);
+          // console.log('HTTP Response:', event);
         }
       }),
       catchError((error: HttpErrorResponse) => {

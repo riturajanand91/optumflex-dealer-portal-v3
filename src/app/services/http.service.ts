@@ -21,16 +21,9 @@ export class HttpService {
   ) {
     this.logger.debug('HttpService initialized', { configUrl: 'this.configUrl' });
   }
-
-  getStats(): Observable<any> {
-    this.logger.info('Fetching getStats');
-    return this.http.get<any>(`${this.dashUrl}`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-
+// For all the tabular data
   public getTradeData(payload: any): Observable<any> {
-    this.logger.info('Fetching trade stats with pagination via POST', payload);
-
+    this.logger.info('Fetching trade tabular Data', payload);
     return this.http.post<any>(`${this.tradeDataUrl}`, payload).pipe(
       catchError((error) => {
         this.logger.error('Error fetching trade stats', error);
@@ -38,6 +31,14 @@ export class HttpService {
       })
     );
   }
+  
+  getStats(): Observable<any> {
+    this.logger.info('Fetching getStats');
+    return this.http.get<any>(`${this.dashUrl}`)
+      .pipe(catchError(this.handleError.bind(this)));
+  }
+
+ 
 
 
   // Update an existing post
