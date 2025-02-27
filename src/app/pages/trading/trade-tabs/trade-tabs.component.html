@@ -81,11 +81,11 @@
                         <h3>Column Filters</h3>
                         <div class="col-md-12">
 
-                        <mat-radio-group formControlName="sortingOrder" aria-label="Select an option">
-                            <mat-radio-button value="asc">Ascending</mat-radio-button>
-                            <mat-radio-button value="desc">Descending</mat-radio-button>
-                        </mat-radio-group>
-                    </div>
+                            <mat-radio-group formControlName="sortingOrder" aria-label="Select an option">
+                                <mat-radio-button value="asc">Ascending</mat-radio-button>
+                                <mat-radio-button value="desc">Descending</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
                         <div class="col-md-12">
                             <mat-form-field appearance="outline" class="p-10">
                                 <mat-label>Column Order</mat-label>
@@ -112,19 +112,28 @@
 </div>
 <div class="p-t-15">
     <mat-card class="mat-mdc-card mdc-card chat-app cardWithShadow p-14 w-100 h-100">
-        <mat-tab-group animationDuration="0ms" class="mat-mdc-tab-group mat-primary" [selectedIndex]="activeTabIndex">
+        <mat-tab-group animationDuration="0ms" [(selectedIndex)]="activeTabIndex"
+            (selectedIndexChange)="onTabChange($event)">
             <mat-tab label="Order Book">
-                <app-order-book [searchData]="this.searchData"></app-order-book>
-            </mat-tab>
-            <mat-tab label="Trade Book">
-                <app-trade-book [searchData]="this.searchData"></app-trade-book>
-            </mat-tab>
-            <mat-tab label="Position">
-                <app-position [searchData]="this.searchData"></app-position>
-            </mat-tab>
-            <mat-tab label="Holdings">
-                <app-holding [searchData]="this.searchData"></app-holding>
-            </mat-tab>
+                <ng-container *ngIf="activeTabIndex === 0">
+                  <app-order-book [searchData]="searchData"></app-order-book>
+                </ng-container>
+              </mat-tab>
+              <mat-tab label="Trade Book">
+                <ng-container *ngIf="activeTabIndex === 1">
+                  <app-trade-book [searchData]="searchData"></app-trade-book>
+                </ng-container>
+              </mat-tab>
+              <mat-tab label="Position">
+                <ng-container *ngIf="activeTabIndex === 2">
+                  <app-position [searchData]="searchData"></app-position>
+                </ng-container>
+              </mat-tab>
+              <mat-tab label="Holdings">
+                <ng-container *ngIf="activeTabIndex === 3">
+                  <app-holding [searchData]="searchData"></app-holding>
+                </ng-container>
+              </mat-tab>
         </mat-tab-group>
     </mat-card>
 </div>

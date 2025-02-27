@@ -97,4 +97,8 @@ export class TradeTabsComponent implements OnInit {
       sortingColumn: ""
     });
   }
+  public onTabChange(index: number) {
+    this.activeTabIndex = index;
+    this.logger.debug('Tab changed to index', index);
+  }
 }
