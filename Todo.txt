@@ -41,3 +41,7 @@ Order Placed Blue
 
 text =  "Manual Order Placed"  /  Order Placed then enable Square Off else disable
 Nested table right alignment               
+
+
+issues 
+    when expansion row and navigated to Trade Book and coming bac to order book,all child expanding

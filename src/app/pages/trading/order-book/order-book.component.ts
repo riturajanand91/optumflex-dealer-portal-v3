@@ -81,7 +81,7 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['searchData'] && !changes['searchData'].firstChange) {
-      this.logger.info('Search data changed:', this.searchData);
+      this.logger.info('Order Book Component - Search data changed:', this.searchData);
       this.expandedElement = null; // Reset expandedElement
       this.loadResults();
     }
@@ -113,7 +113,7 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
   // Handle page changes
   onPageChange(event: any) {
-    this.logger.info('Page change triggered:', event);
+    this.logger.info('Order Book Component - Page change triggered:', event);
     this.currentPage = event.pageIndex + 1; // Update current page (pageIndex is zero-based)
     this.pageSize = event.pageSize; // Update page size
     this.loadResults(); // Reload posts with new pagination settings
@@ -123,7 +123,7 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
   loadResults() {
     this.isLoading = true;
     this.isRefreshing = true; // Set the flag to indicate that loadResults is in progress
-    this.logger.debug('Loading Order Book Results for page:', this.currentPage, 'Page size:', this.pageSize);
+    this.logger.debug('Order Book Component - Loading Order Book Results for page:', this.currentPage, 'Page size:', this.pageSize);
     const skip = (this.currentPage - 1) * this.pageSize;
     const limit = this.pageSize;
     const payload: any = {
@@ -142,11 +142,9 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
     };
     this.httpService.getTradeData(payload).subscribe(
       (data) => {
-        this.logger.info("Data fetched from API:", data.transaction_data);
+        this.logger.info("Order Book Component - Data fetched from API:", data);
         // Clear existing data
         this.orderBookData = [];
-
-        this.logger.info('Posts fetched successfully:', data);
         data?.transaction_data?.forEach((user: any) => {
           if (user?.details && Array.isArray(user?.details) && user?.details?.length) {
             this.orderBookData = [...this.orderBookData, { ...user, details: new MatTableDataSource(user?.details) }];
@@ -155,7 +153,7 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
           }
         });
         this.dataSource = new MatTableDataSource(this.orderBookData);
-        this.logger.debug("DataSource updated:", this.dataSource);
+        this.logger.debug("Order Book Component - DataSource updated:", this.dataSource);
         this.totalCount = this.dataSource.data.length; // Set the total number of posts for pagination
         this.isLoading = false;
         this.isRefreshing = false; // Reset the flag after loadResults is completed
@@ -164,18 +162,18 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
       (error) => {
         this.isLoading = false;
         this.isRefreshing = false; // Reset the flag in case of error
-        this.logger.error('Error fetching posts:', error);
+        this.logger.error('Order Book Component - Error fetching posts:', error);
         this.toastify.showError('Failed to load posts');
       }
     );
   }
 
-  toggleRow(element: any) {
+  public toggleRow(element: any) {
     element?.details && (element?.details as MatTableDataSource<any>).data?.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
     this.cd.detectChanges();
   }
 
   public buySell() {
-    this.logger.info("Buy/Sell action triggered");
+    this.logger.info("Order Book Component - Buy/Sell action triggered");
   }
 }
