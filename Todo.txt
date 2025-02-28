@@ -52,3 +52,13 @@ issues
     Total Put / Open Put     15 / 85
     Booked Profit / Loss
     Unrealized PnL   152
+
+28-02-2025
+
+unrealized/realized < 0 text color red text size 14 bold
+unrealized/realized > 0 text color green
+unrealized/realized = 0 text color blue
+
+ltp > avg price then green text color
+ltp < avg price then red text color
+ltp = avg price then blue text color
