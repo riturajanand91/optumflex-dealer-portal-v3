@@ -26,7 +26,7 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
   @Input() searchData: any;
   @Input() tableData: any = [];
   public totalCount: number = 0; // To hold the total number of posts
-  public pageSize: number = 10; // Default page size
+  public pageSize: number = 30; // Default page size
   public currentPage: number = 1; // Current page
   public isLoading: boolean = false; // Current page
   private isRefreshing: boolean = false; // Flag to check if loadResults is in progress
