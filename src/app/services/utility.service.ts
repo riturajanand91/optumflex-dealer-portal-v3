@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class UtilityService {
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router) { }
   navigateTo(route: string, params?: any): void {
     if (params) {
       console.log(params);
@@ -56,9 +56,4 @@ export class UtilityService {
         return '';
     }
   }
-
-  public getPublicIP(): Observable<any> {
-    return this.http.get<any>(environment.fetchPublicIPUrl);
-  }
-
 }

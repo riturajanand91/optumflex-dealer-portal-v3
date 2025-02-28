@@ -32,7 +32,6 @@ export class SubscriptionComponent {
 
   constructor(
     private fb: FormBuilder,
-    private UtilityService: UtilityService,
     private httpService: HttpService,
     private toastify: ToastifyService,
     private logger: LoggerService,
@@ -58,12 +57,11 @@ export class SubscriptionComponent {
   }
 
   ngOnInit(): void {
-    // this.getPublicURL();
-    this.getSubscriptions(53);
+    this.getSubscriptions();
   }
 
-  public getSubscriptions(id: any): void {
-    this.logger.info('Fetching subscription with ID:', id);
+  public getSubscriptions(): void {
+    this.logger.info('Fetching subscription with ID:', this.userId);
     this.httpService.getSubscription({ id: this.userId }).subscribe(
       (data) => {
         this.logger.info('Subscription fetched successfully:', data);
@@ -99,7 +97,6 @@ export class SubscriptionComponent {
     const formData = this.subscriptionForm.value;
     const brokerageAccount = Number(parseFloat(formData.dematAccount).toFixed(1));
     const apiData = {
-      ip_address: '',
       id: this.userId,
       subscription_package: formData.subscriptionPackage,
       total_investment: formData.currentInvestment,
@@ -132,16 +129,4 @@ export class SubscriptionComponent {
     );
   }
 
-  public getPublicURL() {
-    this.UtilityService.getPublicIP().subscribe(
-      (data) => {
-        this.userIp = data.ip; // API response { ip: "your-public-ip" }
-        this.logger.info('User Public IP:', this.userIp);
-      },
-      (error) => {
-        this.logger.error('Error fetching IP:', error);
-        this.toastify.showError('Failed to fetch public IP');
-      }
-    );
-  }
 }
