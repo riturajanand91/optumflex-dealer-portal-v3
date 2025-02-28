@@ -19,6 +19,7 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrl: './subscription.component.scss'
 })
 export class SubscriptionComponent {
+  public userIp: string;
   public subscriptionForm: FormGroup;
   public dematAccountOptions = [
     { value: '1', viewValue: 'Angel' },
@@ -30,7 +31,7 @@ export class SubscriptionComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private UtilityService: UtilityService,
     private httpService: HttpService,
     private toastify: ToastifyService,
     private logger: LoggerService
@@ -55,17 +56,16 @@ export class SubscriptionComponent {
   }
 
   ngOnInit(): void {
+    // this.getPublicURL();
     this.getSubscriptions('53');
   }
 
   public getSubscriptions(id: any): void {
+    this.logger.info('Fetching subscription with ID:', id);
     this.httpService.getSubscription(id).subscribe(
       (data) => {
-        console.log(data);
         this.logger.info('Subscription fetched successfully:', data);
         this.subsData = data?.transaction_data;
-        // this.subsData = data;
-        // Update form fields
         this.subscriptionForm.patchValue({
           subscriptionPackage: this.subsData.subscription_package,
           currentInvestment: this.subsData.total_investment,
@@ -83,20 +83,21 @@ export class SubscriptionComponent {
           apiKey: this.subsData.user_api_key,
           totp: this.subsData.user_totp
         });
-
+        this.logger.info('Subscription form patched with fetched data');
       },
       (error) => {
-        this.logger.error('Error fetching post:', error);
-        this.toastify.showError('Failed to load post details');
+        this.logger.error('Error fetching subscription:', error);
+        this.toastify.showError('Failed to load subscription details');
       }
     );
   }
 
-
   onSubmit() {
+    this.logger.info('Submitting subscription form');
     const formData = this.subscriptionForm.value;
     const brokerageAccount = Number(parseFloat(formData.dematAccount).toFixed(1));
     const apiData = {
+      ip_address: '',
       subscription_package: formData.subscriptionPackage,
       total_investment: formData.currentInvestment,
       max_order_limit: formData.maxOrders,
@@ -113,26 +114,30 @@ export class SubscriptionComponent {
       user_api_key: formData.apiKey,
       user_totp: formData.totp
     };
-
-    console.log(apiData);
-
-    // this.httpService.updateSubscription(apiData).subscribe(
-    //   res => {
-    //     this.logger.info('Post created successfully', { message: res.message });
-    //     // console.log(resthis.subsData.message);
-    //     this.toastify.showSuccess(resthis.subsData.message);
-    //     this.utilityService.navigateTo('/posts');
-    //   },
-    //   error => {
-    //     this.logger.error('Error creating post', { error });
-    //     console.error('Error fetching posts:', error);
-    //     this.toastify.showError('Failed to load posts');
-    //   }
-    // );
+    this.logger.info('API data prepared for submission:', apiData);
+    this.httpService.updateSubscription(apiData, '53').subscribe(
+      res => {
+        this.logger.info('Subscription updated successfully', { message: res.message });
+        this.toastify.showSuccess(res.message);
+      },
+      error => {
+        this.logger.error('Error updating subscription', { error });
+        console.error('Error updating subscription:', error);
+        this.toastify.showError('Failed to update subscription');
+      }
+    );
   }
 
-  // public formSubmission(data: any) {
-  //   this.logger.info('Submitting form data to server');
-  //   
-  // }
+  public getPublicURL() {
+    this.UtilityService.getPublicIP().subscribe(
+      (data) => {
+        this.userIp = data.ip; // API response { ip: "your-public-ip" }
+        this.logger.info('User Public IP:', this.userIp);
+      },
+      (error) => {
+        this.logger.error('Error fetching IP:', error);
+        this.toastify.showError('Failed to fetch public IP');
+      }
+    );
+  }
 }

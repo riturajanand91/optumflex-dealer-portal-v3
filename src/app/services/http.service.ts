@@ -33,7 +33,7 @@ export class HttpService {
     );
   }
 
-  getStats(): Observable<any> {
+  public getStats(): Observable<any> {
     this.logger.info('Fetching getStats');
     return this.http.get<any>(`${this.dashUrl}`)
       .pipe(catchError(this.handleError.bind(this)));
@@ -45,9 +45,9 @@ export class HttpService {
       .pipe(catchError(this.handleError.bind(this)));
   }
 
-  updateSubscription(postData: any): Observable<any> {
-    this.logger.info('Creating new post', { postData });
-    return this.http.post<any>(`${this.subsUrl}/create`, postData)
+  public updateSubscription(formData: any, id: any): Observable<any> {
+    this.logger.info('Updating Subscription', { formData, id });
+    return this.http.post<any>(`${this.subsUrl}/${id}`, formData)
       .pipe(catchError(this.handleError.bind(this)));
   }
 

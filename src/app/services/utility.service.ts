@@ -1,12 +1,16 @@
+import { environment } from './../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilityService {
-  constructor(private router: Router) { }
+
+  constructor(private router: Router, private http: HttpClient) { }
   navigateTo(route: string, params?: any): void {
     if (params) {
       console.log(params);
@@ -52,4 +56,9 @@ export class UtilityService {
         return '';
     }
   }
+
+  public getPublicIP(): Observable<any> {
+    return this.http.get<any>(environment.fetchPublicIPUrl);
+  }
+
 }
