@@ -14,6 +14,7 @@ export class HttpService {
   private usersUrl = environment.baseUrl + environment.endpoints.users;
   private verifyUrl = environment.baseUrl;
   private tradeDataUrl = environment.baseUrl + environment.endpoints.tradeData
+  private subsUrl = environment.baseUrl + environment.endpoints.subscriptions
   constructor(
     private http: HttpClient,
     private toastify: ToastifyService,
@@ -21,7 +22,7 @@ export class HttpService {
   ) {
     this.logger.debug('HttpService initialized', { configUrl: 'this.configUrl' });
   }
-// For all the tabular data
+  // For all the tabular data
   public getTradeData(payload: any): Observable<any> {
     this.logger.info('Fetching trade tabular Data', payload);
     return this.http.post<any>(`${this.tradeDataUrl}`, payload).pipe(
@@ -31,14 +32,24 @@ export class HttpService {
       })
     );
   }
-  
+
   getStats(): Observable<any> {
     this.logger.info('Fetching getStats');
     return this.http.get<any>(`${this.dashUrl}`)
       .pipe(catchError(this.handleError.bind(this)));
   }
 
- 
+  public getSubscription(id: any): Observable<any> {
+    this.logger.info('Fetching subscription data', { id });
+    return this.http.get<any>(`${this.subsUrl}/${id}`)
+      .pipe(catchError(this.handleError.bind(this)));
+  }
+
+  updateSubscription(postData: any): Observable<any> {
+    this.logger.info('Creating new post', { postData });
+    return this.http.post<any>(`${this.subsUrl}/create`, postData)
+      .pipe(catchError(this.handleError.bind(this)));
+  }
 
 
   // Update an existing post
