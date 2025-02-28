@@ -14,7 +14,7 @@
   <!-- Navigation Items for larger screens -->
   <ng-container *ngIf="!isMobileScreen">
     <ng-container *ngFor="let item of navItems;">
-      <a mat-button [routerLink]="item.route" routerLinkActive="active-link">{{ item.displayName }}</a>
+      <a mat-button [routerLink]="item.route" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">{{ item.displayName }}</a>
     </ng-container>
   </ng-container>
 
@@ -69,7 +69,7 @@
   <!-- Hamburger Menu for smaller screens -->
   <mat-menu #menu="matMenu">
     <ng-container *ngFor="let item of navItems;">
-      <button mat-menu-item [routerLink]="item.route" routerLinkActive="active-link">{{ item.displayName }}</button>
+      <button mat-menu-item [routerLink]="item.route" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">{{ item.displayName }}</button>
     </ng-container>
   </mat-menu>
 </mat-toolbar>
