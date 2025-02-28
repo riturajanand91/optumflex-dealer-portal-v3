@@ -158,12 +158,13 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
         this.isLoading = false;
         this.isRefreshing = false; // Reset the flag after loadResults is completed
         this.cd.detectChanges(); // Detect changes after data is assigned
+        this.toastify.showSuccess('Order book data loaded successfully');
       },
       (error) => {
         this.isLoading = false;
         this.isRefreshing = false; // Reset the flag in case of error
         this.logger.error('Order Book Component - Error fetching posts:', error);
-        this.toastify.showError('Failed to load posts');
+        this.toastify.showError('Failed to load order book data');
       }
     );
   }

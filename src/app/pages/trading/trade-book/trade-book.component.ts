@@ -158,12 +158,13 @@ export class TradeBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
         this.isLoading = false;
         this.isRefreshing = false; // Reset the flag after loadResults is completed
         this.cd.detectChanges(); // Detect changes after data is assigned
+        this.toastify.showSuccess('Trade book data loaded successfully');
       },
       (error) => {
         this.isLoading = false;
         this.isRefreshing = false; // Reset the flag in case of error
         this.logger.error('Trade Book Component - Error fetching posts:', error);
-        this.toastify.showError('Failed to load posts');
+        this.toastify.showError('Failed to load trade book data');
       }
     );
   }
