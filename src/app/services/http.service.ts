@@ -39,15 +39,25 @@ export class HttpService {
       .pipe(catchError(this.handleError.bind(this)));
   }
 
-  public getSubscription(id: any): Observable<any> {
-    this.logger.info('Fetching subscription data', { id });
-    return this.http.get<any>(`${this.subsUrl}/${id}`)
-      .pipe(catchError(this.handleError.bind(this)));
+  // public getSubscription(id: any): Observable<any> {
+  //   this.logger.info('Fetching subscription data', { id });
+  //   return this.http.get<any>(`${this.subsUrl}`)
+  //     .pipe(catchError(this.handleError.bind(this)));
+  // }
+
+  public getSubscription(payload: any): Observable<any> {
+    this.logger.info('Fetching subscription data', payload);
+    return this.http.post<any>(`${this.subsUrl}`, payload).pipe(
+      catchError((error) => {
+        this.logger.error('Error fetching trade stats', error);
+        return this.handleError(error);
+      })
+    );
   }
 
-  public updateSubscription(formData: any, id: any): Observable<any> {
-    this.logger.info('Updating Subscription', { formData, id });
-    return this.http.post<any>(`${this.subsUrl}/${id}`, formData)
+  public updateSubscription(payload: any): Observable<any> {
+    this.logger.info('Updating Subscription', { payload });
+    return this.http.put<any>(`${this.subsUrl}`, payload)
       .pipe(catchError(this.handleError.bind(this)));
   }
 

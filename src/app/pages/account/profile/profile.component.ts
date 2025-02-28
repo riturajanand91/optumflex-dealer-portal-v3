@@ -29,7 +29,6 @@ export class ProfileComponent {
     private utilityService: UtilityService
   ) {
     const userData: any = this.authService.getUser();
-    console.log(userData)
     if (userData) {
       this.user = {
         name: userData.first_name + ' ' + userData.last_name,
