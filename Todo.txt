@@ -45,3 +45,10 @@ Nested table right alignment
 
 issues 
     when expansion row and navigated to Trade Book and coming bac to order book,all child expanding
+
+
+
+    Total Call / Open Call    45 / 12 
+    Total Put / Open Put     15 / 85
+    Booked Profit / Loss
+    Unrealized PnL   152

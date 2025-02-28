@@ -99,9 +99,9 @@ export class SubscriptionComponent {
     const apiData = {
       id: this.userId,
       subscription_package: formData.subscriptionPackage,
-      total_investment: formData.currentInvestment,
+      // total_investment: formData.currentInvestment,
       max_order_limit: formData.maxOrders,
-      per_order_cost: formData.perOrderCost,
+      // per_order_cost: formData.perOrderCost,
       add_investment: formData.addInvestment,
       stocks_trade: formData.stocks,
       index_trade: formData.index,
@@ -114,6 +114,7 @@ export class SubscriptionComponent {
       user_api_key: formData.apiKey,
       user_totp: formData.totp
     };
+    
     this.logger.info('API data prepared for submission:', apiData);
     this.httpService.updateSubscription(apiData).subscribe(
       res => {

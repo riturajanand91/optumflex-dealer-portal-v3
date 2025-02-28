@@ -34,15 +34,17 @@ export class TradeBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   public displayedColumns: any[] = [
-    "symbol",
+   "symbol",
     "type",
     "qtyFilled",
     "orderPrice",
-    "executedAt",
+    "date",
     "avgPrice",
     "ltp",
+    "unrealized",
+    "realized",
     "status",
-    "date",
+    "executedAt",
     "validity",
     "product",
     "orderType",

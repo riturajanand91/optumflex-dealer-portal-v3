@@ -38,11 +38,13 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
     "type",
     "qtyFilled",
     "orderPrice",
-    "executedAt",
+    "date",
     "avgPrice",
     "ltp",
+    "unrealized",
+    "realized",
     "status",
-    "date",
+    "executedAt",
     "validity",
     "product",
     "orderType",
@@ -177,4 +179,6 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
   public buySell() {
     this.logger.info("Order Book Component - Buy/Sell action triggered");
   }
+
+  
 }

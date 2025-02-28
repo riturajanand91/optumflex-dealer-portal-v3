@@ -78,3 +78,9 @@ tr.example-element-row:not(.example-expanded-row):hover {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
 }
+.no-data-message {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 20px;
+}

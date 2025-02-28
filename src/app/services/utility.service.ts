@@ -29,6 +29,9 @@ export class UtilityService {
   }
 
   public convertDateTime(dateString: string): string {
+    if (dateString==null) {
+      return 'Pending...';
+    }
     return moment.utc(dateString)  // Parse as UTC
       .add(5, 'hours')           // Add 5 hours
       .add(30, 'minutes')        // Add 30 minutes
@@ -54,6 +57,27 @@ export class UtilityService {
         return 'bg-light-success text-success';
       default:
         return '';
+    }
+  }
+
+  public getUnrealizedRealizedClass(value: number): string {
+    console.log('value', value);
+    if (value < 0) {
+      return 'text-error';
+    } else if (value > 0) {
+      return 'text-success';
+    } else {
+      return 'text-primary  f-s-12';
+    }
+  }
+  
+  public getLtpClass(ltp: number, avgPrice: number): string {
+    if (ltp > avgPrice) {
+      return 'text-success';
+    } else if (ltp < avgPrice) {
+      return 'text-error';
+    } else {
+      return 'text-primary';
     }
   }
 }
