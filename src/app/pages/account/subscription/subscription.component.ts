@@ -40,9 +40,9 @@ export class SubscriptionComponent {
   ) {
     this.subscriptionForm = this.fb.group({
       subscriptionPackage: [''],
-      currentInvestment: [''],//readonly
+      currentInvestment: [{ value: '', disabled: true }],
       maxOrders: [''],
-      perOrderCost: [''],//readonly
+      perOrderCost: [{ value: '', disabled: true }],
       addInvestment: [''],
       stocks: [''],
       index: [''],
