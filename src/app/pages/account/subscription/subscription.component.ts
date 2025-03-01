@@ -97,7 +97,7 @@ export class SubscriptionComponent {
     const formData = this.subscriptionForm.value;
     const brokerageAccount = Number(parseFloat(formData.dematAccount).toFixed(1));
     const apiData = {
-      id: this.userId,
+      // id: this.userId,
       subscription_package: formData.subscriptionPackage,
       // total_investment: formData.currentInvestment,
       max_order_limit: formData.maxOrders,

@@ -69,7 +69,7 @@ export class AuthService {
     // this.cleanupSession()
     return new Promise((resolve, reject) => {
       this.http.put(`${this.authurl}/logout`,
-        { confirm_logout: "True", user: { username: 'Aayush' } },
+        { confirm_logout: "True" },
       ).subscribe(
         () => {
           this.toastify.showSuccess('You have been logged out successfully.', 'Success');

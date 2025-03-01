@@ -7,6 +7,7 @@ export const environment = {
     users: '/auth',
     tradeData: '/Transactions',
     subscriptions: '/Modify/Subscription',
+    profile: '/Modify/Contact/Details',
     logger: '/utility/adminLogger',
     notification: '/notification'
   }

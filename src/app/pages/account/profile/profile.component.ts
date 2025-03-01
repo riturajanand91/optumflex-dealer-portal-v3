@@ -6,6 +6,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { passwordMatchValidator } from '../../../validators/password-match.validator';
 import { ToastifyService } from 'src/app/services/toastify.service';
 import { UtilityService } from 'src/app/services/utility.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +20,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
-  user: { name: string; avatar: string; role: string; email: string } | null = null;
+  user: { name: string; avatar: any; role: string; email: string, phone: string } | null = null;
   passwordForm: FormGroup;
   profileForm: FormGroup;
   constructor(
@@ -26,15 +28,21 @@ export class ProfileComponent {
     private authService: AuthService,
     private toastify: ToastifyService,
     private logger: LoggerService,
-    private utilityService: UtilityService
+    private httpService: HttpService,
+    private utilityService: UtilityService,
+    private sanitizer: DomSanitizer
   ) {
     const userData: any = this.authService.getUser();
+
+
     if (userData) {
       this.user = {
         name: userData.first_name + ' ' + userData.last_name,
-        avatar: `https://ui-avatars.com/api/?name=${userData.first_name}&background=random`,
+        avatar: this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${userData.image}`),
+        // avatar: `https://ui-avatars.com/api/?name=${userData.first_name}&background=random`,
         role: userData.role,
         email: userData.email,
+        phone: userData.phone,
       };
       console.log(this.user)
       this.logger.info(`User ${userData.name} is logged in.`);
@@ -42,6 +50,7 @@ export class ProfileComponent {
       this.logger.warn('No user is currently logged in.');
     }
   }
+
   ngOnInit(): void {
     this.passwordForm = this.fb.group(
       {
@@ -52,22 +61,15 @@ export class ProfileComponent {
       { validators: passwordMatchValidator() }  // Add the custom validator here for form group
     );
     this.profileForm = this.fb.group({
-      name: [this.user?.name, [Validators.required]],
+      name: [{ value: this.user?.name, disabled: true }],
+      phone: [this.user?.phone, [Validators.required]],
       email: [this.user?.email, [Validators.required, Validators.email]],
     });
-  }
-  // ngOnInit() {
-  //   this.passwordForm = this.fb.group({
-  //     currentPassword: ['', Validators.required],
-  //     newPassword: ['', [Validators.required, Validators.minLength(6)]],
-  //     confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
-  //   },
-  //     { validators: passwordMatchValidator() }  // Add the custom validator here
-  //   );
-  //   
-  // }
 
-  onSubmit() {
+  }
+
+
+  public onSubmit() {
     try {
       // Check if password form is valid
       if (this.passwordForm.valid) {
@@ -108,5 +110,25 @@ export class ProfileComponent {
     }
   }
 
+  public onUpdateProfile() {
+    this.logger.info('Submitting Profile form');
+    const payload = {
+      email_address: this.profileForm.value.email,
+      phone: this.profileForm.value.phone
+    };
+    this.logger.info('Submitting Form For Update Profile:', payload);
+    this.httpService.updateProfile(payload).subscribe(
+      res => {
+        this.logger.info('Profile updated successfully', { message: res.msg });
+        this.toastify.showSuccess(res.msg);
+        this.ngOnInit();
+      },
+      error => {
+        this.logger.error('Error updating Profile', { error });
+        console.error('Error updating Profile:', error);
+        this.toastify.showError('Failed to update Profile');
+      }
+    );
+  }
 
 }

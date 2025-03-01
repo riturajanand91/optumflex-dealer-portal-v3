@@ -131,7 +131,6 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
     const payload: any = {
       skip,
       limit,
-      username: "Aayush",
       isOrderBook: true,
       isTradeBook: false,
       isPositionBook: false,
@@ -144,6 +143,7 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
     };
     this.httpService.getTradeData(payload).subscribe(
       (data) => {
+        console.log(data);
         this.logger.info("Order Book Component - Data fetched from API:", data);
         // Clear existing data
         this.orderBookData = [];
@@ -156,7 +156,7 @@ export class OrderBookComponent implements OnInit, OnChanges, AfterViewInit, OnD
         });
         this.dataSource = new MatTableDataSource(this.orderBookData);
         this.logger.debug("Order Book Component - DataSource updated:", this.dataSource);
-        this.totalCount = this.dataSource.data.length; // Set the total number of posts for pagination
+        this.totalCount = data.total_data_count; // Set the total number of posts for pagination
         this.isLoading = false;
         this.isRefreshing = false; // Reset the flag after loadResults is completed
         this.cd.detectChanges(); // Detect changes after data is assigned

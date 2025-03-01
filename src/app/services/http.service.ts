@@ -14,7 +14,8 @@ export class HttpService {
   private usersUrl = environment.baseUrl + environment.endpoints.users;
   private verifyUrl = environment.baseUrl;
   private tradeDataUrl = environment.baseUrl + environment.endpoints.tradeData
-  private subsUrl = environment.baseUrl + environment.endpoints.subscriptions
+  private subsUrl = environment.baseUrl + environment.endpoints.subscriptions;
+  private profileUrl = environment.baseUrl + environment.endpoints.profile;
   constructor(
     private http: HttpClient,
     private toastify: ToastifyService,
@@ -39,12 +40,6 @@ export class HttpService {
       .pipe(catchError(this.handleError.bind(this)));
   }
 
-  // public getSubscription(id: any): Observable<any> {
-  //   this.logger.info('Fetching subscription data', { id });
-  //   return this.http.get<any>(`${this.subsUrl}`)
-  //     .pipe(catchError(this.handleError.bind(this)));
-  // }
-
   public getSubscription(payload: any): Observable<any> {
     this.logger.info('Fetching subscription data', payload);
     return this.http.post<any>(`${this.subsUrl}`, payload).pipe(
@@ -61,29 +56,17 @@ export class HttpService {
       .pipe(catchError(this.handleError.bind(this)));
   }
 
-
-  // Update an existing post
-  updateUser(id: string, status: any): Observable<any> {
+  // Update profile
+  public updateProfile(payload:any): Observable<any> {
     console.log(status)
-    this.logger.info('Updating Comment Status', { id, status });
-    return this.http.post<any>(`${this.usersUrl}/${id}`, { status: status })
+    this.logger.info('Updating Comment Status',  payload );
+    return this.http.put<any>(`${this.profileUrl}`, payload)
       .pipe(catchError(this.handleError.bind(this)));
   }
-  // Delete a post
-  deleteUser(id: string): Observable<any> {
-    this.logger.info('Deleting Comment', { id });
-    return this.http.delete<any>(`${this.usersUrl}/${id}`)
-      .pipe(catchError(this.handleError.bind(this)));
-  }
-  // Routes related to dealer portal
-  // Create a new post
-
-
 
   // Error handling
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
-
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Error: ${error.error.message}`;

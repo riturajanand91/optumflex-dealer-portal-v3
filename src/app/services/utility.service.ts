@@ -62,13 +62,10 @@ export class UtilityService {
 
   public getUnrealizedRealizedClass(value: number): string {
     if (value < 0) {
-      console.log("1")
       return 'text-error f-s-16';
     } else if (value > 0) {
-      console.log("2")
       return 'text-success f-s-16';
     } else {
-      console.log("3")
       return 'text-primary';
     }
   }
