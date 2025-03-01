@@ -61,21 +61,23 @@ export class UtilityService {
   }
 
   public getUnrealizedRealizedClass(value: number): string {
-    console.log('value', value);
     if (value < 0) {
-      return 'text-error';
+      console.log("1")
+      return 'text-error f-s-16';
     } else if (value > 0) {
-      return 'text-success';
+      console.log("2")
+      return 'text-success f-s-16';
     } else {
-      return 'text-primary  f-s-12';
+      console.log("3")
+      return 'text-primary';
     }
   }
   
   public getLtpClass(ltp: number, avgPrice: number): string {
     if (ltp > avgPrice) {
-      return 'text-success';
+      return 'text-success f-s-16';
     } else if (ltp < avgPrice) {
-      return 'text-error';
+      return 'text-error f-s-16';
     } else {
       return 'text-primary';
     }
