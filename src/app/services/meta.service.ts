@@ -14,6 +14,7 @@ export class MetaService {
     supportMail: 'contact-us@optumflex.com',
     companyEmail: 'optumflex@gmail.com',
     customerPortal: 'https://www.optumflex.com',
+    loginRedirect: 'https://develop-2025.d2pl419v5n1dfb.amplifyapp.com/',
   };
   constructor() { }
 }

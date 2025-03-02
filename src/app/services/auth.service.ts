@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { LoggerService } from './logger.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { MetaService } from './meta.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class AuthService {
     private toastify: ToastifyService,
     private logger: LoggerService,
     private router: Router,
-    private CookieService: CookieService
+    private CookieService: CookieService,
+    private MetaService: MetaService
   ) {
     // Log service initialization
     this.logger.debug('AuthService initialized', { apiUrl: this.authurl });
@@ -110,7 +112,7 @@ export class AuthService {
      */
   private cleanupSession(): void {
     localStorage.clear();
-    this.router.navigate(['/authentication/login']);
+    window.location.href = this.MetaService.portalInfo.loginRedirect;
     // Additional cleanup logic can be added here.
   }
 
