@@ -6,7 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../services/auth.service';
@@ -30,15 +30,25 @@ import { MetaService } from 'src/app/services/meta.service';
 })
 export class LoginRegisterComponent {
   public portalInfo: any;
-  activeTab: string = 'login';
+  activeTab: string = 'login'; //tab as login/signup
 
-  form = new FormGroup({
+  public loginForm = new FormGroup({
     username: new FormControl('Aayush'),
     password: new FormControl('Test@123'),
   });
 
+  public registerForm = new FormGroup({
+    first_name: new FormControl('Angular test'),
+    last_name: new FormControl('user'),
+    username: new FormControl('angulartestuser'),
+    email: new FormControl('angulartest@yopmail.com'),
+    password: new FormControl('Test@123'),
+    confirm_password: new FormControl('Test@123'),
+  });
+
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private authService: AuthService,
     private toastify: ToastifyService,
     private logger: LoggerService,
@@ -47,34 +57,26 @@ export class LoginRegisterComponent {
     this.logger.info('AppSideLoginComponent initialized');
   }
 
-  get f() {
-    return this.form.controls;
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const tab = params['tab'];
+      if (tab) {
+        this.activeTab = tab;
+      }
+    });
   }
 
-  public submit(): Promise<void> {
+  public submitLogin(): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (!this.form.valid) {
+      if (!this.loginForm.valid) {
         this.toastify.showError('Please fill out the form correctly.', 'Validation Error');
         return reject('Form validation failed');
       }
 
-      const { username, password } = this.form.value;
+      const { username, password } = this.loginForm.value;
       this.logger.debug('Login form submission', { username });
       this.authService.login(username, password).then(
         (response) => {
-           let sc= {
-              "msg": "Login Successfull....!",
-              "status_code": 202,
-              "accessToken": "mtdpbo7bzqv7nb7ve0pt70hcznb5jfw4",
-              "user": {
-                  "id": 53,
-                  "username": "Aayush",
-                  "first_name": "Aayush",
-                  "last_name": "Tanwar",
-                  "email": "ashishkummar4@hotmail.com",
-                  "role": "moderator"
-              }
-          }
           this.logger.info('Login successful', { username });
           // Store token and user details in local storage
           this.authService.setToken(response.accessToken);
@@ -98,7 +100,56 @@ export class LoginRegisterComponent {
       });
     });
   }
-  setActiveTab(tab: string) {
+
+  public submitRegister(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // Check if the form is valid
+      if (!this.registerForm.valid) {
+        this.toastify.showError('Please fill out the form correctly.', 'Validation Error');
+        return reject('Form validation failed');
+      }
+  
+      // Destructure form values
+      const { first_name, last_name, username, email, password, confirm_password } = this.registerForm.value;
+  
+      // Check if password and confirm password match
+      // if (password !== confirm_password) {
+      //   this.toastify.showError('Passwords do not match.', 'Validation Error');
+      //   return reject('Passwords do not match');
+      // }
+  
+      // Log the form data for debugging
+      this.logger.debug('Registration form submitted', {first_name, last_name, username, email, password, confirm_password });
+  
+      // Call the register method from the auth service with form data
+      this.authService.register(first_name, last_name, username, email, password, confirm_password).then(
+        (response) => {
+          this.logger.info('Registration successful', response);
+  
+          // Show success notification
+          this.toastify.showSuccess('Registration Successful!', 'Success');
+  
+          // Navigate to home or a different page
+          this.router.navigate(['/']);
+          resolve();
+        },
+        (error) => {
+          // Log the error and show the user a friendly message
+          this.logger.error('Registration failed', error);
+          this.toastify.showError(error.message, 'Error');
+          reject(error);
+        }
+      ).catch((unexpectedError) => {
+        // Handle any unexpected errors
+        this.logger.error('Unexpected error during Registration', unexpectedError);
+        this.toastify.showError('An unexpected error occurred. Please try again.', 'Error');
+        reject(unexpectedError);
+      });
+    });
+  }
+
+  public setActiveTab(tab: string) {
     this.activeTab = tab;
   }
+
 }
