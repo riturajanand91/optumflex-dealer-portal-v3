@@ -41,3 +41,14 @@
   border-radius: 4px;
   /* Optional: to make the shadow look better */
 }
+/* Center the logo on mobile view */
+@media (max-width: 768px) {
+ 
+
+  .branding {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: center;
+  }
+}
