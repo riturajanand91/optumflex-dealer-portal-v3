@@ -5,6 +5,7 @@ import { LoggerService } from 'src/app/services/logger.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { MaterialModule } from 'src/app/material.module';
 import { MatTableDataSource } from '@angular/material/table';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-position-table',
@@ -15,7 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PositionTableComponent implements OnInit {
   public isLoading: boolean = false;
-  public displayedColumns: string[] = ['symbol', 'investment', 'unrealizedProfit', 'realizedProfit'];
+  public displayedColumns: string[] = ['symbol', 'investment', 'unrealizedProfit', 'realizedProfit','transaction_date'];
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   public closedPositionsData: any[] = [];
   public openPositionsData: any[] = [];
@@ -24,7 +25,8 @@ export class PositionTableComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private authService: AuthService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private utilityService: UtilityService,
   ) { }
 
   ngOnInit() {
