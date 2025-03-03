@@ -81,11 +81,9 @@
             </div>
          </mat-card-header>
          <div>
-            <apx-chart [series]="salesOverviewChart.series" [dataLabels]="salesOverviewChart.dataLabels"
-               [chart]="salesOverviewChart.chart" [legend]="salesOverviewChart.legend"
-               [xaxis]="salesOverviewChart.xaxis" [yaxis]="salesOverviewChart.yaxis" [grid]="salesOverviewChart.grid"
-               [stroke]="salesOverviewChart.stroke" [tooltip]="salesOverviewChart.tooltip"
-               [plotOptions]="salesOverviewChart.plotOptions"></apx-chart>
+            <!-- Chart Component -->
+           <app-monthly-updates></app-monthly-updates>
+           <!-- Chart Component -->
             <mat-card-content class="mat-mdc-card-content">
                <div class="d-flex align-items-center justify-content-between">
                   <div class="transaction-item">
@@ -124,11 +122,9 @@
             </div>
          </mat-card-header>
          <div>
-            <apx-chart [series]="salesOverviewChart.series" [dataLabels]="salesOverviewChart.dataLabels"
-               [chart]="salesOverviewChart.chart" [legend]="salesOverviewChart.legend"
-               [xaxis]="salesOverviewChart.xaxis" [yaxis]="salesOverviewChart.yaxis" [grid]="salesOverviewChart.grid"
-               [stroke]="salesOverviewChart.stroke" [tooltip]="salesOverviewChart.tooltip"
-               [plotOptions]="salesOverviewChart.plotOptions"></apx-chart>
+            <!-- Chart Component -->
+            <app-investment-growth></app-investment-growth>
+            <!-- Chart Component -->
             <mat-card-content class="mat-mdc-card-content">
                <div class="d-flex align-items-center justify-content-between">
                   <div class="transaction-item">

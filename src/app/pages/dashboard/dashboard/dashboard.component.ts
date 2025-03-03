@@ -8,13 +8,15 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ApexChart, ChartComponent, ApexDataLabels, ApexLegend, ApexStroke, ApexTooltip, ApexAxisChartSeries, ApexPlotOptions, ApexResponsive, NgApexchartsModule, ApexXAxis, } from 'ng-apexcharts';
 import { PositionTableComponent } from "../../../components/position-table/position-table.component";
 import { UtilityService } from 'src/app/services/utility.service';
+import { MonthlyUpdatesComponent } from "../../../components/monthly-updates/monthly-updates.component";
+import { InvestmentGrowthComponent } from "../../../components/investment-growth/investment-growth.component";
 
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MaterialModule, NgApexchartsModule, PositionTableComponent],
+  imports: [CommonModule, MaterialModule, NgApexchartsModule, PositionTableComponent, MonthlyUpdatesComponent, InvestmentGrowthComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -101,54 +103,7 @@ export class DashboardComponent implements OnInit {
       },
     };
 
-    this.salesOverviewChart = {
-      series: [
-        {
-          name: "basic",
-          data: [400, 430, 448, 470, 540, 580]
-        }
-      ],
-      chart: {
-        type: "area",
-        height: 350,
-        toolbar: {
-          show: false
-        },
-      },
-
-      plotOptions: {
-        bar: {
-          borderRadius: 3,
-          horizontal: false,
-          columnWidth: "30%"
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      legend: {
-        show: true,
-        position: "bottom", // Position options: top, bottom, right, left
-        horizontalAlign: "center",
-        markers: {
-          width: 12,
-          height: 12,
-          radius: 12
-        },
-        fontSize: "14px",
-        fontWeight: 600
-      },
-      xaxis: {
-        categories: [
-          "Apr",
-          "May",
-          "Jun",
-          "July",
-          "Aug",
-          "Sep"
-        ]
-      }
-    };
+   
 
     this.yearlyChart = {
       color: "#adb5bd",

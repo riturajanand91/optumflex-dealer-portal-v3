@@ -1,0 +1,6 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<apx-chart [series]="monthlyOverviewChart.series" [dataLabels]="monthlyOverviewChart.dataLabels"
+[chart]="monthlyOverviewChart.chart" [legend]="monthlyOverviewChart.legend"
+[xaxis]="monthlyOverviewChart.xaxis" [yaxis]="monthlyOverviewChart.yaxis" [grid]="monthlyOverviewChart.grid"
+[stroke]="monthlyOverviewChart.stroke" [tooltip]="monthlyOverviewChart.tooltip"
+[plotOptions]="monthlyOverviewChart.plotOptions"></apx-chart>
