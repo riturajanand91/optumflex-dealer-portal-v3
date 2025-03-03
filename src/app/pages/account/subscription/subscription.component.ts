@@ -19,6 +19,7 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrl: './subscription.component.scss'
 })
 export class SubscriptionComponent {
+  public isLoading: boolean = false;
   public userIp: string;
   public subscriptionForm: FormGroup;
   public dematAccountOptions = [
@@ -62,6 +63,7 @@ export class SubscriptionComponent {
 
   public getSubscriptions(): void {
     this.logger.info('Fetching subscription with ID:', this.userId);
+    this.isLoading = true;
     this.httpService.getSubscription({ id: this.userId }).subscribe(
       (data) => {
         this.logger.info('Subscription fetched successfully:', data);
@@ -84,8 +86,10 @@ export class SubscriptionComponent {
           totp: this.subsData.user_totp
         });
         this.logger.info('Subscription form patched with fetched data');
+        this.isLoading = false;
       },
       (error) => {
+        this.isLoading = false;
         this.logger.error('Error fetching subscription:', error);
         this.toastify.showError('Failed to load subscription details');
       }
@@ -94,6 +98,7 @@ export class SubscriptionComponent {
 
   public onSubmit() {
     this.logger.info('Submitting subscription form');
+    this.isLoading = true;
     const formData = this.subscriptionForm.value;
     const brokerageAccount = Number(parseFloat(formData.dematAccount).toFixed(1));
     const apiData = {
@@ -123,6 +128,7 @@ export class SubscriptionComponent {
         this.ngOnInit();
       },
       error => {
+        this.isLoading = false;
         this.logger.error('Error updating subscription', { error });
         console.error('Error updating subscription:', error);
         this.toastify.showError('Failed to update subscription');
