@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import { Subscription } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -72,18 +73,22 @@ export class NavigationComponent implements OnInit {
     private logger: LoggerService,
     private utilityService: UtilityService,
     private breakpointObserver: BreakpointObserver,
-    public metaService: MetaService
+    public metaService: MetaService,
+    private sanitizer: DomSanitizer
   ) {
     const userData: any = this.authService.getUser();
     if (userData) {
       this.user = {
         name: userData.first_name + ' ' + userData.last_name,
-        avatar: `https://ui-avatars.com/api/?name=${userData?.first_name + ' ' + userData?.last_name}&background=random`,
+        avatar: this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${userData.image}`),
+        // avatar: `https://ui-avatars.com/api/?name=${userData.first_name}&background=random`,
         role: userData.role,
         email: userData.email,
+        phone: userData.phone,
       };
-      this.logger.info(`User ${this.user?.name} is logged in.`);
-    } else {
+      console.log(this.user)
+      this.logger.info(`User ${userData.name} is logged in.`);
+    }  else {
       this.logger.warn('No user is currently logged in.');
     }
 
