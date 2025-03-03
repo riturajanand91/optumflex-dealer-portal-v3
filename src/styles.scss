@@ -2788,7 +2788,7 @@ html {
 }
 
 html {
-    --mat-toolbar-standard-height: 64px;
+    --mat-toolbar-standard-height: 40px !important;
     --mat-toolbar-mobile-height: 56px
 }
 
@@ -6519,4 +6519,15 @@ html .topbar {
 
 .f-s-30 {
     font-size: 30px !important
+}
+
+.mat-toolbar-single-row {
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 16px;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    height: 50px !important;
 }
