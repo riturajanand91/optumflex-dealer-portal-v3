@@ -31,15 +31,7 @@
                         <input formControlName="password" type="password" name="password" id="password" placeholder="Enter Password" class="pass_log_id">
                       </div>
                     </div>
-                    <div class="col-12">
-                      <div class="agreement-checkbox d-flex justify-content-between align-items-center">
-                        <div>
-                          <input type="checkbox" id="remember">
-                          <label for="remember">Keep me logged in</label>
-                        </div>
-                        <a href="#">Forget Password?</a>
-                      </div>
-                    </div>
+                    
                     <div class="col-12">
                       <button type="submit" class="btn-four w-100 tran3s d-block m-t-20">Login</button>
                     </div>
@@ -54,26 +46,46 @@
                   <h2>Register</h2>
                   <p>Already have an account? <a href="#" (click)="setActiveTab('login')">Login</a></p>
                 </div>
-                <form>
+                <form  [formGroup]="registerForm" (ngSubmit)="submitRegister()">
                   <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-6">
                       <div class="input-group-meta position-relative m-b-16">
-                        <label>Name*</label>
-                        <input type="text" name="name" id="name" placeholder="Zubayer Hasan">
+                        <label>First Name*</label>
+                        <input formControlName="first_name" type="text" name="name" id="name" placeholder="John" >
+                        <div style="color: red;"></div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group-meta position-relative m-b-16">
+                        <label>Last Name*</label>
+                        <input formControlName="last_name" type="text" name="name" id="name" placeholder="Doe" >
+                        <div style="color: red;"></div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="input-group-meta position-relative m-b-16">
+                        <label>Username*</label>
+                        <input formControlName="username" type="text" name="name" id="name" placeholder="johnDoe2025" >
                         <div style="color: red;"></div>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="input-group-meta position-relative m-b-16">
                         <label>Email*</label>
-                        <input type="email" name="email" id="email" placeholder="zubayerhasan@gmail.com">
+                        <input formControlName="email" type="email" name="email" id="email" placeholder="johnDoe@gmail.com">
                         <div style="color: red;"></div>
                       </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-md-6">
                       <div class="input-group-meta position-relative m-b-16">
                         <label>Password*</label>
-                        <input type="password" name="password" id="password" placeholder="Enter Password" class="pass_log_id">
+                        <input formControlName="password" type="password" name="password" id="password" placeholder="Enter Password" class="pass_log_id">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group-meta position-relative m-b-16">
+                        <label>Confirm Password*</label>
+                        <input formControlName="confirm_password" type="password" name="password" id="password" placeholder="Enter Password" class="pass_log_id">
                       </div>
                     </div>
                     <div class="col-12">

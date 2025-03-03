@@ -38,12 +38,12 @@ export class LoginRegisterComponent {
   });
 
   public registerForm = new FormGroup({
-    first_name: new FormControl('Angular test'),
-    last_name: new FormControl('user'),
-    username: new FormControl('angulartestuser'),
-    email: new FormControl('angulartest@yopmail.com'),
-    password: new FormControl('Test@123'),
-    confirm_password: new FormControl('Test@123'),
+    first_name: new FormControl('John'),
+    last_name: new FormControl('Doe'),
+    username: new FormControl('johnDoe2025'),
+    email: new FormControl('pojes72350@lassora.com'),
+    password: new FormControl('Admin@12345'),
+    confirm_password: new FormControl('Admin@12345'),
   });
 
   constructor(
@@ -112,31 +112,35 @@ export class LoginRegisterComponent {
       // Destructure form values
       const { first_name, last_name, username, email, password, confirm_password } = this.registerForm.value;
   
-      // Check if password and confirm password match
-      // if (password !== confirm_password) {
-      //   this.toastify.showError('Passwords do not match.', 'Validation Error');
-      //   return reject('Passwords do not match');
-      // }
-  
       // Log the form data for debugging
-      this.logger.debug('Registration form submitted', {first_name, last_name, username, email, password, confirm_password });
+      this.logger.debug('Registration form submitted', { first_name, last_name, username, email, password, confirm_password });
   
       // Call the register method from the auth service with form data
       this.authService.register(first_name, last_name, username, email, password, confirm_password).then(
         (response) => {
-          this.logger.info('Registration successful', response);
+          console.log(response)
+          this.logger.info('Registration successful', response.msg);
   
           // Show success notification
-          this.toastify.showSuccess('Registration Successful!', 'Success');
+          this.toastify.showSuccess(response.msg, 'Success');
   
           // Navigate to home or a different page
-          this.router.navigate(['/']);
+          this.router.navigate(['/authentication']);
           resolve();
         },
         (error) => {
+          console.log(error)
           // Log the error and show the user a friendly message
           this.logger.error('Registration failed', error);
           this.toastify.showError(error.message, 'Error');
+  
+          // Display detailed form errors if available
+          if (error.errors && error.errors.length > 0) {
+            error.errors.forEach((err: any) => {
+              this.toastify.showError(err.message, 'Validation Error');
+            });
+          }
+  
           reject(error);
         }
       ).catch((unexpectedError) => {

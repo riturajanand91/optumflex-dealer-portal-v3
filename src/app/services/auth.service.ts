@@ -40,7 +40,8 @@ export class AuthService {
         (err) => {
           reject({
             status: err.status,
-            message: err.error?.message || 'Something went wrong. Please try again.',
+            message: err.error?.msg || 'Something went wrong. Please try again.',
+            errors: err.error?.errors || [] // Include detailed form errors if available
           });
         }
       );
