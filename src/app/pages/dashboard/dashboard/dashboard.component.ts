@@ -7,6 +7,7 @@ import { LoggerService } from 'src/app/services/logger.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApexChart, ChartComponent, ApexDataLabels, ApexLegend, ApexStroke, ApexTooltip, ApexAxisChartSeries, ApexPlotOptions, ApexResponsive, NgApexchartsModule, ApexXAxis, } from 'ng-apexcharts';
 import { PositionTableComponent } from "../../../components/position-table/position-table.component";
+import { UtilityService } from 'src/app/services/utility.service';
 
 
 
@@ -24,11 +25,19 @@ export class DashboardComponent implements OnInit {
   public yearlyChart!: Partial<any> | any;
   public dataSet: any;
   user: { name: string; avatar: string; role: string; email: string } | null = null;
-
+  public transactions = [
+    { date: '3 Mar 2025', todayInvestment: 3000000, profit: 50000, perCallProfit: 250 },
+    { date: '2 Mar 2025', todayInvestment: 25000, profit: 12000, perCallProfit: 250 },
+    { date: '1 Mar 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
+    { date: '1 Feb 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
+    { date: '1 Jan 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
+    { date: '12 Jan 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
+  ];
   constructor(
     private httpService: HttpService,
     private authService: AuthService,
     private toastify: ToastifyService,
+    private utilityService: UtilityService,
     private logger: LoggerService
   ) {
     const userData: any = this.authService.getUser();
@@ -215,25 +224,25 @@ export class DashboardComponent implements OnInit {
   earningsData = [
     {
       title: 'Investments',
-      amount: 6820,
+      todayInvestment: 6820,
       icon: 'assets/images/svgs/icon-master-card-2.svg',
       change: '+9%',
     },
     {
       title: 'Total Profit',
-      amount: 6820,
+      todayInvestment: 6820,
       icon: 'assets/images/svgs/icon-master-card-2.svg',
       change: '+9%',
     },
     {
       title: 'Running P&L',
-      amount: 6820,
+      todayInvestment: 6820,
       icon: 'assets/images/svgs/icon-master-card-2.svg',
       change: '+9%',
     },
     {
       title: 'Sales Profit',
-      amount: 6820,
+      todayInvestment: 6820,
       icon: 'assets/images/svgs/icon-master-card-2.svg',
       change: '+9%',
     },

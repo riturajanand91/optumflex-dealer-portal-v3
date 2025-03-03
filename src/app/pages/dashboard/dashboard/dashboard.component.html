@@ -375,87 +375,29 @@
    <div class="col-lg-4">
       <mat-card class="mat-mdc-card mdc-card cardWithShadow">
          <mat-card-content class="mat-mdc-card-content p-y-30">
-            <mat-card-title class="mat-mdc-card-title">Payment
-               Gateways
+            <mat-card-title class="mat-mdc-card-title">Latest Trading Day Performance
             </mat-card-title>
-            <div class="transaction-item m-t-32">
+            <div *ngFor="let transaction of transactions" class="transaction-item m-t-32">
                <div class="transaction-content">
                   <div class="icon-container">
                      <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
                   </div>
                   <div class="transaction-details">
-                     <h6 class="transaction-title">Paypal</h6>
-                     <span class="transaction-subtitle">Big Brands</span>
+                     <h6 class="transaction-title">{{ transaction.date }}</h6>
+                     <span class="transaction-subtitle">{{ transaction.todayInvestment }}</span>
                   </div>
-                  <span class="transaction-amount">+$6235</span>
-               </div>
-            </div>
-            <div class="transaction-item m-t-32">
-               <div class="transaction-content">
-                  <div class="icon-container">
-                     <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
+                  <div class="transaction-details" style="padding-left: 110px">
+                     <span class="transaction-amount" [ngClass]="this.utilityService.getUnrealizedRealizedClass(transaction.profit)">{{
+                       transaction.profit}}</span>
+                     <span class="transaction-subtitle">{{transaction.perCallProfit}} / Profit</span>
                   </div>
-                  <div class="transaction-details">
-                     <h6 class="transaction-title">Paypal</h6>
-                     <span class="transaction-subtitle">Big Brands</span>
-                  </div>
-                  <span class="transaction-amount">+$6235</span>
-               </div>
-            </div>
-            <div class="transaction-item m-t-32">
-               <div class="transaction-content">
-                  <div class="icon-container">
-                     <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
-                  </div>
-                  <div class="transaction-details">
-                     <h6 class="transaction-title">Paypal</h6>
-                     <span class="transaction-subtitle">Big Brands</span>
-                  </div>
-                  <span class="transaction-amount">+$6235</span>
-               </div>
-            </div>
-            <div class="transaction-item m-t-32">
-               <div class="transaction-content">
-                  <div class="icon-container">
-                     <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
-                  </div>
-                  <div class="transaction-details">
-                     <h6 class="transaction-title">Paypal</h6>
-                     <span class="transaction-subtitle">Big Brands</span>
-                  </div>
-                  <span class="transaction-amount">+$6235</span>
-               </div>
-            </div>
-            <div class="transaction-item m-t-32 m-b-32">
-               <div class="transaction-content">
-                  <div class="icon-container">
-                     <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
-                  </div>
-                  <div class="transaction-details">
-                     <h6 class="transaction-title">Paypal</h6>
-                     <span class="transaction-subtitle">Big Brands</span>
-                  </div>
-                  <span class="transaction-amount">+$6235</span>
-               </div>
-            </div>
-            <div class="transaction-item m-t-32 m-b-20">
-               <div class="transaction-content">
-                  <div class="icon-container">
-                     <img src="assets/images/svgs/icon-paypal.svg" alt="Paypal Icon">
-                  </div>
-                  <div class="transaction-details">
-                     <h6 class="transaction-title">Paypal</h6>
-                     <span class="transaction-subtitle">Big Brands</span>
-                  </div>
-                  <span class="transaction-amount">+$6235</span>
                </div>
             </div>
             <button mat-stroked-button="" color="primary"
-               class="w-100 m-t-8 mdc-button mdc-button--outlined mat-mdc-outlined-button mat-primary mat-mdc-button-base"
+               class="w-100 m-t-24 mdc-button mdc-button--outlined mat-mdc-outlined-button mat-primary mat-mdc-button-base"
                mat-ripple-loader-uninitialized="" mat-ripple-loader-class-name="mat-mdc-button-ripple"><span
                   class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span><span class="mdc-button__label">
-                  View
-                  all Transctions </span><span class="mat-focus-indicator"></span><span
+                  View All Transctions </span><span class="mat-focus-indicator"></span><span
                   class="mat-mdc-button-touch-target"></span></button>
          </mat-card-content>
       </mat-card>
@@ -465,7 +407,7 @@
          <mat-card-content class="p-24">
             <mat-card-title>Latest Closed Positions</mat-card-title>
             <div class="table-responsive m-t-16">
-                  <app-position-table tableName="closedPositions"></app-position-table>
+               <app-position-table tableName="closedPositions"></app-position-table>
             </div>
          </mat-card-content>
       </mat-card>
