@@ -4,7 +4,6 @@ import { HttpService } from 'src/app/services/http.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { MaterialModule } from 'src/app/material.module';
-import { ToastifyService } from 'src/app/services/toastify.service';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -25,20 +24,19 @@ export class PositionTableComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private authService: AuthService,
-    private toastify: ToastifyService,
     private logger: LoggerService
   ) { }
 
   ngOnInit() {
-    console.log(this.tableName)
-    this.logger.info('dashboard initialized');
+    console.log(this.tableName);
+    this.logger.info('PositionTableComponent initialized with tableName:', this.tableName);
     this.loadResults();
   }
 
-  public loadResults() {
+  public async loadResults() {
     this.isLoading = true;
-    this.logger.debug('Position Component - Loading Position Results for page:');
-    const skip = 0
+    this.logger.debug('PositionTableComponent - Loading Position Results for table:', this.tableName);
+    const skip = 0;
     const limit = 30;
     const payload: any = {
       skip: skip,
@@ -55,43 +53,47 @@ export class PositionTableComponent implements OnInit {
       F_column6: "",
       sortingOrder: "desc",
       sortingColumn: ""
+    };
+    try {
+      const data = await this.httpService.getTradeData(payload).toPromise();
+      this.logger.info("PositionTableComponent - Data fetched from API:", data);
+      // Clear existing data
+      this.closedPositionsData = [];
+      this.openPositionsData = [];
+      await this.sortAndStoreData(data?.transaction_data);
+      this.updateDataSource();
+      this.logger.debug("PositionTableComponent - DataSource updated:", this.dataSource);
+      this.isLoading = false;
+    } catch (error) {
+      this.isLoading = false;
+      this.logger.error('PositionTableComponent - Error fetching data:', error);
     }
-    this.httpService.getTradeData(payload).subscribe(
-      (data) => {
-        console.log(data);
-        this.logger.info("Position Component - Data fetched from API:", data);
-        // Clear existing data
-        this.closedPositionsData = [];
-        this.openPositionsData = [];
-        this.sortAndStoreData(data?.transaction_data);
-        this.updateDataSource();
-        this.logger.debug("Position Component - DataSource updated:", this.dataSource);
-        this.isLoading = false;
-        this.toastify.showSuccess('Position data loaded successfully');
-      },
-      (error) => {
-        this.isLoading = false;
-        this.logger.error('Position Component - Error fetching posts:', error);
-        this.toastify.showError('Failed to load Position data');
-      }
-    );
   }
 
-  private sortAndStoreData(data: any[]) {
-    // Sort by transaction_date in descending order and pick top 5
-    const sortedClosedPosition = data.sort((a, b) => new Date(b.transaction_date).getTime() - new Date(a.transaction_date).getTime()).slice(0, 5);
-    const sortedOpenPosition = data.sort((a, b) => new Date(b.square_off_time).getTime() - new Date(a.square_off_time).getTime()).slice(0, 5);
-    console.log(sortedClosedPosition)
-    console.log(sortedOpenPosition)
-    this.closedPositionsData = sortedClosedPosition
-    this.openPositionsData =sortedOpenPosition
+  private async sortAndStoreData(data: any[]): Promise<void> {
+    try {
+      // Sort by transaction_date in descending order and pick top 5
+      const sortedClosedPosition = data.sort((a, b) => new Date(b.transaction_date).getTime() - new Date(a.transaction_date).getTime()).slice(0, 5);
+      const sortedOpenPosition = data.sort((a, b) => new Date(b.square_off_time).getTime() - new Date(a.square_off_time).getTime()).slice(0, 5);
+      this.closedPositionsData = sortedClosedPosition;
+      this.openPositionsData = sortedOpenPosition;
+      this.logger.debug("PositionTableComponent - Sorted Closed Positions:", sortedClosedPosition);
+      this.logger.debug("PositionTableComponent - Sorted Open Positions:", sortedOpenPosition);
+    } catch (error) {
+      this.logger.error('PositionTableComponent - Error sorting data:', error);
+    }
   }
 
   private updateDataSource() {
-    if (this.tableName === 'closedPositions') {
-      this.dataSource.data = this.closedPositionsData;
-    } else if (this.tableName === 'openPositions') {
-      this.dataSource.data = this.openPositionsData;
+    try {
+      if (this.tableName === 'closedPositions') {
+        this.dataSource.data = this.closedPositionsData;
+      } else if (this.tableName === 'openPositions') {
+        this.dataSource.data = this.openPositionsData;
+      }
+      this.logger.debug("PositionTableComponent - DataSource updated for table:", this.tableName);
+    } catch (error) {
+      this.logger.error('PositionTableComponent - Error updating dataSource:', error);
     }
   }
 }
