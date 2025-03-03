@@ -113,7 +113,8 @@ export class AuthService {
      */
   private cleanupSession(): void {
     localStorage.clear();
-    window.location.href = this.MetaService.portalInfo.loginRedirect;
+    this.router.navigate(['/authentication/login']);
+    // window.location.href = this.MetaService.portalInfo.loginRedirect;
     // Additional cleanup logic can be added here.
   }
 
