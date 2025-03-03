@@ -42,6 +42,9 @@ export class AppSideLoginComponent {
     private logger: LoggerService,
     public metaService: MetaService
   ) {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
     this.logger.info('AppSideLoginComponent initialized');
   }
 
@@ -60,18 +63,18 @@ export class AppSideLoginComponent {
       this.logger.debug('Login form submission', { username });
       this.authService.login(username, password).then(
         (response) => {
-           let sc= {
-              "msg": "Login Successfull....!",
-              "status_code": 202,
-              "accessToken": "mtdpbo7bzqv7nb7ve0pt70hcznb5jfw4",
-              "user": {
-                  "id": 53,
-                  "username": "Aayush",
-                  "first_name": "Aayush",
-                  "last_name": "Tanwar",
-                  "email": "ashishkummar4@hotmail.com",
-                  "role": "moderator"
-              }
+          let sc = {
+            "msg": "Login Successfull....!",
+            "status_code": 202,
+            "accessToken": "mtdpbo7bzqv7nb7ve0pt70hcznb5jfw4",
+            "user": {
+              "id": 53,
+              "username": "Aayush",
+              "first_name": "Aayush",
+              "last_name": "Tanwar",
+              "email": "ashishkummar4@hotmail.com",
+              "role": "moderator"
+            }
           }
           this.logger.info('Login successful', { username });
           // Store token and user details in local storage
