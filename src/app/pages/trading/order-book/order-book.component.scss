@@ -52,8 +52,7 @@ tr.example-element-row:not(.example-expanded-row):hover {
 /* Custom scrollbar styles */
 .table-container {
   max-height: 450px;
-  overflow-y: auto;
-  overflow-x: auto;
+  overflow: auto;
 
   /* Webkit browsers */
   &::-webkit-scrollbar {

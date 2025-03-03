@@ -1,212 +1,229 @@
 <div class="table-wrapper responsive-table m-t-30">
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <div class="table-container" style="max-height: 450px; overflow-y: auto;">
-
-    <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Symbol </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
-                <div class="d-flex align-items-center">
-                    <ng-container *ngIf="element.details?.data?.length > 0">
-                        <mat-icon>{{ expandedElement === element ? 'arrow_drop_down' : 'arrow_right' }}</mat-icon>
-                    </ng-container>
-                    <span>{{element.symbol}}</span>
-                </div>
-            </td>
-        </ng-container>
-
-        <!-- Transaction Action Column -->
-        <ng-container matColumnDef="transaction_action">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Transaction Action </th>
-            <td mat-cell *matCellDef="let element">
-                <span [ngClass]="this.utilityService.getBadgeClass(element.transaction_action == 1 ? 'Buy' : 'Sell')"
-                    class="rounded f-w-600 p-6 p-y-4 f-s-12">
-                    {{ element.transaction_action == 1 ? 'Buy' : 'Sell' | titlecase }}
-                </span>
-            </td>
-        </ng-container>
-
-        <!-- Transaction Quantity Column -->
-        <ng-container matColumnDef="transaction_quantity">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Transaction Quantity </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.transaction_quantity}} </td>
-        </ng-container>
-
-        <!-- Transaction Price Column -->
-        <ng-container matColumnDef="transaction_price">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Transaction Price </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.transaction_price}} </td>
-        </ng-container>
-
-        <!-- Square Off Quantity Column -->
-        <ng-container matColumnDef="square_off_quantity">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off Quantity </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.square_off_quantity}} </td>
-        </ng-container>
-
-        <!-- Square Off Price Column -->
-        <ng-container matColumnDef="square_off_price">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off Price </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.square_off_price}} </td>
-        </ng-container>
-
-        <!-- Unrealized Column -->
-        <ng-container matColumnDef="unrealized">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Unrealized PnL </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12" [ngClass]="this.utilityService.getUnrealizedRealizedClass(element.unrealized)">
-                {{element.unrealized}}
-            </td>
-        </ng-container>
-
-        <!-- Realized Column -->
-        <ng-container matColumnDef="realized">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Realized PnL </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12" [ngClass]="this.utilityService.getUnrealizedRealizedClass(element.realized)">
-                {{element.realized}}
-            </td>
-        </ng-container>
-
-        <!-- Validity Column -->
-        <ng-container matColumnDef="validity">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Validity </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.validity}} </td>
-        </ng-container>
-
-        <!-- Product Column -->
-        <ng-container matColumnDef="product">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Product </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.product}} </td>
-        </ng-container>
-
-        <!-- Order Type Column -->
-        <ng-container matColumnDef="orderType">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Order Type </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.orderType}} </td>
-        </ng-container>
-
-        <!-- Buy Response Update Time Column -->
-        <ng-container matColumnDef="buy_response_update_time">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Buy Response Update Time </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{ this.utilityService.convertDateTime(element.buy_response_update_time) }} </td>
-        </ng-container>
-
-        <!-- Sell Response Update Time Column -->
-        <ng-container matColumnDef="sell_response_update_time">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Sell Response Update Time </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{ this.utilityService.convertDateTime(element.sell_response_update_time) }} </td>
-        </ng-container>
-
-        <!-- Last Traded Price Column -->
-        <ng-container matColumnDef="last_traded_price">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> LTP </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12" [ngClass]="this.utilityService.getLtpClass(element.last_traded_price, element.transaction_price)">
-                {{element.last_traded_price}}
-            </td>
-        </ng-container>
-
-        <!-- Progress Status Column -->
-        <ng-container matColumnDef="progress_status">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Order Status </th>
-            <td mat-cell *matCellDef="let element">
-                <span [ngClass]="this.utilityService.getBadgeClass(element.progress_status)" class="rounded f-w-600 p-6 p-y-4 f-s-12">
-                    {{ element.progress_status | titlecase }}
-                </span>
-            </td>
-        </ng-container>
-
-        <!-- Transaction Date Column -->
-        <ng-container matColumnDef="transaction_date">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Date </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{ this.utilityService.convertDateTime(element.transaction_date) }} </td>
-        </ng-container>
-
-        <!-- Square Off Time Column -->
-        <ng-container matColumnDef="square_off_time">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off Time </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{ this.utilityService.convertDateTime(element.square_off_time) }} </td>
-        </ng-container>
-
-        <!-- Manual Square Off -->
-        <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Manual Square Off </th>
-            <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
-                <button mat-raised-button color="warn"
-                    [disabled]="!(element.progress_status == 'Manual Order Placed' || element.progress_status == 'Order Placed')"
-                    (click)="buySell(); $event.stopPropagation()" class="m-b-10">
-                    Square Off
-                </button>
-            </td>
-        </ng-container>
-
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                <div class="example-element-detail" *ngIf="element?.details?.data?.length"
-                    [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                    <div class="inner-table mat-elevation-z8 p-l-15" *ngIf="expandedElement">
-                        <table #innerTables mat-table [dataSource]="element?.details">
-                            <ng-container matColumnDef="sector_name">
-                                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Symbol
-                                </th>
-                                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.sector_name}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="square_off_quantity">
-                                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off
-                                    Quantity </th>
-                                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
-                                    {{element.square_off_quantity}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="square_off_position">
-                                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off
-                                    Position </th>
-                                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
-                                    {{element.square_off_position}}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="sell_response_update_time">
-                                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Executed At
-                                </th>
-                                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
-                                    {{ this.utilityService.convertDateTime(element.sell_response_update_time)}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="progress_status">
-                                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Order
-                                    Status </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <span [ngClass]="this.utilityService.getBadgeClass(element.progress_status)"
-                                        class="rounded f-w-600 p-6 p-y-4 f-s-12">
-                                        {{ element.progress_status | titlecase }}
-                                    </span>
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="square_off_time">
-                                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off
-                                    Time </th>
-                                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
-                                    {{ this.utilityService.convertDateTime(element.square_off_time)}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="square_off_order_id">
-                                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off
-                                    Order Id </th>
-                                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
-                                    {{element.square_off_order_id}} </td>
-                            </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: innerDisplayedColumns;"></tr>
-                        </table>
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Symbol </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                    <div class="d-flex align-items-center">
+                        <ng-container *ngIf="element.details?.data?.length > 0">
+                            <mat-icon>{{ expandedElement === element ? 'arrow_drop_down' : 'arrow_right' }}</mat-icon>
+                        </ng-container>
+                        <span>{{element.symbol}}</span>
                     </div>
-                </div>
-            </td>
-        </ng-container>
+                </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let element; columns: displayedColumns"
-            [class.example-element-row]="element.details?.data?.length"
-            [class.example-expanded-row]="expandedElement === element" (click)="toggleRow(element)">
-        </tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-    </table>
+            <!-- Transaction Action Column -->
+            <ng-container matColumnDef="transaction_action">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Transaction Action </th>
+                <td mat-cell *matCellDef="let element">
+                    <span
+                        [ngClass]="this.utilityService.getBadgeClass(element.transaction_action == 1 ? 'Buy' : 'Sell')"
+                        class="rounded f-w-600 p-6 p-y-4 f-s-12">
+                        {{ element.transaction_action == 1 ? 'Buy' : 'Sell' | titlecase }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <!-- Transaction Quantity Column -->
+            <ng-container matColumnDef="transaction_quantity">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Transaction Quantity </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.transaction_quantity}} </td>
+            </ng-container>
+
+            <!-- Transaction Price Column -->
+            <ng-container matColumnDef="transaction_price">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Transaction Price </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.transaction_price}} </td>
+            </ng-container>
+
+            <!-- Square Off Quantity Column -->
+            <ng-container matColumnDef="square_off_quantity">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off Quantity </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.square_off_quantity}} </td>
+            </ng-container>
+
+            <!-- Square Off Price Column -->
+            <ng-container matColumnDef="square_off_price">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off Price </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.square_off_price}} </td>
+            </ng-container>
+
+            <!-- Unrealized Column -->
+            <ng-container matColumnDef="unrealized">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Unrealized PnL </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"
+                    [ngClass]="this.utilityService.getUnrealizedRealizedClass(element.unrealized)">
+                    {{element.unrealized}}
+                </td>
+            </ng-container>
+
+            <!-- Realized Column -->
+            <ng-container matColumnDef="realized">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Realized PnL </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"
+                    [ngClass]="this.utilityService.getUnrealizedRealizedClass(element.realized)">
+                    {{element.realized}}
+                </td>
+            </ng-container>
+
+            <!-- Validity Column -->
+            <ng-container matColumnDef="validity">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Validity </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.validity}} </td>
+            </ng-container>
+
+            <!-- Product Column -->
+            <ng-container matColumnDef="product">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Product </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.product}} </td>
+            </ng-container>
+
+            <!-- Order Type Column -->
+            <ng-container matColumnDef="orderType">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Order Type </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{element.orderType}} </td>
+            </ng-container>
+
+            <!-- Buy Response Update Time Column -->
+            <ng-container matColumnDef="buy_response_update_time">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Buy Response Update Time
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{
+                    this.utilityService.convertDateTime(element.buy_response_update_time) }} </td>
+            </ng-container>
+
+            <!-- Sell Response Update Time Column -->
+            <ng-container matColumnDef="sell_response_update_time">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Sell Response Update Time
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{
+                    this.utilityService.convertDateTime(element.sell_response_update_time) }} </td>
+            </ng-container>
+
+            <!-- Last Traded Price Column -->
+            <ng-container matColumnDef="last_traded_price">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> LTP </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"
+                    [ngClass]="this.utilityService.getLtpClass(element.last_traded_price, element.transaction_price)">
+                    {{element.last_traded_price}}
+                </td>
+            </ng-container>
+
+            <!-- Progress Status Column -->
+            <ng-container matColumnDef="progress_status">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Order Status </th>
+                <td mat-cell *matCellDef="let element">
+                    <span [ngClass]="this.utilityService.getBadgeClass(element.progress_status)"
+                        class="rounded f-w-600 p-6 p-y-4 f-s-12">
+                        {{ element.progress_status | titlecase }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <!-- Transaction Date Column -->
+            <ng-container matColumnDef="transaction_date">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Date </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{
+                    this.utilityService.convertDateTime(element.transaction_date) }} </td>
+            </ng-container>
+
+            <!-- Square Off Time Column -->
+            <ng-container matColumnDef="square_off_time">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square Off Time </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12"> {{
+                    this.utilityService.convertDateTime(element.square_off_time) }} </td>
+            </ng-container>
+
+            <!-- Manual Square Off -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Manual Square Off </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                    <button mat-raised-button color="warn"
+                        [disabled]="!(element.progress_status == 'Manual Order Placed' || element.progress_status == 'Order Placed')"
+                        (click)="buySell(); $event.stopPropagation()" class="m-b-10">
+                        Square Off
+                    </button>
+                </td>
+            </ng-container>
+
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                    <div class="example-element-detail" *ngIf="element?.details?.data?.length"
+                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div class="inner-table mat-elevation-z8 p-l-15" *ngIf="expandedElement">
+                            <table #innerTables mat-table [dataSource]="element?.details">
+                                <ng-container matColumnDef="sector_name">
+                                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Symbol
+                                    </th>
+                                    <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                                        {{element.sector_name}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="square_off_quantity">
+                                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square
+                                        Off
+                                        Quantity </th>
+                                    <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                                        {{element.square_off_quantity}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="square_off_position">
+                                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square
+                                        Off
+                                        Position </th>
+                                    <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                                        {{element.square_off_position}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="sell_response_update_time">
+                                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">
+                                        Executed At
+                                    </th>
+                                    <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                                        {{ this.utilityService.convertDateTime(element.sell_response_update_time)}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="progress_status">
+                                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Order
+                                        Status </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <span [ngClass]="this.utilityService.getBadgeClass(element.progress_status)"
+                                            class="rounded f-w-600 p-6 p-y-4 f-s-12">
+                                            {{ element.progress_status | titlecase }}
+                                        </span>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="square_off_time">
+                                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square
+                                        Off
+                                        Time </th>
+                                    <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                                        {{ this.utilityService.convertDateTime(element.square_off_time)}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="square_off_order_id">
+                                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"> Square
+                                        Off
+                                        Order Id </th>
+                                    <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-12">
+                                        {{element.square_off_order_id}} </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: innerDisplayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns"
+                [class.example-element-row]="element.details?.data?.length"
+                [class.example-expanded-row]="expandedElement === element" (click)="toggleRow(element)">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
     </div>
     <!-- No Data Found Message -->
     <div *ngIf="dataSource?.data?.length === 0" class="no-data-message">

@@ -1,6 +1,6 @@
 <div class="table-wrapper responsive-table m-t-30">
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <div class="table-container" style="max-height: 450px; overflow-y: auto;">
+    <div class="table-container">
 
     <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
         <!-- Symbol Column -->
@@ -214,7 +214,7 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
         <tr mat-row *matRowDef="let element; columns: displayedColumns"
             [class.example-element-row]="element.details?.data?.length"
             [class.example-expanded-row]="expandedElement === element" (click)="toggleRow(element)">
