@@ -6,50 +6,14 @@ import { ToastifyService } from '../../../services/toastify.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApexChart, ChartComponent, ApexDataLabels, ApexLegend, ApexStroke, ApexTooltip, ApexAxisChartSeries, ApexPlotOptions, ApexResponsive, NgApexchartsModule, ApexXAxis, } from 'ng-apexcharts';
+import { PositionTableComponent } from "../../../components/position-table/position-table.component";
 
-const ELEMENT_DATA: any[] = [
-  {
-    id: 1,
-    imagePath: 'assets/images/profile/user-1.jpg',
-    uname: 'Sunil Joshi',
-    position: 'Web Designer',
-    productName: 'Elite Admin',
-    budget: 3.9,
-    priority: 'low',
-  },
-  {
-    id: 2,
-    imagePath: 'assets/images/profile/user-2.jpg',
-    uname: 'Andrew McDownland',
-    position: 'Project Manager',
-    productName: 'Real Homes Theme',
-    budget: 24.5,
-    priority: 'medium',
-  },
-  {
-    id: 3,
-    imagePath: 'assets/images/profile/user-3.jpg',
-    uname: 'Christopher Jamil',
-    position: 'Project Manager',
-    productName: 'MedicalPro Theme',
-    budget: 12.8,
-    priority: 'high',
-  },
-  {
-    id: 4,
-    imagePath: 'assets/images/profile/user-4.jpg',
-    uname: 'Nirav Joshi',
-    position: 'Frontend Engineer',
-    productName: 'Hosting Press HTML',
-    budget: 2.4,
-    priority: 'critical',
-  },
-];
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MaterialModule, NgApexchartsModule],
+  imports: [CommonModule, MaterialModule, NgApexchartsModule, PositionTableComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -59,10 +23,6 @@ export class DashboardComponent implements OnInit {
   public salesOverviewChart!: Partial<any> | any;
   public yearlyChart!: Partial<any> | any;
   public dataSet: any;
-
-  displayedColumns: string[] = ['assigned', 'name', 'priority', 'budget'];
-  dataSource = ELEMENT_DATA;
-
   user: { name: string; avatar: string; role: string; email: string } | null = null;
 
   constructor(
