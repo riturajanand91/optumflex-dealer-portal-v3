@@ -35,7 +35,7 @@
           <mat-card-content class="mat-mdc-card-content p-y-24">
             <div class="row">
               <!-- Profile Picture Section -->
-              <div class="col-sm-4 text-center">
+              <div class="col-sm-6 text-center">
                 <mat-card-title>Change Profile</mat-card-title>
                 <mat-card-subtitle>Change your profile picture from here</mat-card-subtitle>
                 <div class="m-t-24">
@@ -48,7 +48,7 @@
                 <span class="f-s-14 m-t-24 d-block">Allowed JPG, GIF, or PNG. Max size of 800K</span>
               </div>
               <!-- Personal Details Section -->
-              <div class="col-sm-8">
+              <div class="col-sm-6">
                 <mat-card-title>Personal Details</mat-card-title>
                 <mat-card-subtitle>To change your personal details, edit and save from here</mat-card-subtitle>
                 <form [formGroup]="profileForm" class="p-t-32">
@@ -78,7 +78,7 @@
         </mat-card>
       </div>
       <!-- Password Change Section -->
-      <div class="col-sm-12">
+      <div class="col-sm-6">
         <mat-card class="mat-mdc-card mdc-card cardWithShadow">
           <mat-card-content class="mat-mdc-card-content p-y-24">
             <mat-card-title>Change Password</mat-card-title>
@@ -103,8 +103,9 @@
                   Passwords do not match.
                 </mat-error>
               </mat-form-field>
-
-              <button mat-raised-button color="primary" [disabled]="passwordForm.invalid">Change Password</button>
+              <div class="text-right p-t-0">
+                <button mat-raised-button color="primary" [disabled]="passwordForm.invalid">Change Password</button>
+              </div>
             </form>
           </mat-card-content>
         </mat-card>
