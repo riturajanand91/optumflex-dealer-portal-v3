@@ -80,7 +80,7 @@
          {{this.tableName === 'closedPositions'? 'Square-Off Date':'Buy Date' }}
       </th>
       <td mat-cell *matCellDef="let element" class="mat-body-1">
-         {{ this.utilityService.convertDateTime(this.tableName === 'closedPositions'? element. square_off_time:transaction_date) }}
+         {{ this.utilityService.convertDateTime(this.tableName === 'closedPositions'? element.square_off_time:transaction_date) }}
       </td>
    </ng-container>
 
