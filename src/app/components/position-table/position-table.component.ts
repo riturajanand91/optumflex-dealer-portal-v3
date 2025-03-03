@@ -16,7 +16,13 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class PositionTableComponent implements OnInit {
   public isLoading: boolean = false;
-  public displayedColumns: string[] = ['symbol', 'investment', 'unrealizedProfit', 'realizedProfit','transaction_date'];
+  public displayedColumns: string[] = [
+    'symbol',
+    'investment',
+    'unrealizedProfit',
+    'realizedProfit',
+    'transaction_date'
+  ];
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   public closedPositionsData: any[] = [];
   public openPositionsData: any[] = [];
@@ -30,7 +36,6 @@ export class PositionTableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.tableName);
     this.logger.info('PositionTableComponent initialized with tableName:', this.tableName);
     this.loadResults();
   }
@@ -75,8 +80,8 @@ export class PositionTableComponent implements OnInit {
   private async sortAndStoreData(data: any[]): Promise<void> {
     try {
       // Sort by transaction_date in descending order and pick top 5
-      const sortedClosedPosition = data.sort((a, b) => new Date(b.transaction_date).getTime() - new Date(a.transaction_date).getTime()).slice(0, 5);
-      const sortedOpenPosition = data.sort((a, b) => new Date(b.square_off_time).getTime() - new Date(a.square_off_time).getTime()).slice(0, 5);
+      const sortedClosedPosition = data.sort((a, b) => new Date(b.square_off_time).getTime() - new Date(a.square_off_time).getTime()).slice(0, 5);
+      const sortedOpenPosition = data.sort((a, b) => new Date(b.transaction_date).getTime() - new Date(a.transaction_date).getTime()).slice(0, 5);
       this.closedPositionsData = sortedClosedPosition;
       this.openPositionsData = sortedOpenPosition;
       this.logger.debug("PositionTableComponent - Sorted Closed Positions:", sortedClosedPosition);
