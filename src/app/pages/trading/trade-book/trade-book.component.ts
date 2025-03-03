@@ -25,13 +25,13 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class TradeBookComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() searchData: any;
   @Input() tableData: any = [];
-  public totalCount: number = 0; // To hold the total number of posts
-  public pageSize: number = 30; // Default page size
-  public currentPage: number = 1; // Current page
-  public isLoading: boolean = false; // Current page
-  private isRefreshing: boolean = false; // Flag to check if loadResults is in progress
-  private refreshInterval: any; // Variable to hold the interval reference
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  public totalCount: number = 0;
+  public pageSize: number = 30; 
+  public currentPage: number = 1;
+  public isLoading: boolean = false;
+  private isRefreshing: boolean = false;
+  private refreshInterval: any;
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   public displayedColumns: any[] = [
    "symbol",

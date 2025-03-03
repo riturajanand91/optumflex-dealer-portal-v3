@@ -1,117 +1,114 @@
 <div>
-     <!-- Top Section -->
-     <div class="bg-light-primary rounded p-y-30 p-x-24 m-b-30 overflow-hidden">
-        <div class="row">
-          <div class="col-sm-8">
-            <h4 class="page-title m-0 f-s-20 f-w-600 m-b-16">Account</h4>
-            <div class="d-flex align-items-center overflow-hidden">
-              <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a>Dashboard</a></li>
-                <li class="breadcrumb-item">
-                  <i-tabler name="circle-filled" class="icon-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z"
-                        stroke-width="0" fill="currentColor"></path>
-                    </svg>
-                  </i-tabler>
-                </li>
-                <li class="breadcrumb-item active">Profile</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-4 text-right position-relative">
-            <div class="breadcrumb-icon"><img src="/assets/images/breadcrumb/ChatBc.png" alt="breadcrumb" width="165">
-            </div>
-          </div>
+  <!-- Top Section -->
+  <div class="bg-light-primary rounded p-y-30 p-x-24 m-b-30 overflow-hidden">
+    <div class="row">
+      <div class="col-sm-8">
+        <h4 class="page-title m-0 f-s-20 f-w-600 m-b-16">Account</h4>
+        <div class="d-flex align-items-center overflow-hidden">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a>Dashboard</a></li>
+            <li class="breadcrumb-item">
+              <i-tabler name="circle-filled" class="icon-8">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M7 3.34a10 10 0 1 1 -4.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 4.995 -8.336z"
+                    stroke-width="0" fill="currentColor"></path>
+                </svg>
+              </i-tabler>
+            </li>
+            <li class="breadcrumb-item active">Profile</li>
+          </ul>
         </div>
       </div>
-      <!-- Top Section -->
-    <div>
-        <div class="row">
-            <!-- Profile Picture Section -->
-            <div class="col-sm-6">
-                <mat-card class="mat-mdc-card mdc-card cardWithShadow">
-                    <mat-card-content class="mat-mdc-card-content p-y-24">
-                        <mat-card-title>Change Profile</mat-card-title>
-                        <mat-card-subtitle>Change your profile picture from here</mat-card-subtitle>
-                        <div class="text-center m-t-24">
-                          <img [src]="this.user.avatar" width="140" height="140" class="rounded-circle">
-                           
-                          <!-- <div class="m-t-24">
-                            <button mat-flat-button color="primary" class="m-r-8">Upload</button>
-                            <button mat-stroked-button color="warn">Reset</button>
-                          </div>
-                          <span class="f-s-14 m-t-24 d-block">Allowed JPG, GIF, or PNG. Max size of 800K</span> -->
-                        </div>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-
-            <!-- Password Change Section -->
-            <div class="col-sm-6">
-                <mat-card class="mat-mdc-card mdc-card cardWithShadow">
-                  <mat-card-content class="mat-mdc-card-content p-y-24">
-                    <mat-card-title>Change Password</mat-card-title>
-                    <mat-card-subtitle>To change your password, please confirm here</mat-card-subtitle>
-                    <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" class="m-t-24">
-                      
-                      <mat-form-field appearance="outline" color="primary" class="w-100">
-                        <mat-label>Current Password</mat-label>
-                        <input matInput formControlName="currentPassword" type="password" placeholder="Enter current password">
-                      </mat-form-field>
-              
-                      <mat-form-field appearance="outline" color="primary" class="w-100">
-                        <mat-label>New Password</mat-label>
-                        <input matInput formControlName="newPassword" type="password" placeholder="Enter new password">
-                      </mat-form-field>
-              
-                      <mat-form-field appearance="outline" color="primary" class="w-100">
-                        <mat-label>Confirm Password</mat-label>
-                        <input matInput formControlName="confirmPassword" type="password" placeholder="Confirm your new password">
-                        
-                        <!-- Validation Error Message inside mat-form-field -->
-                        <mat-error *ngIf="passwordForm.hasError('passwordMismatch')">
-                          Passwords do not match.
-                        </mat-error>
-                      </mat-form-field>
-              
-                      <button mat-raised-button color="primary" [disabled]="passwordForm.invalid">Change Password</button>
-                    </form>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-
-              <!-- Personal Details Section -->
-            <div class="col-12">
-                <mat-card class="mat-mdc-card mdc-card cardWithShadow">
-                    <mat-card-content class="mat-mdc-card-content">
-                        <mat-card-title>Personal Details</mat-card-title>
-                        <mat-card-subtitle>To change your personal details, edit and save from here</mat-card-subtitle>
-                        <form [formGroup]="profileForm"  class="p-t-32">
-                            <mat-form-field appearance="outline" color="primary" class="w-100">
-                                <mat-label>Your Name</mat-label>
-                                <input matInput formControlName="name" type="text">
-                            </mat-form-field>
-
-                            <mat-form-field appearance="outline" color="primary" class="w-100">
-                                <mat-label>Email</mat-label>
-                                <input matInput formControlName="email" type="email">
-                            </mat-form-field>
-
-                            <mat-form-field appearance="outline" color="primary" class="w-100">
-                                <mat-label>Phone</mat-label>
-                                <input matInput formControlName="phone" type="text">
-                            </mat-form-field>
-                        </form>
-                    </mat-card-content>
-
-                    <div class="text-right p-24 p-t-0">
-                        <button mat-flat-button color="primary" class="m-r-8" type="submit"  (click)="onUpdateProfile()">Save</button>
-                        <button mat-stroked-button color="warn" class="m-r-8" type="button">Cancel</button>
-                    </div>
-                </mat-card>
-            </div>
+      <div class="col-sm-4 text-right position-relative">
+        <div class="breadcrumb-icon"><img src="/assets/images/breadcrumb/ChatBc.png" alt="breadcrumb" width="165">
         </div>
+      </div>
     </div>
+  </div>
+  <!-- Top Section -->
+  <div>
+    <div class="row">
+      <!-- Combined Profile Picture and Personal Details Section -->
+      <div class="col-12">
+        <mat-card class="mat-mdc-card mdc-card cardWithShadow">
+          <mat-card-content class="mat-mdc-card-content p-y-24">
+            <div class="row">
+              <!-- Profile Picture Section -->
+              <div class="col-sm-4 text-center">
+                <mat-card-title>Change Profile</mat-card-title>
+                <mat-card-subtitle>Change your profile picture from here</mat-card-subtitle>
+                <div class="m-t-24">
+                  <img [src]="this.user.avatar" width="140" height="140" class="rounded-circle">
+                </div>
+                <div class="m-t-24">
+                  <button mat-flat-button color="primary" class="m-r-8">Upload</button>
+                  <button mat-stroked-button color="warn">Reset</button>
+                </div>
+                <span class="f-s-14 m-t-24 d-block">Allowed JPG, GIF, or PNG. Max size of 800K</span>
+              </div>
+              <!-- Personal Details Section -->
+              <div class="col-sm-8">
+                <mat-card-title>Personal Details</mat-card-title>
+                <mat-card-subtitle>To change your personal details, edit and save from here</mat-card-subtitle>
+                <form [formGroup]="profileForm" class="p-t-32">
+                  <mat-form-field appearance="outline" color="primary" class="w-100">
+                    <mat-label>Your Name</mat-label>
+                    <input matInput formControlName="name" type="text">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" color="primary" class="w-100">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" type="email">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" color="primary" class="w-100">
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="phone" type="text">
+                  </mat-form-field>
+                </form>
+              </div>
+            </div>
+          </mat-card-content>
+          <div class="text-right p-24 p-t-0">
+            <button mat-flat-button color="primary" class="m-r-8" type="submit"
+              (click)="onUpdateProfile()">Save</button>
+            <button mat-stroked-button color="warn" class="m-r-8" type="button">Cancel</button>
+          </div>
+        </mat-card>
+      </div>
+      <!-- Password Change Section -->
+      <div class="col-sm-12">
+        <mat-card class="mat-mdc-card mdc-card cardWithShadow">
+          <mat-card-content class="mat-mdc-card-content p-y-24">
+            <mat-card-title>Change Password</mat-card-title>
+            <mat-card-subtitle>To change your password, please confirm here</mat-card-subtitle>
+            <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" class="m-t-24">
+              <mat-form-field appearance="outline" color="primary" class="w-100">
+                <mat-label>Current Password</mat-label>
+                <input matInput formControlName="currentPassword" type="password" placeholder="Enter current password">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" color="primary" class="w-100">
+                <mat-label>New Password</mat-label>
+                <input matInput formControlName="newPassword" type="password" placeholder="Enter new password">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" color="primary" class="w-100">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput formControlName="confirmPassword" type="password"
+                  placeholder="Confirm your new password">
+                <!-- Validation Error Message inside mat-form-field -->
+                <mat-error *ngIf="passwordForm.hasError('passwordMismatch')">
+                  Passwords do not match.
+                </mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" [disabled]="passwordForm.invalid">Change Password</button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>

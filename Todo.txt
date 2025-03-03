@@ -62,3 +62,14 @@ unrealized/realized = 0 text color blue
 ltp > avg price then green text color
 ltp < avg price then red text color
 ltp = avg price then blue text color
+
+
+left table closed
+    from position api call 
+        limit = 30
+        then sorting by Date desc and pick top 5 
+right table Open
+    from position api call 
+        limit = 30
+        then sorting by Square off time desc and pick top 5      
+        

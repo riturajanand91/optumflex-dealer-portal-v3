@@ -11,8 +11,6 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { MonthlyUpdatesComponent } from "../../../components/monthly-updates/monthly-updates.component";
 import { InvestmentGrowthComponent } from "../../../components/investment-growth/investment-growth.component";
 
-
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -23,10 +21,8 @@ import { InvestmentGrowthComponent } from "../../../components/investment-growth
 export class DashboardComponent implements OnInit {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public monthlyChart!: Partial<any> | any;
-  public salesOverviewChart!: Partial<any> | any;
   public yearlyChart!: Partial<any> | any;
-  public dataSet: any;
-  public user: { name: string; avatar: string; role: string; email: string } | null = null;
+  public user: any = null;
   public transactions = [
     { date: '3 Mar 2025', todayInvestment: 3000000, profit: 50000, perCallProfit: 250 },
     { date: '2 Mar 2025', todayInvestment: 25000, profit: 12000, perCallProfit: 250 },
@@ -35,6 +31,7 @@ export class DashboardComponent implements OnInit {
     { date: '1 Jan 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
     { date: '12 Jan 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
   ];
+
   constructor(
     private httpService: HttpService,
     private authService: AuthService,
@@ -102,8 +99,6 @@ export class DashboardComponent implements OnInit {
         },
       },
     };
-
-   
 
     this.yearlyChart = {
       color: "#adb5bd",

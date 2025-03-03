@@ -7,32 +7,35 @@
                   <mat-card-title class="mat-mdc-card-title">Welcome back
                      {{user?.name }}!
                   </mat-card-title>
-                  <mat-card-subtitle class="mat-mdc-card-subtitle f-s-14 f-w-400 m-t-16 lh-24 m-b-24">You have
-                     earned 54% more
-                     than last month which is great thing.
+                  <mat-card-subtitle class="mat-mdc-card-subtitle f-s-14 f-w-400 m-t-16 lh-24 m-b-24">
+                     You have earned 54% more than last month which is great thing.
                   </mat-card-subtitle>
                   <button mat-flat-button="" mat-ripple-loader-uninitialized=""
                      mat-ripple-loader-class-name="mat-mdc-button-ripple"
-                     class="mdc-button mdc-button--unelevated mat-mdc-unelevated-button mat-unthemed mat-mdc-button-base"><span
-                        class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span><span
-                        class="mdc-button__label">Check</span><span class="mat-focus-indicator"></span><span
-                        class="mat-mdc-button-touch-target"></span></button>
+                     class="mdc-button mdc-button--unelevated mat-mdc-unelevated-button mat-unthemed mat-mdc-button-base">
+                     <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                     <span class="mdc-button__label">Check</span>
+                     <span class="mat-focus-indicator"></span>
+                     <span class="mat-mdc-button-touch-target"></span>
+                  </button>
                </div>
-               <div class="col-sm-5"><img src="assets/images/backgrounds/welcome-bg2.png" alt="welcome" width="300"
-                     class="welcome-img"></div>
+               <div class="col-sm-5">
+                  <img src="assets/images/backgrounds/welcome-bg2.png" alt="welcome" width="300" class="welcome-img">
+               </div>
             </div>
          </mat-card-content>
       </mat-card>
    </div>
+
    <div class="col-lg-4">
       <div class="row">
          <div class="col-sm-6">
             <mat-card class="mat-mdc-card mdc-card cardWithShadow">
                <mat-card-content class="mat-mdc-card-content">
-                  <span class="bg-light-primary rounded icon-40 d-flex align-items-center justify-content-center"><img
-                        src="assets/images/svgs/icon-paypal.svg" alt="paypal"></span>
-                  <mat-card-subtitle class="mat-mdc-card-subtitle f-s-14 f-w-400 p-b-4 m-t-24">Payments
-                     Sum
+                  <span class="bg-light-primary rounded icon-40 d-flex align-items-center justify-content-center">
+                     <img src="assets/images/svgs/icon-paypal.svg" alt="paypal"></span>
+                  <mat-card-subtitle class="mat-mdc-card-subtitle f-s-14 f-w-400 p-b-4 m-t-24">
+                     Payments Sum
                   </mat-card-subtitle>
                   <h5 class="f-s-21 m-t-4 f-w-600">$678,298</h5>
                   <div class="d-flex align-items-center m-t-16">
@@ -56,23 +59,27 @@
                </mat-card-content>
             </mat-card>
          </div>
+
          <div class="col-sm-6">
             <mat-card class="mat-mdc-card mdc-card cardWithShadow">
                <mat-card-content class="mat-mdc-card-content p-t-32 p-b-32 m-b-20">
-                  <mat-card-subtitle class="mat-mdc-card-subtitle f-s-14 f-w-400 p-b-4">My investment
-                     Growth
+                  <mat-card-subtitle class="mat-mdc-card-subtitle f-s-14 f-w-400 p-b-4">
+                     My investment Growth
                   </mat-card-subtitle>
                   <h5 class="f-s-21 m-t-4 f-w-600">78,298</h5>
                </mat-card-content>
+               <!-- Chart Component -->
                <apx-chart [series]="monthlyChart.series" [dataLabels]="monthlyChart.dataLabels"
                   [chart]="monthlyChart.chart" [legend]="monthlyChart.legend" [colors]="monthlyChart.colors"
                   [stroke]="monthlyChart.stroke" [tooltip]="monthlyChart.tooltip"
                   [plotOptions]="monthlyChart.plotOptions" [responsive]="monthlyChart.responsive">
                </apx-chart>
+               <!-- Chart Component -->
             </mat-card>
          </div>
       </div>
    </div>
+
    <div class="col-lg-4">
       <mat-card class="mat-mdc-card mdc-card cardWithShadow">
          <mat-card-header class="mat-mdc-card-header">
@@ -82,8 +89,8 @@
          </mat-card-header>
          <div>
             <!-- Chart Component -->
-           <app-monthly-updates></app-monthly-updates>
-           <!-- Chart Component -->
+            <app-monthly-updates></app-monthly-updates>
+            <!-- Chart Component -->
             <mat-card-content class="mat-mdc-card-content">
                <div class="d-flex align-items-center justify-content-between">
                   <div class="transaction-item">
@@ -111,9 +118,9 @@
                </div>
             </mat-card-content>
          </div>
-
       </mat-card>
    </div>
+
    <div class="col-lg-4">
       <mat-card class="mat-mdc-card mdc-card cardWithShadow">
          <mat-card-header class="mat-mdc-card-header">
@@ -154,6 +161,7 @@
          </div>
       </mat-card>
    </div>
+
    <div class="col-lg-4">
       <div class="row">
          <div class="col-sm-6">
@@ -162,13 +170,16 @@
                   <mat-card-subtitle class="mat-mdc-card-subtitle p-b-4">Daily Return</mat-card-subtitle>
                   <h5 class="f-s-21 m-t-4 f-w-600 m-b-30">$78,298</h5>
                </mat-card-content>
+               <!-- Chart Component -->
                <apx-chart [series]="monthlyChart.series" [dataLabels]="monthlyChart.dataLabels"
                   [chart]="monthlyChart.chart" [legend]="monthlyChart.legend" [colors]="monthlyChart.colors"
                   [stroke]="monthlyChart.stroke" [tooltip]="monthlyChart.tooltip"
                   [plotOptions]="monthlyChart.plotOptions" [responsive]="monthlyChart.responsive">
                </apx-chart>
+               <!-- Chart Component -->
             </mat-card>
          </div>
+
          <div class="col-sm-6">
             <mat-card class="mat-mdc-card mdc-card cardWithShadow">
                <mat-card-content class="mat-mdc-card-content p-t-32 p-b-32 m-b-20">
@@ -177,13 +188,16 @@
                   </mat-card-subtitle>
                   <h5 class="f-s-21 m-t-4 f-w-600">78,298</h5>
                </mat-card-content>
+               <!-- Chart Component -->
                <apx-chart [series]="monthlyChart.series" [dataLabels]="monthlyChart.dataLabels"
                   [chart]="monthlyChart.chart" [legend]="monthlyChart.legend" [colors]="monthlyChart.colors"
                   [stroke]="monthlyChart.stroke" [tooltip]="monthlyChart.tooltip"
                   [plotOptions]="monthlyChart.plotOptions" [responsive]="monthlyChart.responsive">
                </apx-chart>
+               <!-- Chart Component -->
             </mat-card>
          </div>
+
          <div class="col-12">
             <mat-card class="mat-mdc-card mdc-card cardWithShadow overflow-hidden">
                <mat-card-header class="mat-mdc-card-header d-flex align-items-center">
@@ -219,15 +233,18 @@
                      </div>
                   </div>
                </mat-card-content>
+               <!-- Chart Component -->
                <apx-chart [series]="monthlyChart.series" [dataLabels]="monthlyChart.dataLabels"
                   [chart]="monthlyChart.chart" [legend]="monthlyChart.legend" [colors]="monthlyChart.colors"
                   [stroke]="monthlyChart.stroke" [tooltip]="monthlyChart.tooltip"
                   [plotOptions]="monthlyChart.plotOptions" [responsive]="monthlyChart.responsive">
                </apx-chart>
+               <!-- Chart Component -->
             </mat-card>
          </div>
       </div>
    </div>
+
    <div class="col-lg-4">
       <mat-card class="mat-mdc-card mdc-card cardWithShadow">
          <mat-card-content class="mat-mdc-card-content p-y-30">
@@ -255,6 +272,7 @@
                   <span class="f-s-14 f-w-400">{{ gain.name }}</span>
                   <span class="f-s-12 f-w-600 p-x-6 p-y-4 rounded text-success">{{ gain.count }}</span>
                </div>
+               <!-- Top Gainers List -->
             </div>
             <div class="m-t-32 ">
                <div class="d-flex justify-content-between align-items-center">
@@ -262,8 +280,7 @@
                   <div class="d-flex align-items-center">
                      <span
                         class="align-items-center bg-light-error d-flex icon-40 justify-content-center rounded text-error">
-                        <i-tabler name="grid-dots" class="icon-20 d-flex">
-                        </i-tabler>
+                        <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
                      </span>
                      <div class="m-l-16">
                         <h6 class="f-s-16 f-w-600">Top Losers</h6>
@@ -284,6 +301,7 @@
          </mat-card-content>
       </mat-card>
    </div>
+
    <div class="col-lg-4">
       <div>
          <!-- Adding a bottom card to manage spacing -->
@@ -320,14 +338,17 @@
                   </div>
                </div>
             </mat-card-content>
+            <!-- Chart Component -->
             <apx-chart [series]="monthlyChart.series" [dataLabels]="monthlyChart.dataLabels"
                [chart]="monthlyChart.chart" [legend]="monthlyChart.legend" [colors]="monthlyChart.colors"
                [stroke]="monthlyChart.stroke" [tooltip]="monthlyChart.tooltip" [plotOptions]="monthlyChart.plotOptions"
                [responsive]="monthlyChart.responsive">
             </apx-chart>
+            <!-- Chart Component -->
             <!-- Adding a bottom card to manage spacing -->
          </mat-card>
       </div>
+
       <mat-card class="mat-mdc-card mdc-card cardWithShadow">
          <mat-card-header class="mat-mdc-card-header">
             <div class="mat-mdc-card-header-text">
@@ -336,10 +357,12 @@
          </mat-card-header>
          <mat-card-content class="mat-mdc-card-content p-t-48">
             <div class="chart-container">
+               <!-- Chart Component -->
                <apx-chart [series]="yearlyChart.series" [dataLabels]="yearlyChart.dataLabels"
                   [chart]="yearlyChart.chart" [legend]="yearlyChart.legend" [colors]="yearlyChart.colors"
                   [stroke]="yearlyChart.stroke" [tooltip]="yearlyChart.tooltip" [plotOptions]="yearlyChart.plotOptions"
                   [responsive]="yearlyChart.responsive"></apx-chart>
+               <!-- Chart Component -->
             </div>
             <div class="d-flex align-items-center justify-content-between m-t-16">
                <div class="transaction-item">
@@ -368,6 +391,7 @@
          </mat-card-content>
       </mat-card>
    </div>
+
    <div class="col-lg-4">
       <mat-card class="mat-mdc-card mdc-card cardWithShadow">
          <mat-card-content class="mat-mdc-card-content p-y-30">
@@ -383,8 +407,9 @@
                      <span class="transaction-subtitle">{{ transaction.todayInvestment }}</span>
                   </div>
                   <div class="transaction-details" style="padding-left: 50px">
-                     <span class="transaction-amount" [ngClass]="this.utilityService.getUnrealizedRealizedClass(transaction.profit)">{{
-                       transaction.profit}}</span>
+                     <span class="transaction-amount"
+                        [ngClass]="this.utilityService.getUnrealizedRealizedClass(transaction.profit)">{{
+                        transaction.profit}}</span>
                      <span class="transaction-subtitle">{{transaction.perCallProfit}} / Profit</span>
                   </div>
                </div>
@@ -398,6 +423,7 @@
          </mat-card-content>
       </mat-card>
    </div>
+
    <div class="col-lg-6">
       <mat-card class="cardWithShadow">
          <mat-card-content class="p-24">
@@ -408,6 +434,7 @@
          </mat-card-content>
       </mat-card>
    </div>
+
    <div class="col-lg-6">
       <mat-card class="cardWithShadow">
          <mat-card-content class="p-24">
@@ -418,4 +445,5 @@
          </mat-card-content>
       </mat-card>
    </div>
+
 </div>

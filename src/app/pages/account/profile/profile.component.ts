@@ -20,9 +20,9 @@ import { HttpService } from 'src/app/services/http.service';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
-  user: { name: string; avatar: any; role: string; email: string, phone: string } | null = null;
-  passwordForm: FormGroup;
-  profileForm: FormGroup;
+  public user: any = null;
+  public passwordForm: FormGroup;
+  public profileForm: FormGroup;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -33,8 +33,6 @@ export class ProfileComponent {
     private sanitizer: DomSanitizer
   ) {
     const userData: any = this.authService.getUser();
-
-
     if (userData) {
       this.user = {
         name: userData.first_name + ' ' + userData.last_name,
@@ -58,8 +56,9 @@ export class ProfileComponent {
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       },
-      { validators: passwordMatchValidator() }  // Add the custom validator here for form group
+      { validators: passwordMatchValidator() }
     );
+
     this.profileForm = this.fb.group({
       name: [{ value: this.user?.name, disabled: true }],
       phone: [this.user?.phone, [Validators.required]],
