@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   public salesOverviewChart!: Partial<any> | any;
   public yearlyChart!: Partial<any> | any;
   public dataSet: any;
-  user: { name: string; avatar: string; role: string; email: string } | null = null;
+  public user: { name: string; avatar: string; role: string; email: string } | null = null;
   public transactions = [
     { date: '3 Mar 2025', todayInvestment: 3000000, profit: 50000, perCallProfit: 250 },
     { date: '2 Mar 2025', todayInvestment: 25000, profit: 12000, perCallProfit: 250 },
@@ -52,7 +52,6 @@ export class DashboardComponent implements OnInit {
     } else {
       this.logger.warn('No user is currently logged in.');
     }
-
     this.initializeCharts();
   }
 
@@ -60,7 +59,7 @@ export class DashboardComponent implements OnInit {
     this.logger.info('dashboard initialized');
   }
 
-  initializeCharts() {
+  public initializeCharts() {
     this.monthlyChart = {
       series: [
         {
@@ -116,7 +115,7 @@ export class DashboardComponent implements OnInit {
           show: false
         },
       },
-      
+
       plotOptions: {
         bar: {
           borderRadius: 3,
