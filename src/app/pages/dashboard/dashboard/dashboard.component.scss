@@ -69,5 +69,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.fixed-height-card {
+    height: 700px;
+    /* Set your desired height */
+}
+.fixed-height-pie-chart {
+    height: 340px; /* Set each card's height to 350px */
+    margin-bottom: 20px; /* Add some margin to separate the cards */
+ }
+
+ .skeleton-loader {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  display: inline-block;
+  height: 20px;
+  width: 100%;
+  animation: pulse 1.5s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+
+.skeleton-loader.large {
+  height: 40px;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
   }
-  
+  50% {
+    background-color: #f0f0f0;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}

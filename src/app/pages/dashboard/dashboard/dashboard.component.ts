@@ -23,13 +23,27 @@ export class DashboardComponent implements OnInit {
   public monthlyChart!: Partial<any> | any;
   public yearlyChart!: Partial<any> | any;
   public user: any = null;
+  public isLoading: boolean = false;
+
+  public gainersLosers: any = {
+    gainers: {
+      sum: 0,
+      listData: []
+    },
+    losers: {
+      sum: 0,
+      listData: []
+    }
+  }
   public transactions = [
     { date: '3 Mar 2025', todayInvestment: 3000000, profit: 50000, perCallProfit: 250 },
     { date: '2 Mar 2025', todayInvestment: 25000, profit: 12000, perCallProfit: 250 },
     { date: '1 Mar 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
     { date: '1 Feb 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
     { date: '1 Jan 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
-    { date: '12 Jan 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
+    { date: '1 Feb 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
+    { date: '1 Jan 2025', todayInvestment: 20000, profit: 11500, perCallProfit: 250 },
+   
   ];
 
   constructor(
@@ -56,6 +70,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.logger.info('dashboard initialized');
+    this.loadResults();
   }
 
   public initializeCharts() {
@@ -151,50 +166,60 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  // Array of dynamic data
-  public topGainers = [
-    { name: 'RIL', count: 45 },
-    { name: 'TCS', count: 55 },
-    { name: 'INFY', count: 50 },
-    { name: 'HDFC Finance', count: 100 },
-    { name: 'SBI', count: 250 }
-  ];
-  public topLosers = [
-    { name: 'NPCL', count: 40 },
-    { name: 'SBPDCL', count: 5 },
-    { name: 'ORKUT', count: 5 },
-    { name: 'ICICI', count: 10 },
-    { name: 'BOB', count: 250 }
-  ];
+  public async loadResults() {
+    this.isLoading = true;
+    this.logger.debug('PositionTableComponent - Loading Position Results for table:');
+    const skip = 0;
+    const limit = 30;
+    const payload: any = {
+      skip: skip,
+      limit: limit,
+      isOrderBook: false,
+      isTradeBook: false,
+      isPositionBook: true,
+      isHoldings: false,
+      F_column1: "",
+      F_column2: "",
+      F_column3: "",
+      F_column4: "",
+      F_column5: "",
+      F_column6: "",
+      sortingOrder: "desc",
+      sortingColumn: ""
+    };
+    try {
+      const data = await this.httpService.getTradeData(payload).toPromise();
+      this.logger.info("PositionTableComponent - Data fetched from API:", data);
+      // Clear existing data
 
-  // Sum of all counts (should equal to 500)
-  totalCountLosers = this.topGainers.reduce((acc, item) => acc + item.count, 0);
-  totalCount = this.topLosers.reduce((acc, item) => acc + item.count, 0);
-  earningsData = [
-    {
-      title: 'Investments',
-      todayInvestment: 6820,
-      icon: 'assets/images/svgs/icon-master-card-2.svg',
-      change: '+9%',
-    },
-    {
-      title: 'Total Profit',
-      todayInvestment: 6820,
-      icon: 'assets/images/svgs/icon-master-card-2.svg',
-      change: '+9%',
-    },
-    {
-      title: 'Running P&L',
-      todayInvestment: 6820,
-      icon: 'assets/images/svgs/icon-master-card-2.svg',
-      change: '+9%',
-    },
-    {
-      title: 'Sales Profit',
-      todayInvestment: 6820,
-      icon: 'assets/images/svgs/icon-master-card-2.svg',
-      change: '+9%',
-    },
-    // Add more data items as needed
-  ];
+      await this.sortAndStoreData(data?.transaction_data);
+      this.isLoading = false;
+    } catch (error) {
+      this.isLoading = false;
+      this.logger.error('PositionTableComponent - Error fetching data:', error);
+      this.toastify.showError('Error fetching data. Please try again later.');
+    }
+  }
+
+  public async sortAndStoreData(data: any[]): Promise<void> {
+    try {
+      // Sort by realized in descending & ascending order and pick top 5
+      // Top Gainers/ Losers
+      const topGainers = data.sort((a, b) => new Date(b.realized).getTime() - new Date(a.realized).getTime()).slice(0, 7);
+      const topLosers = data.sort((a, b) => new Date(a.realized).getTime() - new Date(b.realized).getTime()).slice(0, 7);
+
+      // Summmation of Top Gainers/ Losers
+      const totalGainers = topGainers.reduce((sum, item) => sum + item.realized, 0);
+      const totalLosers = topLosers.reduce((sum, item) => sum + item.realized, 0);
+
+      this.gainersLosers.gainers.listData = topGainers;
+      this.gainersLosers.losers.listData = topLosers;
+      this.gainersLosers.gainers.sum = totalGainers;
+      this.gainersLosers.losers.sum = totalLosers;
+      this.logger.debug("DashboardComponent - Gainers Losers Values:", this.gainersLosers);
+    } catch (error) {
+      this.logger.error('DashboardComponent - Error sorting data:', error);
+      this.toastify.showError('Error processing data. Please try again later.');
+    }
+  }
 }

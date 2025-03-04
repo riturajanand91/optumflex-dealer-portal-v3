@@ -73,3 +73,10 @@ right table Open
         limit = 30
         then sorting by Square off time desc and pick top 5      
         
+04-03-2025
+
+1 rollback login and signup
+2 profile 
+3 graph
+4 add pie chart naming Call Hit Ratio
+5 Verify any dummy text on website

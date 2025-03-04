@@ -28,10 +28,11 @@ export class UtilityService {
     return domain;
   }
 
-  public convertDateTime(dateString: string): string {
-    if (dateString==null) {
+  public convertDateTime(dateString: string, appendpending: boolean = true): string {
+    if (appendpending && (dateString == null || dateString == '' || dateString == undefined)) {
       return 'Pending...';
     }
+
     return moment.utc(dateString)  // Parse as UTC
       .add(5, 'hours')           // Add 5 hours
       .add(30, 'minutes')        // Add 30 minutes
@@ -55,6 +56,8 @@ export class UtilityService {
         return 'bg-light-error text-error';
       case 'Profit Booked':
         return 'bg-light-success text-success';
+      // case 'Square Off':
+      //   return 'bg-light-success text-success';
       default:
         return '';
     }
@@ -69,7 +72,7 @@ export class UtilityService {
       return 'text-primary';
     }
   }
-  
+
   public getLtpClass(ltp: number, avgPrice: number): string {
     if (ltp > avgPrice) {
       return 'text-success f-s-16';

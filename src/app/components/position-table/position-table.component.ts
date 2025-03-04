@@ -79,8 +79,18 @@ export class PositionTableComponent implements OnInit {
 
   private async sortAndStoreData(data: any[]): Promise<void> {
     try {
+      // Filter out entries with null/undefined/"" values for transaction_date & square_off_time
+      const filteredData = data.filter(item =>
+        item.square_off_time
+      );
       // Sort by transaction_date in descending order and pick top 5
-      const sortedClosedPosition = data.sort((a, b) => new Date(b.square_off_time).getTime() - new Date(a.square_off_time).getTime()).slice(0, 5);
+      //filter null/undefined/"" values for transaction_date & square_off_time
+      const topGainers = filteredData.sort((a, b) => new Date(b.realized).getTime() - new Date(a.realized).getTime()).slice(0, 5);
+      const topLosers = filteredData.sort((a, b) => new Date(a.realized).getTime() - new Date(b.realized).getTime()).slice(0, 5);
+      // Symbol,relized,realized
+      // topGainers.sum =""
+      // topLosers.sum =""
+      const sortedClosedPosition = filteredData.sort((a, b) => new Date(b.square_off_time).getTime() - new Date(a.square_off_time).getTime()).slice(0, 5);
       const sortedOpenPosition = data.sort((a, b) => new Date(b.transaction_date).getTime() - new Date(a.transaction_date).getTime()).slice(0, 5);
       this.closedPositionsData = sortedClosedPosition;
       this.openPositionsData = sortedOpenPosition;

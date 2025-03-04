@@ -244,118 +244,107 @@
          </div>
       </div>
    </div>
-<div class="col-lg-4">
-   <mat-card class="mat-mdc-card mdc-card cardWithShadow fixed-height-card">
-      <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-      <mat-card-content class="mat-mdc-card-content p-y-30">
-         <mat-card-title class="mat-mdc-card-title">Best Performers</mat-card-title>
-         <mat-card-subtitle class="mat-mdc-card-subtitle"> </mat-card-subtitle>
-         <div *ngIf="isLoading">
-            <div class="skeleton-loader large"></div>
-            <div class="skeleton-loader"></div>
-            <div class="skeleton-loader"></div>
-            <div class="skeleton-loader"></div>
-         </div>
-         <div *ngIf="!isLoading">
-            <div class="d-flex justify-content-between align-items-center">
-               <!-- Icon for Top Gainers -->
-               <div class="d-flex align-items-center">
-                  <span class="align-items-center bg-light-success d-flex icon-40 justify-content-center rounded text-success">
-                     <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
-                  </span>
-                  <div class="m-l-16">
-                     <h6 class="f-s-16 f-w-600">Top Gainers</h6>
-                  </div>
-               </div>
-               <!-- Total Count -->
-               <span class="bg-light-success f-s-14 f-w-600 p-x-6 p-y-4 rounded text-success">
-                  +{{ gainersLosers.gainers.sum | number:'1.2-2'}}
-               </span>
-            </div>
-            <!-- Top Gainers List -->
-            <div *ngFor="let gain of gainersLosers.gainers.listData" class="d-flex justify-content-between align-items-center">
-               <span class="f-s-14 f-w-400">{{ gain.symbol }}</span>
-               <span class="f-s-12 f-w-600 p-x-6 p-y-4 rounded text-success">{{ gain.realized }}</span>
-            </div>
-            <!-- Top Gainers List -->
-         </div>
-         <div *ngIf="isLoading">
-            <div class="skeleton-loader large"></div>
-            <div class="skeleton-loader"></div>
-            <div class="skeleton-loader"></div>
-            <div class="skeleton-loader"></div>
-         </div>
-         <div *ngIf="!isLoading">
-            <div class="d-flex justify-content-between align-items-center">
-               <!-- Icon for Top Losers -->
-               <div class="d-flex align-items-center">
-                  <span class="align-items-center bg-light-error d-flex icon-40 justify-content-center rounded text-error">
-                     <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
-                  </span>
-                  <div class="m-l-16">
-                     <h6 class="f-s-16 f-w-600">Top Losers</h6>
-                  </div>
-               </div>
-               <!-- Total Count -->
-               <span class="bg-light-error f-s-14 f-w-600 p-x-6 p-y-4 rounded text-error">
-                  {{ gainersLosers.losers.sum| number:'1.2-2' }}
-               </span>
-            </div>
-            <!-- Top Losers List -->
-            <div *ngFor="let loser of gainersLosers.losers.listData" class="d-flex justify-content-between align-items-center">
-               <span class="f-s-14 f-w-400">{{ loser.symbol }}</span>
-               <span class="f-s-12 f-w-600 p-x-6 p-y-4 rounded text-error">{{ loser.realized }}</span>
-            </div>
-            <!-- Top Losers List -->
-         </div>
-      </mat-card-content>
-   </mat-card>
-</div>
 
-<div class="col-lg-4">
-   <!-- Adding a bottom card to manage spacing -->
-   <mat-card class="mat-mdc-card mdc-card cardWithShadow fixed-height-pie-chart">
-      <mat-card-header class="mat-mdc-card-header">
-         <div class="mat-mdc-card-header-text">
-            <mat-card-title class="mat-mdc-card-title">Call Hit Ratio</mat-card-title>
-         </div>
-      </mat-card-header>
-      <mat-card-content class="mat-mdc-card-content p-t-15">
-         <div class="chart-container" *ngIf="isLoading">
-            <div class="skeleton-loader large"></div>
-         </div>
-         <div class="chart-container" *ngIf="!isLoading">
-            <!-- Chart Component -->
-            <apx-chart [series]="yearlyChart.series" [dataLabels]="yearlyChart.dataLabels"
-               [chart]="yearlyChart.chart" [legend]="yearlyChart.legend" [colors]="yearlyChart.colors"
-               [stroke]="yearlyChart.stroke" [tooltip]="yearlyChart.tooltip" [plotOptions]="yearlyChart.plotOptions"
-               [responsive]="yearlyChart.responsive"></apx-chart>
-            <!-- Chart Component -->
-         </div>
-      </mat-card-content>
-   </mat-card>
+   <div class="col-lg-4">
+      <mat-card class="mat-mdc-card mdc-card cardWithShadow fixed-height-card">
+         <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 
-   <mat-card class="mat-mdc-card mdc-card cardWithShadow fixed-height-pie-chart">
-      <mat-card-header class="mat-mdc-card-header">
-         <div class="mat-mdc-card-header-text">
-            <mat-card-title class="mat-mdc-card-title">Call Put Performance Ratio</mat-card-title>
-         </div>
-      </mat-card-header>
-      <mat-card-content class="mat-mdc-card-content p-t-15">
-         <div class="chart-container" *ngIf="isLoading">
-            <div class="skeleton-loader large"></div>
-         </div>
-         <div class="chart-container" *ngIf="!isLoading">
-            <!-- Chart Component -->
-            <apx-chart [series]="yearlyChart.series" [dataLabels]="yearlyChart.dataLabels"
-               [chart]="yearlyChart.chart" [legend]="yearlyChart.legend" [colors]="yearlyChart.colors"
-               [stroke]="yearlyChart.stroke" [tooltip]="yearlyChart.tooltip" [plotOptions]="yearlyChart.plotOptions"
-               [responsive]="yearlyChart.responsive"></apx-chart>
-            <!-- Chart Component -->
-         </div>
-      </mat-card-content>
-   </mat-card>
-</div>
+         <mat-card-content class="mat-mdc-card-content p-y-30">
+            <mat-card-title class="mat-mdc-card-title">Best Performers</mat-card-title>
+            <mat-card-subtitle class="mat-mdc-card-subtitle"> </mat-card-subtitle>
+            <div class="">
+               <div class="d-flex justify-content-between align-items-center">
+                  <!-- Icon for Top Gainers -->
+                  <div class="d-flex align-items-center">
+                     <span
+                        class="align-items-center bg-light-success d-flex icon-40 justify-content-center rounded text-success">
+                        <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
+                     </span>
+                     <div class="m-l-16">
+                        <h6 class="f-s-16 f-w-600">Top Gainers</h6>
+                     </div>
+                  </div>
+                  <!-- Total Count -->
+                  <span class="bg-light-success f-s-14 f-w-600 p-x-6 p-y-4 rounded text-success">
+                     +{{ gainersLosers.gainers.sum | number:'1.2-2'}}
+                  </span>
+               </div>
+               <!-- Top Gainers List -->
+               <div *ngFor="let gain of gainersLosers.gainers.listData"
+                  class="d-flex justify-content-between align-items-center">
+                  <span class="f-s-14 f-w-400">{{ gain.symbol }}</span>
+                  <span class="f-s-12 f-w-600 p-x-6 p-y-4 rounded text-success">{{ gain.realized }}</span>
+               </div>
+               <!-- Top Gainers List -->
+            </div>
+            <div class="">
+               <div class="d-flex justify-content-between align-items-center">
+                  <!-- Icon for Top Losers -->
+                  <div class="d-flex align-items-center">
+                     <span
+                        class="align-items-center bg-light-error d-flex icon-40 justify-content-center rounded text-error">
+                        <i-tabler name="grid-dots" class="icon-20 d-flex"></i-tabler>
+                     </span>
+                     <div class="m-l-16">
+                        <h6 class="f-s-16 f-w-600">Top Losers</h6>
+                     </div>
+                  </div>
+                  <!-- Total Count -->
+                  <span class="bg-light-error f-s-14 f-w-600 p-x-6 p-y-4 rounded text-error">
+                     {{ gainersLosers.losers.sum| number:'1.2-2' }}
+                  </span>
+               </div>
+               <!-- Top Losers List -->
+               <div *ngFor="let loser of gainersLosers.losers.listData"
+                  class="d-flex justify-content-between align-items-center">
+                  <span class="f-s-14 f-w-400">{{ loser.symbol }}</span>
+                  <span class="f-s-12 f-w-600 p-x-6 p-y-4 rounded text-error">{{ loser.realized }}</span>
+               </div>
+            </div>
+            <!---->
+         </mat-card-content>
+      </mat-card>
+   </div>
+
+   <!-- Pie charts -->
+      <div class="col-lg-4">
+      <!-- Adding a bottom card to manage spacing -->
+      <mat-card class="mat-mdc-card mdc-card cardWithShadow fixed-height-pie-chart">
+         <mat-card-header class="mat-mdc-card-header">
+            <div class="mat-mdc-card-header-text">
+               <mat-card-title class="mat-mdc-card-title">Call Hit Ratio</mat-card-title>
+            </div>
+         </mat-card-header>
+         <mat-card-content class="mat-mdc-card-content p-t-15">
+            <div class="chart-container">
+               <!-- Chart Component -->
+               <apx-chart [series]="yearlyChart.series" [dataLabels]="yearlyChart.dataLabels"
+                  [chart]="yearlyChart.chart" [legend]="yearlyChart.legend" [colors]="yearlyChart.colors"
+                  [stroke]="yearlyChart.stroke" [tooltip]="yearlyChart.tooltip" [plotOptions]="yearlyChart.plotOptions"
+                  [responsive]="yearlyChart.responsive"></apx-chart>
+               <!-- Chart Component -->
+            </div>
+         </mat-card-content>
+      </mat-card>
+   
+      <mat-card class="mat-mdc-card mdc-card cardWithShadow fixed-height-pie-chart">
+         <mat-card-header class="mat-mdc-card-header">
+            <div class="mat-mdc-card-header-text">
+               <mat-card-title class="mat-mdc-card-title">Call Put Performance Ratio</mat-card-title>
+            </div>
+         </mat-card-header>
+         <mat-card-content class="mat-mdc-card-content p-t-15">
+            <div class="chart-container">
+               <!-- Chart Component -->
+               <apx-chart [series]="yearlyChart.series" [dataLabels]="yearlyChart.dataLabels"
+                  [chart]="yearlyChart.chart" [legend]="yearlyChart.legend" [colors]="yearlyChart.colors"
+                  [stroke]="yearlyChart.stroke" [tooltip]="yearlyChart.tooltip" [plotOptions]="yearlyChart.plotOptions"
+                  [responsive]="yearlyChart.responsive"></apx-chart>
+               <!-- Chart Component -->
+            </div>
+         </mat-card-content>
+      </mat-card>
+   </div>
    <!-- Pie charts -->
 
    <div class="col-lg-4">
