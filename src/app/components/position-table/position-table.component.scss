@@ -1,6 +1,24 @@
 .no-data-message {
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 20px;
-  }
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 20px;
+}
+
+.skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-row {
+  display: flex;
+  gap: 10px;
+}
+
+.skeleton-cell {
+  background-color: #e0e0e0;
+  height: 20px;
+  border-radius: 4px;
+  flex: 1;
+}
